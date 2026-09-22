@@ -127,22 +127,7 @@
     }
     .btn-delete:hover { background: rgba(244, 63, 94, 0.2); }
 
-    .creation-modes-sec { padding: 36px 0 20px; }
-    .sec-head { text-align: center; margin-bottom: 22px; }
-    .sec-head h2 { font-family: var(--font-display); font-size: 1.85rem; font-weight: 700; margin-bottom: 6px; }
-    .sec-head p { color: var(--text-muted); font-size: 0.92rem; }
-    .modes-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .mode-card {
-      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
-      padding: 20px 18px; display: flex; flex-direction: column; backdrop-filter: blur(12px);
-    }
-    .mode-card.locked { opacity: 0.55; cursor: not-allowed; }
-    .mode-card.active-mode {
-      border: 2px solid var(--brand-indigo);
-      background: linear-gradient(180deg, rgba(99, 102, 241, 0.12) 0%, rgba(14, 19, 31, 0.95) 100%);
-    }
-
-    .template-selector-sec { padding: 10px 0 36px; border-top: 1px solid var(--border-subtle); }
+    .template-selector-sec { padding: 36px 0 36px; border-top: none; }
     .templates-grid-10 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 16px; }
     .tmpl-card {
       background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
@@ -390,7 +375,6 @@
     }
 
     @media (max-width: 1024px) {
-      .modes-row { grid-template-columns: repeat(2, 1fr); }
       .templates-grid-10 { grid-template-columns: repeat(3, 1fr); }
       .about-3d-grid, .menu-split-grid, .hours-location-wrap { grid-template-columns: 1fr; }
       .dishes-3d-grid, .testi-grid, .gallery-masonry, .chefs-grid, .events-grid { grid-template-columns: 1fr; }
@@ -399,7 +383,7 @@
       .event-body { width: 100%; }
     }
     @media (max-width: 640px) {
-      .modes-row, .templates-grid-10, .form-row, .form-row-3 { grid-template-columns: 1fr; }
+      .templates-grid-10, .form-row, .form-row-3 { grid-template-columns: 1fr; }
       .thumbs-grid { grid-template-columns: repeat(2, 1fr); }
       .rest-links { display: none; }
     }
@@ -425,58 +409,6 @@
       </div>
     </div>
   </div>
-
-  <!-- CREATION MODES SECTION -->
-  <section class="creation-modes-sec" id="modesSection">
-    <div class="container">
-      <div class="sec-head">
-        <h2>Choose How You Want to Build</h2>
-        <p>Pick from detailed customization, single-sentence prompts, modular options, or ready-made templates.</p>
-      </div>
-
-      <div class="modes-row">
-        <div class="mode-card locked" title="Coming soon">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <span style="font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,0.06); color: #64748b;">🔒 Coming Soon</span>
-            <span>📋</span>
-          </div>
-          <div style="font-weight: 700; margin-bottom: 4px;">Full Details</div>
-          <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; flex-grow: 1;">Step-by-step custom wizard for full granular website setup.</div>
-          <button style="padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.04); color: #64748b; font-size: 0.78rem;" disabled>Coming Soon</button>
-        </div>
-
-        <div class="mode-card locked" title="Coming soon">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <span style="font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,0.06); color: #64748b;">🔒 Coming Soon</span>
-            <span>⚡</span>
-          </div>
-          <div style="font-weight: 700; margin-bottom: 4px;">Single Line</div>
-          <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; flex-grow: 1;">Describe your website in one sentence with AI extraction.</div>
-          <button style="padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.04); color: #64748b; font-size: 0.78rem;" disabled>Coming Soon</button>
-        </div>
-
-        <div class="mode-card locked" title="Coming soon">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <span style="font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,0.06); color: #64748b;">🔒 Coming Soon</span>
-            <span>🎛️</span>
-          </div>
-          <div style="font-weight: 700; margin-bottom: 4px;">Build with Options</div>
-          <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; flex-grow: 1;">Modular selector to pick custom sections and assets.</div>
-          <button style="padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.04); color: #64748b; font-size: 0.78rem;" disabled>Coming Soon</button>
-        </div>
-
-        <div class="mode-card active-mode">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <span style="font-size: 0.68rem; padding: 2px 8px; border-radius: 99px; background: var(--brand-indigo); color: #fff; font-weight: 700;">Active Experience</span>
-            <span>🏛️</span>
-          </div>
-          <div style="font-weight: 700; margin-bottom: 4px;">Ready-Made Templates</div>
-          <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; flex-grow: 1;">Professionally crafted modular designs customized instantly.</div>
-          <button class="btn-gold" style="width: 100%; justify-content: center; padding: 8px; font-size: 0.78rem;" onclick="scrollToTemplateSelector()">Choose Template &darr;</button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- TEMPLATE SELECTOR -->
   <section class="template-selector-sec" id="templateSelectorSec">
@@ -1443,7 +1375,6 @@
       applyPreset('restaurant');
     });
 
-    function scrollToTemplateSelector() { document.getElementById("templateSelectorSec").scrollIntoView({ behavior: "smooth" }); }
     function scrollToShowcase() { document.getElementById("restaurantMount").scrollIntoView({ behavior: "smooth" }); }
 
     function applyPreset(presetKey) {
@@ -2028,7 +1959,6 @@ function handleFormSubmit(e) {
 
 function renderCustomerPreview() {
   document.getElementById("portalBar").style.display = "none";
-  document.getElementById("modesSection").style.display = "none";
   document.getElementById("templateSelectorSec").style.display = "none";
   document.getElementById("finalToolbar").classList.add("active");
 
