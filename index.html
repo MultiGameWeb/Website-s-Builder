@@ -162,8 +162,13 @@
     .rest-brand-text { display: flex; flex-direction: column; }
     .rest-name { font-family: var(--font-royal); font-size: 1.45rem; font-weight: 700; letter-spacing: 0.06em; color: #fff; }
     .rest-tagline { font-size: 0.72rem; font-family: var(--font-serif); font-style: italic; color: var(--gold); }
-    .rest-links { display: flex; gap: 18px; list-style: none; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: #aaa; flex-wrap: wrap; }
+    .rest-links { display: flex; gap: 18px; list-style: none; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: #aaa; flex-wrap: wrap; align-items: center; }
     .rest-links a:hover { color: var(--gold); }
+    .rest-mobile-menu-btn { display: none; width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-subtle); color: #fff; font-size: 1.05rem; align-items: center; justify-content: center; flex-shrink: 0; }
+    .rest-mobile-menu { display: none; width: 100%; margin-top: 10px; padding: 10px; background: rgba(8,8,10,0.98); border: 1px solid var(--border-subtle); border-radius: 12px; }
+    .rest-mobile-menu.open { display: block; }
+    .rest-mobile-menu a { display: block; padding: 10px 12px; color: #ddd; border-radius: 8px; font-size: 0.84rem; font-weight: 600; }
+    .rest-mobile-menu a:hover { background: rgba(245,158,11,0.08); color: var(--gold); }
 
     .rest-hero {
       position: relative; min-height: 84vh; display: flex; align-items: center; justify-content: center;
@@ -385,7 +390,16 @@
     @media (max-width: 640px) {
       .templates-grid-10, .form-row, .form-row-3 { grid-template-columns: 1fr; }
       .thumbs-grid { grid-template-columns: repeat(2, 1fr); }
+      .rest-nav { top: 0; }
+      .rest-nav-inner { min-height: 68px; height: auto; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+      .rest-brand-group { flex: 1 1 auto; min-width: 0; }
       .rest-links { display: none; }
+      .rest-nav-actions { display: none !important; }
+      .rest-mobile-menu-btn { display: inline-flex; }
+      .rest-mobile-menu { margin-bottom: 2px; }
+      .rest-name { font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 48vw; }
+      .rest-tagline { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 48vw; }
+      .rest-logo-img { max-width: 38px; max-height: 38px; }
     }
   </style>
 </head>
@@ -457,7 +471,7 @@
 
     <div style="display: flex; align-items: center; gap: 8px;">
       <button class="btn-outline-gold" onclick="openBuyModal()" style="padding: 6px 14px; font-size: 0.78rem;">Edit Features</button>
-      <button class="btn-gold" onclick="promptDomainChoice()" style="padding: 6px 16px; font-size: 0.78rem;">Proceed to Domain & Download &rarr;</button>
+      <button class="btn-gold" onclick="promptDomainChoice()" style="padding: 6px 16px; font-size: 0.78rem;">Pay & Download &rarr;</button>
     </div>
   </div>
 
@@ -504,18 +518,19 @@
     <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
       <div>
         <h4 style="font-family: var(--font-display); font-size: 1.05rem; color: #fff; margin-bottom: 4px;">Choose Website Features</h4>
-        <p style="font-size: 0.75rem; color: var(--text-muted);">Most commonly used features are shown first. Rare and advanced options are at the bottom.</p>
+        <p style="font-size: 0.75rem; color: var(--text-muted);">Choose only what you need. Common features are at the top; rare and special features are at the bottom.</p>
       </div>
-      <span style="font-size: 0.75rem; color: var(--gold); white-space: nowrap;">41+ configurable options</span>
+      <span style="font-size: 0.75rem; color: var(--gold); white-space: nowrap;">47 configurable options</span>
     </div>
 
     <div class="tier-header">1. Essential — Most restaurants use these</div>
     <div class="feature-toggles-grid">
       <label class="feat-toggle-item"><input type="checkbox" id="chk_home" checked disabled> Home Page / Hero</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_branding" onchange="toggleFeature('branding', this.checked)"> Branding & Logo Styling</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_about" onchange="toggleFeature('about', this.checked)"> About Us Story</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_menu" onchange="toggleFeature('menu', this.checked)"> Menu & Dishes</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_gallery" onchange="toggleFeature('gallery', this.checked)"> Photo Gallery</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_contact" onchange="toggleFeature('contact', this.checked)"> Contact Information & Form</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_contact" onchange="toggleFeature('contact', this.checked)"> Contact & Feedback Form</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_location" onchange="toggleFeature('location', this.checked)"> Location & Google Map</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_hours" onchange="toggleFeature('hours', this.checked)"> Opening Hours</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_fab" onchange="toggleFeature('fab', this.checked)"> WhatsApp / Call Buttons</label>
@@ -525,14 +540,15 @@
     <div class="tier-header">2. Popular — Frequently added</div>
     <div class="feature-toggles-grid">
       <label class="feat-toggle-item"><input type="checkbox" id="chk_tableBooking" onchange="toggleFeature('tableBooking', this.checked)"> Table Reservation</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_onlineOrder" onchange="toggleFeature('onlineOrder', this.checked)"> Delivery / Online Ordering</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_deliveryPickup" onchange="toggleFeature('deliveryPickup', this.checked)"> Delivery / Pickup Options</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_whatsappOrder" onchange="toggleFeature('whatsappOrder', this.checked)"> WhatsApp Ordering</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_onlineOrder" onchange="toggleFeature('onlineOrder', this.checked)"> Online Ordering Links</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_offers" onchange="toggleFeature('offers', this.checked)"> Offers & Deals</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_testimonials" onchange="toggleFeature('testimonials', this.checked)"> Customer Reviews</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_catering" onchange="toggleFeature('catering', this.checked)"> Catering & Bulk Orders</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_dailySpecials" onchange="toggleFeature('dailySpecials', this.checked)"> Daily Specials / Today's Menu</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_cart" onchange="toggleFeature('cart', this.checked)"> Interactive Order Cart</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_coupon" onchange="toggleFeature('coupon', this.checked)"> Coupon / Discount Codes</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_feedback" onchange="toggleFeature('feedback', this.checked)"> Guest Feedback / Complaint Form</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_cart" onchange="toggleFeature('cart', this.checked)"> Menu Cart / Quick Order</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_qrMenu" onchange="toggleFeature('qrMenu', this.checked)"> QR Menu</label>
     </div>
 
     <div class="tier-header">3. Customize — Less common but useful</div>
@@ -540,11 +556,13 @@
       <label class="feat-toggle-item"><input type="checkbox" id="chk_video" onchange="toggleFeature('video', this.checked)"> Video Showcase</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_newsletter" onchange="toggleFeature('newsletter', this.checked)"> Newsletter Signup</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_menuPdf" onchange="toggleFeature('menuPdf', this.checked)"> Download Menu PDF</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_splitBill" onchange="toggleFeature('splitBill', this.checked)"> Split Bill Calculator</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_multilang" onchange="toggleFeature('multilang', this.checked)"> Multi-Language</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_loyalty" onchange="toggleFeature('loyalty', this.checked)"> Loyalty / Membership</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_branches" onchange="toggleFeature('branches', this.checked)"> Multi-Branch Locations</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_chefs" onchange="toggleFeature('chefs', this.checked)"> Chef / Culinary Team</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_faq" onchange="toggleFeature('faq', this.checked)"> FAQ Section</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_seo" onchange="toggleFeature('seo', this.checked)"> SEO Title & Description</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_design" onchange="toggleFeature('design', this.checked)"> Theme / Colors / Fonts</label>
     </div>
 
     <div class="tier-header">4. Advanced — For growing restaurants</div>
@@ -554,20 +572,26 @@
       <label class="feat-toggle-item"><input type="checkbox" id="chk_careers" onchange="toggleFeature('careers', this.checked)"> Careers & Job Openings</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_blog" onchange="toggleFeature('blog', this.checked)"> Food Stories & Blog</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_press" onchange="toggleFeature('press', this.checked)"> Press & Media Mentions</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_coupon" onchange="toggleFeature('coupon', this.checked)"> Coupon / Discount Codes</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_privacy" onchange="toggleFeature('privacy', this.checked)"> Privacy Policy</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_terms" onchange="toggleFeature('terms', this.checked)"> Terms & Conditions</label>
     </div>
 
     <div class="tier-header">5. Special — Only when you need them</div>
     <div class="feature-toggles-grid">
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_admin" onchange="toggleFeature('admin', this.checked)"> Management Portal</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_admin" onchange="toggleFeature('admin', this.checked)"> Restaurant Management Add-on</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_userAuth" onchange="toggleFeature('userAuth', this.checked)"> Customer Sign In / Membership Account</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_orderDash" onchange="toggleFeature('orderDash', this.checked)"> Order Management</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_orderDash" onchange="toggleFeature('orderDash', this.checked)"> Order Management Dashboard</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_bookingDash" onchange="toggleFeature('bookingDash', this.checked)"> Booking Dashboard</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_inventory" onchange="toggleFeature('inventory', this.checked)"> Inventory / Stock Alerts</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_staffMgmt" onchange="toggleFeature('staffMgmt', this.checked)"> Staff Management</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_analytics" onchange="toggleFeature('analytics', this.checked)"> Analytics Dashboard</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_paymentGate" onchange="toggleFeature('paymentGate', this.checked)"> Online Payment Gateway</label>
+      <label class="feat-toggle-item"><input type="checkbox" id="chk_paymentGate" onchange="toggleFeature('paymentGate', this.checked)"> Online Payment Add-on</label>
       <label class="feat-toggle-item"><input type="checkbox" id="chk_tracking" onchange="toggleFeature('tracking', this.checked)"> Delivery Tracking</label>
-      <label class="feat-toggle-item"><input type="checkbox" id="chk_cctv" onchange="toggleFeature('cctv', this.checked)"> Live Kitchen / Stream</label>
+    </div>
+
+    <div style="margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.18); color: #a5b4fc; font-size: 0.74rem;">
+      Special management options require additional backend/database setup in the final business website. They are separated so regular customers do not mistake them for basic static-website features.
     </div>
   </div>
 
@@ -643,6 +667,44 @@
             <button type="button" class="btn-upload-trigger" onclick="document.getElementById('heroUploadInput').click()">+ Upload Hero Image</button>
             <button type="button" id="heroRemoveBtn" class="btn-delete" style="display: none;" onclick="removeDirectImage('hero')">Remove</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Branding & Design -->
+    <div class="acc-group" id="grp_branding">
+      <div class="acc-header" onclick="toggleAccordion('grp_branding')">
+        <span class="acc-title">2. Branding & Design</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <div class="form-row-3">
+          <div class="form-group">
+            <label class="form-label">Theme Style</label>
+            <select id="cust_design_theme" class="form-select">
+              <option value="luxury">Luxury</option>
+              <option value="modern">Modern</option>
+              <option value="warm">Warm & Friendly</option>
+              <option value="minimal">Minimal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Primary Accent Color</label>
+            <input type="color" id="cust_primary_color" class="form-input" value="#f59e0b" style="height: 42px; padding: 4px;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Secondary Accent Color</label>
+            <input type="color" id="cust_secondary_color" class="form-input" value="#6366f1" style="height: 42px; padding: 4px;" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Font Style</label>
+          <select id="cust_font_style" class="form-select">
+            <option value="elegant">Elegant</option>
+            <option value="modern">Modern</option>
+            <option value="classic">Classic Serif</option>
+          </select>
         </div>
       </div>
     </div>
@@ -747,6 +809,22 @@
       </div>
     </div>
 
+
+    <!-- QR Menu -->
+    <div class="acc-group" id="grp_qrMenu">
+      <div class="acc-header" onclick="toggleAccordion('grp_qrMenu')">
+        <span class="acc-title">12. QR Menu</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <div class="form-group">
+          <label class="form-label">Menu URL for QR Code</label>
+          <input type="url" id="cust_qr_url" class="form-input" placeholder="https://yourrestaurant.com/menu" />
+        </div>
+        <p style="font-size: 0.76rem; color: #a5b4fc;">The generated QR code opens the menu URL you provide.</p>
+      </div>
+    </div>
+
     <!-- Daily Specials -->
     <div class="acc-group" id="grp_dailySpecials">
       <div class="acc-header" onclick="toggleAccordion('grp_dailySpecials')">
@@ -792,6 +870,51 @@
       </div>
     </div>
 
+
+    <!-- Delivery & Pickup -->
+    <div class="acc-group" id="grp_deliveryPickup">
+      <div class="acc-header" onclick="toggleAccordion('grp_deliveryPickup')">
+        <span class="acc-title">10. Delivery & Pickup Options</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Service Mode</label>
+            <select id="cust_delivery_mode" class="form-select">
+              <option value="both">Delivery + Pickup</option>
+              <option value="delivery">Delivery Only</option>
+              <option value="pickup">Pickup Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Delivery Note</label>
+            <input type="text" id="cust_delivery_note" class="form-input" placeholder="e.g. Free delivery above ₹499" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WhatsApp Ordering -->
+    <div class="acc-group" id="grp_whatsappOrder">
+      <div class="acc-header" onclick="toggleAccordion('grp_whatsappOrder')">
+        <span class="acc-title">11. WhatsApp Ordering</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Order WhatsApp Number</label>
+            <input type="tel" id="cust_whatsapp_order" class="form-input" placeholder="e.g. 9876543210" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order Message</label>
+            <input type="text" id="cust_whatsapp_order_note" class="form-input" placeholder="e.g. Hi, I want to place an order." />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Offers & Deals -->
     <div class="acc-group" id="grp_offers">
       <div class="acc-header" onclick="toggleAccordion('grp_offers')">
@@ -809,13 +932,14 @@
     <!-- Testimonials -->
     <div class="acc-group" id="grp_testimonials">
       <div class="acc-header" onclick="toggleAccordion('grp_testimonials')">
-        <span class="acc-title">11. Customer Reviews / Testimonials</span>
+        <span class="acc-title">11. Customer Reviews & Feedback</span>
         <span class="acc-chevron">&#9660;</span>
       </div>
       <div class="acc-body">
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:10px;">Customers submit a rating and message on the public website. You can review, edit, approve, or remove published reviews here.</p>
         <div id="testiBuilderList"></div>
         <button type="button" class="btn-outline-gold" onclick="addTestimonialForm()" style="width: 100%; border-style: dashed; padding: 10px;">
-          + Add Review
+          + Add / Edit Owner Review
         </button>
       </div>
     </div>
@@ -899,6 +1023,21 @@
       </div>
     </div>
 
+
+    <!-- FAQ -->
+    <div class="acc-group" id="grp_faq">
+      <div class="acc-header" onclick="toggleAccordion('grp_faq')">
+        <span class="acc-title">19. Frequently Asked Questions</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <div id="faqBuilderList"></div>
+        <button type="button" class="btn-outline-gold" onclick="addFaqForm()" style="width: 100%; border-style: dashed; padding: 10px;">
+          + Add FAQ
+        </button>
+      </div>
+    </div>
+
     <!-- Newsletter Signup -->
     <div class="acc-group" id="grp_newsletter">
       <div class="acc-header" onclick="toggleAccordion('grp_newsletter')">
@@ -916,7 +1055,7 @@
     <!-- Payment Gateway Placeholder -->
     <div class="acc-group" id="grp_paymentGate">
       <div class="acc-header" onclick="toggleAccordion('grp_paymentGate')">
-        <span class="acc-title">19. Online Payment Gateway (UPI / Razorpay Placeholder)</span>
+        <span class="acc-title">19. Online Payment Add-on (Requires Payment Setup)</span>
         <span class="acc-chevron">&#9660;</span>
       </div>
       <div class="acc-body">
@@ -924,6 +1063,7 @@
           <div class="form-group"><input type="text" id="cust_upi_id" class="form-input" placeholder="UPI ID (e.g. restaurant@upi)" /></div>
           <div class="form-group"><input type="text" id="cust_pay_merchant" class="form-input" placeholder="Merchant / Account Name" /></div>
         </div>
+        <p style="font-size:0.76rem;color:#fbbf24;margin-top:8px;">For a generated customer website, real payment processing requires a separate secure backend/payment setup.</p>
       </div>
     </div>
 
@@ -967,28 +1107,6 @@
       </div>
     </div>
 
-    <!-- Live Kitchen / Stream -->
-    <div class="acc-group" id="grp_cctv">
-      <div class="acc-header" onclick="toggleAccordion('grp_cctv')">
-        <span class="acc-title">23. Live Kitchen / Stream Status</span>
-        <span class="acc-chevron">&#9660;</span>
-      </div>
-      <div class="acc-body">
-        <div class="form-group"><input type="text" id="cust_cctv_note" class="form-input" placeholder="Hygiene guarantee or stream caption" /></div>
-      </div>
-    </div>
-
-    <!-- Guest Feedback / Complaint Form -->
-    <div class="acc-group" id="grp_feedback">
-      <div class="acc-header" onclick="toggleAccordion('grp_feedback')">
-        <span class="acc-title">24. Guest Feedback & Complaint Box</span>
-        <span class="acc-chevron">&#9660;</span>
-      </div>
-      <div class="acc-body">
-        <div class="form-group"><input type="text" id="cust_feedback_prompt" class="form-input" placeholder="Feedback Heading / Prompt (e.g. Help us serve you better)" /></div>
-      </div>
-    </div>
-
     <!-- Food Stories & Blog -->
     <div class="acc-group" id="grp_blog">
       <div class="acc-header" onclick="toggleAccordion('grp_blog')">
@@ -1014,6 +1132,47 @@
         <button type="button" class="btn-outline-gold" onclick="addPressForm()" style="width: 100%; border-style: dashed; padding: 10px;">
           + Add Press Mention
         </button>
+      </div>
+    </div>
+
+
+    <!-- SEO -->
+    <div class="acc-group" id="grp_seo">
+      <div class="acc-header" onclick="toggleAccordion('grp_seo')">
+        <span class="acc-title">20. SEO Title & Description</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <div class="form-group">
+          <label class="form-label">SEO Page Title</label>
+          <input type="text" id="cust_seo_title" class="form-input" placeholder="e.g. Hyderabad Spice Kitchen | Restaurant" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">SEO Meta Description</label>
+          <textarea id="cust_seo_desc" class="form-textarea" rows="2" placeholder="Short search-engine description of your restaurant..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Policy -->
+    <div class="acc-group" id="grp_privacy">
+      <div class="acc-header" onclick="toggleAccordion('grp_privacy')">
+        <span class="acc-title">21. Privacy Policy</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <textarea id="cust_privacy" class="form-textarea" rows="4" placeholder="Enter your privacy policy content..."></textarea>
+      </div>
+    </div>
+
+    <!-- Terms -->
+    <div class="acc-group" id="grp_terms">
+      <div class="acc-header" onclick="toggleAccordion('grp_terms')">
+        <span class="acc-title">22. Terms & Conditions</span>
+        <span class="acc-chevron">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <textarea id="cust_terms" class="form-textarea" rows="4" placeholder="Enter your website terms and conditions..."></textarea>
       </div>
     </div>
 
@@ -1154,54 +1313,74 @@
     <p style="color: var(--text-muted); font-size: 0.85rem;">Generating customer layout with only selected features.</p>
   </div>
 
-  <!-- DOMAIN MODAL -->
+  <!-- PAY & DOWNLOAD OPTIONS -->
   <div class="flow-modal" id="domainChoiceModal">
-    <div class="flow-box">
-      <div style="font-size: 2.2rem; margin-bottom: 8px;">🎉</div>
-      <h3 style="color: #fff; margin-bottom: 6px;">Your Website Is Ready</h3>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Would you like to register a custom domain?</p>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <button class="btn-gold" style="justify-content: center;" onclick="handleDomainDecision(true)">YES, ADD DOMAIN</button>
-        <button class="btn-outline-gold" style="justify-content: center;" onclick="handleDomainDecision(false)">NO, CONTINUE WITHOUT DOMAIN</button>
-      </div>
-    </div>
-  </div>
+    <div class="flow-box" style="text-align:left; max-width: 520px;">
+      <div style="font-size: 2.2rem; margin-bottom: 8px; text-align:center;">🎉</div>
+      <h3 style="color: #fff; margin-bottom: 6px; text-align:center;">Your Website Is Ready</h3>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px; text-align:center;">Choose any extra service you need before payment.</p>
 
-  <!-- DOMAIN INPUT MODAL -->
-  <div class="flow-modal" id="domainInputModal">
-    <div class="flow-box">
-      <h3 style="margin-bottom: 8px;">Enter Custom Domain</h3>
-      <div class="form-group" style="text-align: left;">
-        <input type="text" id="customDomainInput" class="form-input" placeholder="e.g. myhyderabadspice.com" />
+      <div style="display:grid; gap:10px; margin-bottom:14px;">
+        <label style="display:flex; align-items:flex-start; gap:10px; padding:14px; border:1px solid var(--border-subtle); border-radius:10px; background:rgba(255,255,255,0.03); cursor:pointer;">
+          <input type="checkbox" id="addDomainOption" style="accent-color: var(--gold); margin-top:4px;">
+          <span>
+            <strong style="display:block; color:#fff;">Add Domain</strong>
+            <small style="display:block; color:var(--text-muted); margin-top:3px;">Our executive will help you with domain selection and setup.</small>
+          </span>
+        </label>
+
+        <label style="display:flex; align-items:flex-start; gap:10px; padding:14px; border:1px solid var(--border-subtle); border-radius:10px; background:rgba(255,255,255,0.03); cursor:pointer;">
+          <input type="checkbox" id="addPaymentModeOption" style="accent-color: var(--gold); margin-top:4px;">
+          <span>
+            <strong style="display:block; color:#fff;">Add Payment Mode</strong>
+            <small style="display:block; color:var(--text-muted); margin-top:3px;">Our executive will help you set up payment options for your website.</small>
+          </span>
+        </label>
+      </div>
+
+      <div id="domainRequestField" class="form-group" style="display:none; margin-bottom:14px;">
+        <label class="form-label">Preferred Domain Name</label>
+        <input type="text" id="customDomainInput" class="form-input" placeholder="e.g. myrestaurant.com">
         <div class="field-error" id="err_customDomain">Please enter a valid domain name.</div>
       </div>
-      <div style="display: flex; gap: 10px; margin-top: 14px;">
-        <button class="btn-outline-gold" style="flex: 1; justify-content: center;" onclick="document.getElementById('domainInputModal').classList.remove('active'); document.getElementById('domainChoiceModal').classList.add('active');">Back</button>
-        <button class="btn-gold" style="flex: 2; justify-content: center;" onclick="proceedFromDomainInputToPayment()">PROCEED</button>
+
+      <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.22); border-radius:10px; padding:12px; margin-bottom:16px;">
+        <div style="font-weight:700; color:var(--gold); font-size:0.86rem;">Executive assistance</div>
+        <div style="font-size:0.78rem; color:var(--text-muted); margin-top:4px;">After you submit your selection, our executive will call you within 10 minutes. Please wait.</div>
       </div>
+
+      <button class="btn-gold" style="width:100%; justify-content:center; padding:13px;" onclick="submitServiceRequest()">
+        CONTINUE TO PAYMENT →
+      </button>
     </div>
   </div>
 
-  <!-- CHECKOUT MODAL -->
+  <!-- PAYMENT / CALLBACK MODAL -->
   <div class="flow-modal" id="checkoutModal">
-    <div class="flow-box">
-      <h3 style="margin-bottom: 12px;">Order Summary</h3>
-      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 14px; border-radius: 8px; margin-bottom: 18px; text-align: left;">
-        <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.88rem;"><span>Website Platform</span><strong>₹2,999</strong></div>
-        <div id="domainRowPrice" style="display:none; justify-content:space-between; margin-bottom: 6px; font-size: 0.88rem;"><span>Custom Domain Registration</span><strong>₹899</strong></div>
-        <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--gold); border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;"><span>Total Amount</span><span id="priceTotal">₹2,999</span></div>
+    <div class="flow-box" style="text-align:left; max-width:520px;">
+      <div style="font-size:2rem; text-align:center; margin-bottom:6px;">📞</div>
+      <h3 style="color:#fff; text-align:center; margin-bottom:8px;">Request Submitted</h3>
+      <p style="color:var(--text-muted); font-size:0.86rem; text-align:center; margin-bottom:16px;">Thank you. Please wait — our executive will call you within <strong style="color:#fff;">10 minutes</strong>.</p>
+
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:14px; border-radius:10px; margin-bottom:16px;">
+        <div id="checkoutServiceSummary" style="font-size:0.84rem; color:#fff; margin-bottom:10px;">Website only</div>
+        <div style="display:flex; justify-content:space-between; font-size:0.88rem; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08);"><span>Website Payment</span><strong style="color:var(--gold);">₹499</strong></div>
+        <div style="font-size:0.76rem; color:var(--text-muted); margin-top:7px;">Selected services will be confirmed by our executive during the call.</div>
       </div>
-      <button class="btn-gold" style="width: 100%; justify-content: center; padding: 12px;" onclick="simulatePaymentProcess()">PAY NOW</button>
+
+      <button class="btn-gold" style="width:100%; justify-content:center; padding:13px;" onclick="simulatePaymentProcess()">
+        PLEASE COMPLETE PAYMENT — ₹499
+      </button>
     </div>
   </div>
 
   <!-- PAYMENT SUCCESS MODAL -->
   <div class="flow-modal" id="paymentSuccessModal">
     <div class="flow-box">
-      <div style="font-size: 2.2rem; margin-bottom: 6px;">✅</div>
-      <h3 style="color: #fff; margin-bottom: 6px;">Payment Successful</h3>
-      <p id="paymentSuccessDesc" style="color: var(--text-muted); font-size: 0.86rem; margin-bottom: 20px;"></p>
-      <button class="btn-gold" style="width: 100%; justify-content: center; padding: 14px; font-size: 1rem;" onclick="executeWebsiteDownload()">
+      <div style="font-size:2.2rem; margin-bottom:6px;">✅</div>
+      <h3 style="color:#fff; margin-bottom:6px;">Payment Successful</h3>
+      <p id="paymentSuccessDesc" style="color:var(--text-muted); font-size:0.86rem; margin-bottom:20px;"></p>
+      <button class="btn-gold" style="width:100%; justify-content:center; padding:14px; font-size:1rem;" onclick="executeWebsiteDownload()">
         DOWNLOAD YOUR WEBSITE 📥
       </button>
     </div>
@@ -1264,6 +1443,7 @@
 
     const selectedFeatures = {
       home: true,
+      branding: true,
       about: true,
       menu: true,
       gallery: true,
@@ -1272,38 +1452,47 @@
       hours: true,
       fab: true,
       social: true,
-      tableBooking: true,
-      onlineOrder: true,
-      offers: true,
+
+      tableBooking: false,
+      deliveryPickup: false,
+      whatsappOrder: true,
+      onlineOrder: false,
+      offers: false,
       testimonials: false,
-      chefs: false,
-      events: false,
       catering: false,
       dailySpecials: false,
+      cart: false,
+      qrMenu: false,
+
       video: false,
-      branches: false,
-      loyalty: false,
       newsletter: false,
       menuPdf: false,
+      multilang: false,
+      loyalty: false,
+      branches: false,
+      chefs: false,
+      faq: false,
+      seo: false,
+      design: true,
+
+      events: false,
+      franchise: false,
+      careers: false,
+      blog: false,
+      press: false,
+      coupon: false,
+      privacy: false,
+      terms: false,
+
       admin: false,
       userAuth: false,
       orderDash: false,
       bookingDash: false,
+      inventory: false,
       staffMgmt: false,
       analytics: false,
-      inventory: false,
-      cart: true,
-      coupon: false,
       paymentGate: false,
-      tracking: false,
-      splitBill: true,
-      franchise: false,
-      careers: false,
-      multilang: false,
-      cctv: false,
-      feedback: false,
-      blog: false,
-      press: false
+      tracking: false
     };
 
     let restaurantCustomerData = {
@@ -1352,8 +1541,6 @@
       tracking: { avgTime: "", hotline: "" },
       franchise: { email: "", note: "" },
       careers: [],
-      cctvNote: "",
-      feedbackPrompt: "",
       blogs: [],
       pressMentions: [],
       galleryImages: [],
@@ -1361,6 +1548,14 @@
       userAuth: { heading: "", note: "" },
       coupon: { code: "", pct: 0, minOrder: 0 },
       translations: { te: "", hi: "" },
+      delivery: { mode: "both", note: "" },
+      whatsappOrder: { number: "", note: "" },
+      qrMenuUrl: "",
+      faq: [],
+      seo: { title: "", description: "" },
+      privacy: "",
+      terms: "",
+      design: { theme: "luxury", primary: "#f59e0b", secondary: "#6366f1", font: "elegant" },
       inventory: [],
       staff: [],
       customDomain: ""
@@ -1369,6 +1564,7 @@
     let activeMenuTab = 0;
     let customerCart = [];
     let currentLang = 'en';
+    let liveCustomerReviews = [];
 
     document.addEventListener("DOMContentLoaded", () => {
       renderRestaurant(restaurantDemoData);
@@ -1384,67 +1580,24 @@
       }
 
       Object.keys(selectedFeatures).forEach(k => selectedFeatures[k] = false);
-      selectedFeatures.home = true;
-      selectedFeatures.contact = true;
-      selectedFeatures.hours = true;
-      selectedFeatures.location = true;
-      selectedFeatures.fab = true;
-      selectedFeatures.social = true;
 
-      if (presetKey === 'tiffin') {
-        selectedFeatures.menu = true;
-        selectedFeatures.onlineOrder = true;
-        selectedFeatures.dailySpecials = true;
-        selectedFeatures.splitBill = true;
-        selectedFeatures.cart = true;
-      } else if (presetKey === 'cafe') {
-        selectedFeatures.about = true;
-        selectedFeatures.menu = true;
-        selectedFeatures.gallery = true;
-        selectedFeatures.offers = true;
-        selectedFeatures.cart = true;
-        selectedFeatures.newsletter = true;
-        selectedFeatures.splitBill = true;
-        selectedFeatures.feedback = true;
-      } else if (presetKey === 'restaurant') {
-        selectedFeatures.about = true;
-        selectedFeatures.menu = true;
-        selectedFeatures.gallery = true;
-        selectedFeatures.tableBooking = true;
-        selectedFeatures.onlineOrder = true;
-        selectedFeatures.offers = true;
-        selectedFeatures.testimonials = true;
-        selectedFeatures.dailySpecials = true;
-        selectedFeatures.cart = true;
-        selectedFeatures.splitBill = true;
-        selectedFeatures.feedback = true;
-        selectedFeatures.admin = true;
-        selectedFeatures.orderDash = true;
-        selectedFeatures.bookingDash = true;
-      } else if (presetKey === 'finedining') {
-        selectedFeatures.about = true;
-        selectedFeatures.menu = true;
-        selectedFeatures.gallery = true;
-        selectedFeatures.tableBooking = true;
-        selectedFeatures.chefs = true;
-        selectedFeatures.events = true;
-        selectedFeatures.testimonials = true;
-        selectedFeatures.admin = true;
-        selectedFeatures.bookingDash = true;
-        selectedFeatures.analytics = true;
-      } else if (presetKey === 'multibranch') {
-        selectedFeatures.about = true;
-        selectedFeatures.menu = true;
-        selectedFeatures.tableBooking = true;
-        selectedFeatures.onlineOrder = true;
-        selectedFeatures.branches = true;
-        selectedFeatures.careers = true;
-        selectedFeatures.admin = true;
-        selectedFeatures.orderDash = true;
-        selectedFeatures.bookingDash = true;
-        selectedFeatures.staffMgmt = true;
-        selectedFeatures.splitBill = true;
-      } else if (presetKey === 'chain') {
+      const essential = [
+        "home","branding","about","menu","gallery","contact",
+        "location","hours","fab","social"
+      ];
+      essential.forEach(k => selectedFeatures[k] = true);
+
+      if (presetKey === "tiffin") {
+        ["menu","deliveryPickup","whatsappOrder","onlineOrder","dailySpecials","cart","qrMenu"].forEach(k => selectedFeatures[k] = true);
+      } else if (presetKey === "cafe") {
+        ["about","menu","gallery","branding","offers","testimonials","newsletter","cart","qrMenu","video"].forEach(k => selectedFeatures[k] = true);
+      } else if (presetKey === "restaurant") {
+        ["about","menu","gallery","tableBooking","deliveryPickup","whatsappOrder","onlineOrder","offers","testimonials","dailySpecials","catering","cart","qrMenu","faq"].forEach(k => selectedFeatures[k] = true);
+      } else if (presetKey === "finedining") {
+        ["about","menu","gallery","branding","tableBooking","testimonials","chefs","events","video","loyalty","faq","seo","design"].forEach(k => selectedFeatures[k] = true);
+      } else if (presetKey === "multibranch") {
+        ["about","menu","tableBooking","deliveryPickup","whatsappOrder","onlineOrder","branches","careers","faq","seo","cart"].forEach(k => selectedFeatures[k] = true);
+      } else if (presetKey === "chain") {
         Object.keys(selectedFeatures).forEach(k => selectedFeatures[k] = true);
       }
 
@@ -1454,14 +1607,28 @@
 
     function toggleFeature(featKey, isChecked) {
       selectedFeatures[featKey] = isChecked;
-      if (featKey === 'paymentGate' && isChecked) selectedFeatures.cart = true;
-      if (featKey === 'tracking' && isChecked) selectedFeatures.onlineOrder = true;
-      if (featKey === 'cart' && isChecked) selectedFeatures.menu = true;
-      if (featKey === 'coupon' && isChecked) { selectedFeatures.cart = true; selectedFeatures.menu = true; }
-      if (featKey === 'inventory' && isChecked) selectedFeatures.admin = true;
-      if ((featKey === 'orderDash' || featKey === 'bookingDash' || featKey === 'staffMgmt' || featKey === 'analytics') && isChecked) {
+
+      if (featKey === "paymentGate" && isChecked) {
+        selectedFeatures.cart = true;
+      }
+      if (featKey === "tracking" && isChecked) {
+        selectedFeatures.onlineOrder = true;
+      }
+      if (featKey === "cart" && isChecked) {
+        selectedFeatures.menu = true;
+        selectedFeatures.whatsappOrder = true;
+      }
+      if (featKey === "coupon" && isChecked) {
+        selectedFeatures.cart = true;
+        selectedFeatures.menu = true;
+      }
+      if (featKey === "inventory" && isChecked) {
         selectedFeatures.admin = true;
       }
+      if (["orderDash","bookingDash","staffMgmt","analytics"].includes(featKey) && isChecked) {
+        selectedFeatures.admin = true;
+      }
+
       syncFeatureCheckboxes();
       updateFormVisibility();
     }
@@ -1475,49 +1642,53 @@
 
     function updateFormVisibility() {
       const formMappings = {
-        about: 'grp_about',
-        menu: 'grp_menu',
-        hours: 'grp_hours',
-        location: 'grp_location',
-        contact: 'grp_contact',
-        tableBooking: 'grp_tableBooking',
-        onlineOrder: 'grp_onlineOrder',
-        offers: 'grp_offers',
-        testimonials: 'grp_testimonials',
-        chefs: 'grp_chefs',
-        events: 'grp_events',
-        catering: 'grp_catering',
-        dailySpecials: 'grp_dailySpecials',
-        video: 'grp_video',
-        branches: 'grp_branches',
-        loyalty: 'grp_loyalty',
-        newsletter: 'grp_newsletter',
-        paymentGate: 'grp_paymentGate',
-        tracking: 'grp_tracking',
-        franchise: 'grp_franchise',
-        careers: 'grp_careers',
-        cctv: 'grp_cctv',
-        feedback: 'grp_feedback',
-        blog: 'grp_blog',
-        press: 'grp_press',
-        userAuth: 'grp_userAuth',
-        inventory: 'grp_inventory',
-        coupon: 'grp_coupon',
-        multilang: 'grp_multilang',
-        gallery: 'grp_gallery',
-        admin: 'grp_admin'
+        branding: "grp_branding",
+        about: "grp_about",
+        menu: "grp_menu",
+        hours: "grp_hours",
+        location: "grp_location",
+        contact: "grp_contact",
+        tableBooking: "grp_tableBooking",
+        deliveryPickup: "grp_deliveryPickup",
+        whatsappOrder: "grp_whatsappOrder",
+        onlineOrder: "grp_onlineOrder",
+        offers: "grp_offers",
+        testimonials: "grp_testimonials",
+        chefs: "grp_chefs",
+        events: "grp_events",
+        catering: "grp_catering",
+        dailySpecials: "grp_dailySpecials",
+        video: "grp_video",
+        branches: "grp_branches",
+        loyalty: "grp_loyalty",
+        newsletter: "grp_newsletter",
+        qrMenu: "grp_qrMenu",
+        faq: "grp_faq",
+        seo: "grp_seo",
+        privacy: "grp_privacy",
+        terms: "grp_terms",
+        paymentGate: "grp_paymentGate",
+        tracking: "grp_tracking",
+        franchise: "grp_franchise",
+        careers: "grp_careers",
+        blog: "grp_blog",
+        press: "grp_press",
+        userAuth: "grp_userAuth",
+        inventory: "grp_inventory",
+        coupon: "grp_coupon",
+        multilang: "grp_multilang",
+        gallery: "grp_gallery",
+        admin: "grp_admin"
       };
 
       Object.entries(formMappings).forEach(([feat, grpId]) => {
         const grp = document.getElementById(grpId);
-        if (grp) grp.style.display = selectedFeatures[feat] ? 'block' : 'none';
+        if (grp) grp.style.display = selectedFeatures[feat] ? "block" : "none";
       });
 
-      const pdfBox = document.getElementById('box_menuPdf');
-      if (pdfBox) pdfBox.style.display = selectedFeatures.menuPdf ? 'block' : 'none';
+      const pdfBox = document.getElementById("box_menuPdf");
+      if (pdfBox) pdfBox.style.display = selectedFeatures.menuPdf ? "block" : "none";
     }
-
-
 
     /* Complete dynamic builder repeaters */
     function addMenuCategoryForm() {
@@ -1556,7 +1727,7 @@
     }
 
     function addTestimonialForm() {
-      restaurantCustomerData.testimonials.push({ author: "", role: "", quote: "", rating: 5 });
+      restaurantCustomerData.testimonials.push({ author: "", role: "", quote: "", rating: 5, photo: "" });
       renderTestimonialBuilderList();
     }
     function renderTestimonialBuilderList() {
@@ -1565,19 +1736,24 @@
       c.innerHTML = restaurantCustomerData.testimonials.map((t, idx) => `
         <div class="repeat-box">
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <strong>Review #${idx+1}</strong>
+            <strong>Published Review #${idx+1}</strong>
             <button type="button" class="btn-delete" onclick="restaurantCustomerData.testimonials.splice(${idx},1); renderTestimonialBuilderList();">Remove</button>
           </div>
-          <div class="form-row">
-            <input type="text" class="form-input" placeholder="Customer Name" value="${escapeHtml(t.author)}" oninput="restaurantCustomerData.testimonials[${idx}].author=this.value" />
-            <input type="text" class="form-input" placeholder="Role (optional)" value="${escapeHtml(t.role)}" oninput="restaurantCustomerData.testimonials[${idx}].role=this.value" />
+          <div class="form-group">
+            <input type="text" class="form-input" placeholder="Customer Name (optional)" value="${escapeHtml(t.author)}" oninput="restaurantCustomerData.testimonials[${idx}].author=this.value" />
           </div>
-          <textarea class="form-textarea" rows="2" style="margin-top:6px;" placeholder="Review / Quote" oninput="restaurantCustomerData.testimonials[${idx}].quote=this.value">${escapeHtml(t.quote || "")}</textarea>
-          <div style="margin-top:6px;">
-            <label class="form-label">Rating</label>
-            <select class="form-select" onchange="restaurantCustomerData.testimonials[${idx}].rating=parseInt(this.value)||5">
-              ${[5,4,3,2,1].map(v => `<option value="${v}" ${Number(t.rating||5)===v?'selected':''}>${v} / 5</option>`).join("")}
-            </select>
+          <textarea class="form-textarea" rows="2" placeholder="Review / Feedback message" oninput="restaurantCustomerData.testimonials[${idx}].quote=this.value">${escapeHtml(t.quote || "")}</textarea>
+          <div class="form-row" style="margin-top:6px;">
+            <div class="form-group">
+              <label class="form-label">Rating</label>
+              <select class="form-select" onchange="restaurantCustomerData.testimonials[${idx}].rating=parseInt(this.value)||5">
+                ${[5,4,3,2,1].map(v => `<option value="${v}" ${Number(t.rating||5)===v?'selected':''}>${v} / 5</option>`).join("")}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Customer Photo (optional)</label>
+              <input type="url" class="form-input" placeholder="Photo URL" value="${escapeHtml(t.photo || "")}" oninput="restaurantCustomerData.testimonials[${idx}].photo=this.value" />
+            </div>
           </div>
         </div>
       `).join("");
@@ -1649,6 +1825,25 @@
             <input type="tel" class="form-input" placeholder="Phone (Optional)" value="${escapeHtml(b.phone)}" oninput="restaurantCustomerData.branches[${idx}].phone=this.value" />
             <input type="url" class="form-input" placeholder="Google Maps Link (Optional)" value="${escapeHtml(b.maps)}" oninput="restaurantCustomerData.branches[${idx}].maps=this.value" />
           </div>
+        </div>
+      `).join("");
+    }
+
+    function addFaqForm() {
+      restaurantCustomerData.faq.push({ question: "", answer: "" });
+      renderFaqBuilderList();
+    }
+    function renderFaqBuilderList() {
+      const c = document.getElementById("faqBuilderList");
+      if (!c) return;
+      c.innerHTML = restaurantCustomerData.faq.map((item, idx) => `
+        <div class="repeat-box">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <strong>FAQ #${idx+1}</strong>
+            <button type="button" class="btn-delete" onclick="restaurantCustomerData.faq.splice(${idx},1); renderFaqBuilderList();">Remove</button>
+          </div>
+          <input type="text" class="form-input" placeholder="Question" value="${escapeHtml(item.question)}" oninput="restaurantCustomerData.faq[${idx}].question=this.value" />
+          <textarea class="form-textarea" rows="2" style="margin-top:6px;" placeholder="Answer" oninput="restaurantCustomerData.faq[${idx}].answer=this.value">${escapeHtml(item.answer || "")}</textarea>
         </div>
       `).join("");
     }
@@ -1930,8 +2125,6 @@ function handleFormSubmit(e) {
     email: document.getElementById("cust_franchise_email")?.value.trim() || "",
     note: document.getElementById("cust_franchise_note")?.value.trim() || ""
   };
-  restaurantCustomerData.cctvNote = document.getElementById("cust_cctv_note")?.value.trim() || "";
-  restaurantCustomerData.feedbackPrompt = document.getElementById("cust_feedback_prompt")?.value.trim() || "";
   restaurantCustomerData.adminGmail = document.getElementById("cust_admin_gmail")?.value.trim() || "";
   restaurantCustomerData.userAuth = {
     heading: document.getElementById("cust_auth_heading")?.value.trim() || "",
@@ -1945,6 +2138,27 @@ function handleFormSubmit(e) {
   restaurantCustomerData.translations = {
     te: document.getElementById("cust_tagline_te")?.value.trim() || "",
     hi: document.getElementById("cust_tagline_hi")?.value.trim() || ""
+  };
+  restaurantCustomerData.delivery = {
+    mode: document.getElementById("cust_delivery_mode")?.value || "both",
+    note: document.getElementById("cust_delivery_note")?.value.trim() || ""
+  };
+  restaurantCustomerData.whatsappOrder = {
+    number: document.getElementById("cust_whatsapp_order")?.value.trim() || restaurantCustomerData.whatsapp,
+    note: document.getElementById("cust_whatsapp_order_note")?.value.trim() || "Hi, I want to place an order."
+  };
+  restaurantCustomerData.qrMenuUrl = document.getElementById("cust_qr_url")?.value.trim() || "";
+  restaurantCustomerData.seo = {
+    title: document.getElementById("cust_seo_title")?.value.trim() || "",
+    description: document.getElementById("cust_seo_desc")?.value.trim() || ""
+  };
+  restaurantCustomerData.privacy = document.getElementById("cust_privacy")?.value.trim() || "";
+  restaurantCustomerData.terms = document.getElementById("cust_terms")?.value.trim() || "";
+  restaurantCustomerData.design = {
+    theme: document.getElementById("cust_design_theme")?.value || "luxury",
+    primary: document.getElementById("cust_primary_color")?.value || "#f59e0b",
+    secondary: document.getElementById("cust_secondary_color")?.value || "#6366f1",
+    font: document.getElementById("cust_font_style")?.value || "elegant"
   };
 
   closeBuyModal();
@@ -1969,42 +2183,73 @@ function renderCustomerPreview() {
 }
 
 function promptDomainChoice() {
-  document.getElementById("domainChoiceModal").classList.add("active");
+  const modal = document.getElementById("domainChoiceModal");
+  const domainOption = document.getElementById("addDomainOption");
+  const paymentOption = document.getElementById("addPaymentModeOption");
+  const domainField = document.getElementById("domainRequestField");
+  const domainInput = document.getElementById("customDomainInput");
+  const domainError = document.getElementById("err_customDomain");
+
+  if (domainOption) domainOption.checked = false;
+  if (paymentOption) paymentOption.checked = false;
+  if (domainField) domainField.style.display = "none";
+  if (domainInput) domainInput.value = "";
+  if (domainError) domainError.style.display = "none";
+  if (modal) modal.classList.add("active");
 }
 
-function handleDomainDecision(wantsDomain) {
-  document.getElementById("domainChoiceModal").classList.remove("active");
-  if (wantsDomain) {
-    document.getElementById("domainInputModal").classList.add("active");
-  } else {
-    restaurantCustomerData.customDomain = "";
-    openCheckoutModal(false);
-  }
+function updateDomainRequestField() {
+  const checked = document.getElementById("addDomainOption")?.checked;
+  const field = document.getElementById("domainRequestField");
+  if (field) field.style.display = checked ? "block" : "none";
 }
 
-function proceedFromDomainInputToPayment() {
-  const d = document.getElementById("customDomainInput").value.trim();
-  const err = document.getElementById("err_customDomain");
-  if (!d || !d.includes(".")) {
-    err.style.display = "block";
+function submitServiceRequest() {
+  const domainSelected = !!document.getElementById("addDomainOption")?.checked;
+  const paymentSelected = !!document.getElementById("addPaymentModeOption")?.checked;
+  const domainInput = document.getElementById("customDomainInput");
+  const domainError = document.getElementById("err_customDomain");
+
+  if (!domainSelected && !paymentSelected) {
+    showToast("Please select Add Domain or Add Payment Mode.");
     return;
   }
-  err.style.display = "none";
-  restaurantCustomerData.customDomain = d;
-  document.getElementById("domainInputModal").classList.remove("active");
-  openCheckoutModal(true);
+
+  if (domainSelected) {
+    const domain = (domainInput?.value || "").trim();
+    if (!domain || !domain.includes(".")) {
+      if (domainError) domainError.style.display = "block";
+      return;
+    }
+    if (domainError) domainError.style.display = "none";
+    restaurantCustomerData.customDomain = domain;
+  } else {
+    restaurantCustomerData.customDomain = "";
+  }
+
+  restaurantCustomerData.addDomainService = domainSelected;
+  restaurantCustomerData.addPaymentModeService = paymentSelected;
+
+  document.getElementById("domainChoiceModal").classList.remove("active");
+  openCheckoutModal();
 }
 
-function openCheckoutModal(hasDomain) {
-  const row = document.getElementById("domainRowPrice");
-  const tot = document.getElementById("priceTotal");
-  if (hasDomain) {
-    row.style.display = "flex";
-    tot.textContent = "₹3,898";
-  } else {
-    row.style.display = "none";
-    tot.textContent = "₹2,999";
+function openCheckoutModal() {
+  const summary = document.getElementById("checkoutServiceSummary");
+  const items = [];
+
+  if (restaurantCustomerData.addDomainService) {
+    items.push(`Add Domain${restaurantCustomerData.customDomain ? `: ${escapeHtml(restaurantCustomerData.customDomain)}` : ""}`);
   }
+
+  if (restaurantCustomerData.addPaymentModeService) {
+    items.push("Add Payment Mode");
+  }
+
+  if (summary) {
+    summary.innerHTML = items.map(item => `<div style="padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">✓ ${item}</div>`).join("") || "Website only";
+  }
+
   document.getElementById("checkoutModal").classList.add("active");
 }
 
@@ -2012,12 +2257,35 @@ function simulatePaymentProcess() {
   document.getElementById("checkoutModal").classList.remove("active");
   const loader = document.getElementById("fastLoader");
   loader.classList.add("active");
+
   setTimeout(() => {
     loader.classList.remove("active");
+
     const desc = document.getElementById("paymentSuccessDesc");
-    desc.innerHTML = `Website <strong>${escapeHtml(restaurantCustomerData.name)}</strong> is activated.${restaurantCustomerData.customDomain ? ` Domain <strong>${escapeHtml(restaurantCustomerData.customDomain)}</strong> registered.` : ''}`;
+    const options = [];
+
+    if (restaurantCustomerData.addDomainService) {
+      options.push(`Domain request: <strong>${escapeHtml(restaurantCustomerData.customDomain)}</strong>`);
+    }
+
+    if (restaurantCustomerData.addPaymentModeService) {
+      options.push("Payment mode setup requested");
+    }
+
+    desc.innerHTML = `
+      Thank you. Payment received for the website.
+      <br><br>
+      Our executive will call you within <strong>10 minutes</strong>. Please wait.
+      ${options.length ? `<br><br>${options.join("<br>")}` : ""}
+    `;
+
     document.getElementById("paymentSuccessModal").classList.add("active");
   }, 700);
+}
+
+const addDomainOptionEl = document.getElementById("addDomainOption");
+if (addDomainOptionEl) {
+  addDomainOptionEl.addEventListener("change", updateDomainRequestField);
 }
 
 /* RENDER CUSTOMER WEBSITE */
@@ -2033,6 +2301,16 @@ function renderRestaurant(data) {
   const address = data.address ? `${data.address}${data.city ? ', ' + data.city : ''}${data.state ? ', ' + data.state : ''}` : "";
   const heroBg = data.heroImg || (isDemo ? restaurantDemoData.heroImg : "");
   const menuCats = (data.menuCategories || []).filter(c => c && c.items && c.items.length > 0);
+
+  const design = data.design || restaurantCustomerData.design || {};
+  const fontMap = {
+    elegant: "'Plus Jakarta Sans', sans-serif",
+    modern: "'Space Grotesk', sans-serif",
+    classic: "'Playfair Display', serif"
+  };
+  mount.style.setProperty("--gold", design.primary || "#f59e0b");
+  mount.style.setProperty("--brand-indigo", design.secondary || "#6366f1");
+  mount.style.setProperty("--font-body", fontMap[design.font] || fontMap.elegant);
 
   let html = "";
 
@@ -2056,14 +2334,15 @@ function renderRestaurant(data) {
           ${selectedFeatures.events && data.events?.length > 0 ? `<li><a href="#events-sec">Events</a></li>` : ''}
           ${selectedFeatures.catering && data.catering?.title ? `<li><a href="#catering-sec">Catering</a></li>` : ''}
           ${selectedFeatures.branches && data.branches?.length > 0 ? `<li><a href="#branches-sec">Branches</a></li>` : ''}
-          ${selectedFeatures.splitBill ? `<li><a href="#split-sec">Split Bill</a></li>` : ''}
           ${(isDemo || selectedFeatures.gallery) && data.galleryImages?.length > 0 ? `<li><a href="#gallery-sec">Gallery</a></li>` : ''}
           ${selectedFeatures.blog && data.blogs?.length > 0 ? `<li><a href="#blog-sec">Blog</a></li>` : ''}
           ${selectedFeatures.press && data.pressMentions?.length > 0 ? `<li><a href="#press-sec">Press</a></li>` : ''}
+          ${selectedFeatures.faq && data.faq?.length > 0 ? `<li><a href="#faq-sec">FAQ</a></li>` : ''}
+          ${selectedFeatures.qrMenu && data.qrMenuUrl ? `<li><a href="#qr-menu-sec">QR Menu</a></li>` : ''}
           ${(isDemo || selectedFeatures.contact || selectedFeatures.location || selectedFeatures.hours) ? `<li><a href="#contact-sec">Contact</a></li>` : ''}
         </ul>
 
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="rest-nav-actions" style="display: flex; align-items: center; gap: 8px;">
           ${selectedFeatures.multilang && (isDemo || data.translations?.te || data.translations?.hi) ? `
             <select onchange="changeWebsiteLanguage(this.value)" style="background: rgba(255,255,255,0.06); color: #fff; border: 1px solid var(--border-subtle); padding: 5px 8px; border-radius: 4px; font-size: 0.75rem;">
               <option value="en"${currentLang==='en'?' selected':''}>English</option>
@@ -2098,6 +2377,25 @@ function renderRestaurant(data) {
 
           ${isDemo ? `<button class="btn-gold" onclick="openBuyModal()" style="padding: 8px 18px; font-size: 0.8rem;">Buy This Website</button>` : ''}
         </div>
+
+        <button type="button" class="rest-mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" onclick="toggleRestaurantMobileMenu(this)">☰</button>
+      </div>
+
+      <div class="container rest-mobile-menu" id="restMobileMenu">
+        ${((isDemo || selectedFeatures.about) && data.about) ? `<a href="#about-sec" onclick="closeRestaurantMobileMenu()">About</a>` : ''}
+        ${((isDemo || selectedFeatures.menu) && menuCats.length > 0) ? `<a href="#menu-sec" onclick="closeRestaurantMobileMenu()">Menu</a>` : ''}
+        ${selectedFeatures.dailySpecials && data.dailySpecial?.title ? `<a href="#daily-sec" onclick="closeRestaurantMobileMenu()">Special</a>` : ''}
+        ${selectedFeatures.chefs && data.chefs?.length > 0 ? `<a href="#chefs-sec" onclick="closeRestaurantMobileMenu()">Chefs</a>` : ''}
+        ${selectedFeatures.events && data.events?.length > 0 ? `<a href="#events-sec" onclick="closeRestaurantMobileMenu()">Events</a>` : ''}
+        ${selectedFeatures.catering && data.catering?.title ? `<a href="#catering-sec" onclick="closeRestaurantMobileMenu()">Catering</a>` : ''}
+        ${selectedFeatures.branches && data.branches?.length > 0 ? `<a href="#branches-sec" onclick="closeRestaurantMobileMenu()">Branches</a>` : ''}
+        ${(isDemo || selectedFeatures.gallery) && data.galleryImages?.length > 0 ? `<a href="#gallery-sec" onclick="closeRestaurantMobileMenu()">Gallery</a>` : ''}
+        ${selectedFeatures.testimonials ? `<a href="#testi-sec" onclick="closeRestaurantMobileMenu()">Reviews & Feedback</a>` : ''}
+        ${selectedFeatures.blog && data.blogs?.length > 0 ? `<a href="#blog-sec" onclick="closeRestaurantMobileMenu()">Blog</a>` : ''}
+        ${selectedFeatures.press && data.pressMentions?.length > 0 ? `<a href="#press-sec" onclick="closeRestaurantMobileMenu()">Press</a>` : ''}
+        ${selectedFeatures.faq && data.faq?.length > 0 ? `<a href="#faq-sec" onclick="closeRestaurantMobileMenu()">FAQ</a>` : ''}
+        ${selectedFeatures.qrMenu && data.qrMenuUrl ? `<a href="#qr-menu-sec" onclick="closeRestaurantMobileMenu()">QR Menu</a>` : ''}
+        ${(isDemo || selectedFeatures.contact || selectedFeatures.location || selectedFeatures.hours) ? `<a href="#contact-sec" onclick="closeRestaurantMobileMenu()">Contact</a>` : ''}
       </div>
     </nav>
   `;
@@ -2308,54 +2606,56 @@ function renderRestaurant(data) {
     `;
   }
 
-  // Split Bill
-  if (selectedFeatures.splitBill) {
-    html += `
-      <section class="rest-section" id="split-sec" style="background: #0b0e17; padding: 60px 0;">
-        <div class="container">
-          <div class="section-head" style="margin-bottom: 24px;">
-            <span class="section-eyebrow">Dine Together</span>
-            <h2 class="section-title" style="font-size: 2rem;">Split Bill Calculator</h2>
-          </div>
-          <div class="split-bill-box">
-            <div class="form-row" style="margin-bottom: 12px;">
-              <div>
-                <label class="form-label">Total Bill Amount (₹)</label>
-                <input type="number" id="splitTotalAmount" class="form-input" placeholder="e.g. 2400" oninput="calculateSplitBill()" />
-              </div>
-              <div>
-                <label class="form-label">Number of People</label>
-                <input type="number" id="splitPeopleCount" class="form-input" value="2" min="1" oninput="calculateSplitBill()" />
-              </div>
-            </div>
-            <div style="background: rgba(255,255,255,0.03); padding: 14px; border-radius: 8px; text-align: center; border: 1px solid var(--border-subtle);">
-              <span style="font-size: 0.8rem; color: #aaa;">Per Person Share</span>
-              <div id="splitResultAmount" style="font-size: 1.8rem; font-weight: 700; color: var(--gold);">₹0</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    `;
-  }
 
-  // Testimonials
-  if (selectedFeatures.testimonials && data.testimonials?.length > 0) {
+  // Customer Reviews & Feedback
+  if (selectedFeatures.testimonials) {
+    const publishedReviews = [...(data.testimonials || []), ...(liveCustomerReviews || [])];
     html += `
       <section class="rest-section" id="testi-sec">
         <div class="container">
           <div class="section-head">
-            <span class="section-eyebrow">Patron Love</span>
-            <h2 class="section-title">Guest Reviews</h2>
+            <span class="section-eyebrow">Customer Voice</span>
+            <h2 class="section-title">Customer Reviews & Feedback</h2>
+            <p style="color:#aaa; margin-top:8px;">Rate your experience and share your feedback with us.</p>
           </div>
-          <div class="testi-grid">
-            ${data.testimonials.map(t => `
-              <div class="testi-card">
-                <div style="color: var(--gold); margin-bottom: 8px;">${"★".repeat(t.rating || 5)}</div>
-                <p style="font-style: italic; color: #ddd; margin-bottom: 12px; font-size: 0.95rem;">"${escapeHtml(t.quote)}"</p>
-                <div style="font-weight: 700; color: #fff;">${escapeHtml(t.author)}</div>
-                ${t.role ? `<div style="font-size: 0.75rem; color: #888;">${escapeHtml(t.role)}</div>` : ''}
+
+          ${publishedReviews.length > 0 ? `
+            <div class="testi-grid" style="margin-bottom: 30px;">
+              ${publishedReviews.map(t => `
+                <div class="testi-card">
+                  <div style="color: var(--gold); margin-bottom: 8px;">${"★".repeat(Number(t.rating || 5))}${"☆".repeat(Math.max(0, 5 - Number(t.rating || 5)))}</div>
+                  ${t.photo ? `<img src="${escapeHtml(t.photo)}" alt="${escapeHtml(t.author || "Customer")}" style="width:46px;height:46px;border-radius:50%;object-fit:cover;margin-bottom:10px;" />` : ''}
+                  <p style="font-style: italic; color: #ddd; margin-bottom: 12px; font-size: 0.95rem;">"${escapeHtml(t.quote)}"</p>
+                  <div style="font-weight: 700; color: #fff;">${escapeHtml(t.author || "Customer")}</div>
+                </div>
+              `).join("")}
+            </div>
+          ` : ''}
+
+          <div style="max-width:720px; margin:0 auto; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:24px;">
+            <h3 style="font-size:1.15rem; color:#fff; margin-bottom:6px;">Share Your Experience</h3>
+            <p style="font-size:0.82rem; color:#999; margin-bottom:16px;">Your review will be submitted for owner approval before it is published.</p>
+            <form onsubmit="handleCustomerReviewSubmit(event)">
+              <div class="form-group">
+                <label class="form-label">Rating <span class="req">*</span></label>
+                <select id="review_rating" class="form-select" required>
+                  <option value="5">★★★★★ — Excellent</option>
+                  <option value="4">★★★★☆ — Very Good</option>
+                  <option value="3">★★★☆☆ — Good</option>
+                  <option value="2">★★☆☆☆ — Fair</option>
+                  <option value="1">★☆☆☆☆ — Poor</option>
+                </select>
               </div>
-            `).join("")}
+              <div class="form-group">
+                <label class="form-label">Your Message <span class="req">*</span></label>
+                <textarea id="review_message" class="form-textarea" rows="4" placeholder="Tell us about your experience..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Name <span style="color:#64748b; font-weight:500;">(Optional)</span></label>
+                <input type="text" id="review_name" class="form-input" placeholder="Your Name" />
+              </div>
+              <button type="submit" class="btn-gold" style="width:100%; justify-content:center; padding:12px;">Submit Review &rarr;</button>
+            </form>
           </div>
         </div>
       </section>
@@ -2405,25 +2705,6 @@ function renderRestaurant(data) {
     `;
   }
 
-  // Live Kitchen / CCTV
-  if (selectedFeatures.cctv) {
-    html += `
-      <section class="rest-section" id="cctv-sec" style="background: #090c13;">
-        <div class="container" style="max-width: 800px; text-align: center;">
-          <span class="section-eyebrow">Hygiene & Transparency</span>
-          <h2 class="section-title" style="margin-bottom: 12px;">Live Kitchen Hygiene Feed</h2>
-          <div style="background: #000; border: 2px solid var(--border-subtle); border-radius: var(--radius-md); height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
-            <div style="position: absolute; top: 12px; left: 16px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: #ff4d4f; font-weight: 700;">
-              <span style="width: 8px; height: 8px; background: #ff4d4f; border-radius: 50%;"></span> LIVE STREAM BROADCAST
-            </div>
-            <div style="font-size: 2.2rem; margin-bottom: 6px;">📹</div>
-            <div style="font-weight: 700; color: #fff;">100% Stainless Steel Sanitized Kitchen</div>
-            <p style="color: #888; font-size: 0.85rem; max-width: 440px; margin-top: 6px;">${escapeHtml(data.cctvNote || "Every meal is prepared under hospital-grade UV sterilization and pristine chef hygiene.")}</p>
-          </div>
-        </div>
-      </section>
-    `;
-  }
 
   // Careers
   if (selectedFeatures.careers && data.careers?.length > 0) {
@@ -2528,35 +2809,6 @@ function renderRestaurant(data) {
     `;
   }
 
-  // Feedback
-  if (selectedFeatures.feedback) {
-    html += `
-      <section class="rest-section" id="feedback-sec" style="background: #0b0e17;">
-        <div class="container" style="max-width: 680px;">
-          <div class="section-head" style="margin-bottom: 24px;">
-            <span class="section-eyebrow">Your Experience Matters</span>
-            <h2 class="section-title" style="font-size: 1.9rem;">${escapeHtml(data.feedbackPrompt || 'Guest Feedback & Suggestion Box')}</h2>
-          </div>
-          <form onsubmit="handleFeedbackSubmit(event)" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 22px; border-radius: var(--radius-md);">
-            <div class="form-row">
-              <div class="form-group"><input type="text" id="fb_name" class="form-input" placeholder="Your Name" required /></div>
-              <div class="form-group"><input type="tel" id="fb_phone" class="form-input" placeholder="Phone or Email" required /></div>
-            </div>
-            <div class="form-group">
-              <select id="fb_rating" class="form-select">
-                <option value="5">⭐⭐⭐⭐⭐ Excellent (5 Stars)</option>
-                <option value="4">⭐⭐⭐⭐ Good (4 Stars)</option>
-                <option value="3">⭐⭐⭐ Average (3 Stars)</option>
-                <option value="2">⭐⭐ Need Improvement (2 Stars)</option>
-              </select>
-            </div>
-            <div class="form-group"><textarea id="fb_comment" class="form-textarea" rows="2" placeholder="Tell us how we can make your dining experience even better..." required></textarea></div>
-            <button type="submit" class="btn-outline-gold" style="width: 100%; justify-content: center;">Submit Anonymous / Direct Feedback &rarr;</button>
-          </form>
-        </div>
-      </section>
-    `;
-  }
 
   // Newsletter
   if (selectedFeatures.newsletter && (isDemo || data.newsletter?.title || data.newsletter?.desc)) {
@@ -2635,8 +2887,8 @@ function renderRestaurant(data) {
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">Email Address <span class="req">*</span></label>
-                    <input type="email" id="cf_email" class="form-input" placeholder="your@email.com" required />
+                    <label class="form-label">Email Address <span style="color:#64748b; font-weight:500;">(Optional)</span></label>
+                    <input type="email" id="cf_email" class="form-input" placeholder="your@email.com" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Phone Number <span class="req">*</span></label>
@@ -2651,6 +2903,105 @@ function renderRestaurant(data) {
               </form>
             </div>
           </div>
+        </div>
+      </section>
+    `;
+  }
+
+
+  // Delivery / Pickup
+  if (selectedFeatures.deliveryPickup && (data.delivery?.mode || data.delivery?.note)) {
+    const deliveryText =
+      data.delivery?.mode === "delivery"
+        ? "Delivery Available"
+        : data.delivery?.mode === "pickup"
+          ? "Pickup Available"
+          : "Delivery + Pickup Available";
+
+    html += `
+      <section class="rest-section" id="delivery-sec" style="padding: 34px 0; background: rgba(245,158,11,0.05);">
+        <div class="container" style="text-align:center;">
+          <span class="section-eyebrow">Ordering Options</span>
+          <h2 class="section-title" style="font-size:1.7rem;">${escapeHtml(deliveryText)}</h2>
+          ${data.delivery?.note ? `<p style="color:#aaa; margin-top:8px;">${escapeHtml(data.delivery.note)}</p>` : ""}
+        </div>
+      </section>
+    `;
+  }
+
+  // WhatsApp Ordering
+  if (selectedFeatures.whatsappOrder && (data.whatsappOrder?.number || data.whatsapp)) {
+    const waNumber = cleanPhone(data.whatsappOrder?.number || data.whatsapp || "");
+    const waText = encodeURIComponent(data.whatsappOrder?.note || "Hi, I want to place an order.");
+
+    if (waNumber) {
+      html += `
+        <section class="rest-section" id="whatsapp-order-sec" style="padding: 34px 0;">
+          <div class="container" style="text-align:center;">
+            <span class="section-eyebrow">Quick Order</span>
+            <h2 class="section-title" style="font-size:1.7rem;">Order on WhatsApp</h2>
+            <a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" class="btn-gold" style="margin-top:14px;">Order on WhatsApp &rarr;</a>
+          </div>
+        </section>
+      `;
+    }
+  }
+
+  // QR Menu
+  if (selectedFeatures.qrMenu && data.qrMenuUrl) {
+    const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(data.qrMenuUrl)}`;
+
+    html += `
+      <section class="rest-section" id="qr-menu-sec" style="background:#090c13;">
+        <div class="container" style="text-align:center;">
+          <span class="section-eyebrow">Scan & Browse</span>
+          <h2 class="section-title" style="font-size:1.8rem;">Scan for Menu</h2>
+          <img src="${qrSrc}" alt="QR Menu" style="width:220px;height:220px;margin:20px auto;border-radius:12px;background:#fff;padding:10px;">
+          <p style="color:#aaa;font-size:0.82rem;">Scan this QR code to open the digital menu.</p>
+        </div>
+      </section>
+    `;
+  }
+
+  // FAQ
+  if (selectedFeatures.faq && data.faq?.length > 0) {
+    html += `
+      <section class="rest-section" id="faq-sec">
+        <div class="container" style="max-width:760px;">
+          <div class="section-head">
+            <span class="section-eyebrow">Help</span>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+          </div>
+          ${data.faq.map((item, idx) => `
+            <details style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:12px;padding:14px 16px;margin-bottom:10px;">
+              <summary style="font-weight:700;cursor:pointer;color:#fff;">${escapeHtml(item.question || `Question ${idx+1}`)}</summary>
+              <p style="margin-top:10px;color:#aaa;font-size:.9rem;line-height:1.6;">${escapeHtml(item.answer || "")}</p>
+            </details>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  // Privacy Policy
+  if (selectedFeatures.privacy && data.privacy) {
+    html += `
+      <section class="rest-section" id="privacy-sec" style="background:#090c13;">
+        <div class="container" style="max-width:860px;">
+          <div class="section-head"><span class="section-eyebrow">Legal</span><h2 class="section-title">Privacy Policy</h2></div>
+          <div class="info-box-3d" style="white-space:pre-wrap;color:#bbb;">${escapeHtml(data.privacy)}</div>
+        </div>
+      </section>
+    `;
+  }
+
+  // Terms & Conditions
+  if (selectedFeatures.terms && data.terms) {
+    html += `
+      <section class="rest-section" id="terms-sec">
+        <div class="container" style="max-width:860px;">
+          <div class="section-head"><span class="section-eyebrow">Legal</span><h2 class="section-title">Terms & Conditions</h2></div>
+          <div class="info-box-3d" style="white-space:pre-wrap;color:#bbb;">${escapeHtml(data.terms)}</div>
         </div>
       </section>
     `;
@@ -2692,7 +3043,7 @@ function renderRestaurant(data) {
         <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 6px;">Your modular website is compiled.</h3>
         <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">Proceed to configure domain options and complete download.</p>
         <button class="btn-gold" onclick="promptDomainChoice()" style="padding: 12px 32px; font-size: 0.95rem;">
-          Proceed to Domain & Download &rarr;
+          Pay & Download &rarr;
         </button>
       </div>
     `;
@@ -2787,6 +3138,7 @@ function renderAllModularModals(data) {
           ${selectedFeatures.staffMgmt ? `<button class="vp-btn" id="adm_tab_staff" onclick="switchAdminTab('staff')">Staff</button>` : ''}
           ${selectedFeatures.inventory ? `<button class="vp-btn" id="adm_tab_inventory" onclick="switchAdminTab('inventory')">Inventory</button>` : ''}
           ${selectedFeatures.analytics ? `<button class="vp-btn" id="adm_tab_analytics" onclick="switchAdminTab('analytics')">Analytics</button>` : ''}
+          ${selectedFeatures.testimonials ? `<button class="vp-btn" id="adm_tab_reviews" onclick="switchAdminTab('reviews')">Reviews</button>` : ''}
         </div>
         <div id="adminTabContentBox" style="min-height: 180px;"></div>
       </div>
@@ -2973,13 +3325,6 @@ function trackOrderSim() {
   showToast(`Tracking status refreshed for ${code}: Food being dispatched!`);
 }
 
-function calculateSplitBill() {
-  const amt = parseFloat(document.getElementById("splitTotalAmount")?.value) || 0;
-  const people = parseInt(document.getElementById("splitPeopleCount")?.value) || 1;
-  const perHead = people > 0 ? (amt / people).toFixed(0) : 0;
-  const resEl = document.getElementById("splitResultAmount");
-  if (resEl) resEl.textContent = `₹${perHead}`;
-}
 
 function changeWebsiteLanguage(lang) {
   currentLang = lang;
@@ -2998,6 +3343,49 @@ function handleAuthSubmit(event) {
   const id = document.getElementById("auth_identifier")?.value || "";
   alert(`Welcome back, ${id}! You are signed in.`);
   closeAuthModal();
+}
+
+function handleCustomerReviewSubmit(event) {
+  event.preventDefault();
+  const rating = parseInt(document.getElementById("review_rating")?.value || "5", 10);
+  const message = document.getElementById("review_message")?.value.trim() || "";
+  const name = document.getElementById("review_name")?.value.trim() || "";
+
+  if (!message) {
+    alert("Please enter your feedback message.");
+    return;
+  }
+
+  liveCustomerReviews.push({
+    author: name,
+    quote: message,
+    rating,
+    photo: "",
+    pending: true
+  });
+
+  alert("Thank you! Your review has been submitted for approval.");
+  renderRestaurant(restaurantCustomerData.name ? restaurantCustomerData : restaurantDemoData);
+}
+
+function toggleRestaurantMobileMenu(button) {
+  const menu = document.getElementById("restMobileMenu");
+  if (!menu) return;
+  const open = menu.classList.toggle("open");
+  if (button) {
+    button.setAttribute("aria-expanded", open ? "true" : "false");
+    button.textContent = open ? "✕" : "☰";
+  }
+}
+
+function closeRestaurantMobileMenu() {
+  const menu = document.getElementById("restMobileMenu");
+  const button = document.querySelector(".rest-mobile-menu-btn");
+  if (menu) menu.classList.remove("open");
+  if (button) {
+    button.setAttribute("aria-expanded", "false");
+    button.textContent = "☰";
+  }
 }
 
 function handleTableBookingSubmit(event) {
@@ -3022,11 +3410,6 @@ function handleNewsletterSubmit(event) {
   event.target.reset();
 }
 
-function handleFeedbackSubmit(event) {
-  event.preventDefault();
-  alert("Thank you for your valuable feedback! Our management team reviews all suggestions.");
-  event.target.reset();
-}
 
 function handleFranchiseSubmit(event) {
   event.preventDefault();
@@ -3050,14 +3433,43 @@ function handleCareerApplySubmit(event) {
 
 function openAdminPortalModal() {
   document.getElementById("adminPortalModal")?.classList.add("active");
-  const firstTab = selectedFeatures.orderDash ? 'orders' : (selectedFeatures.bookingDash ? 'bookings' : (selectedFeatures.staffMgmt ? 'staff' : (selectedFeatures.inventory ? 'inventory' : 'analytics')));
+  const firstTab = selectedFeatures.testimonials ? 'reviews' : selectedFeatures.orderDash ? 'orders' : selectedFeatures.bookingDash ? 'bookings' : selectedFeatures.staffMgmt ? 'staff' : selectedFeatures.inventory ? 'inventory' : 'analytics';
   switchAdminTab(firstTab);
 }
 function closeAdminPortalModal() {
   document.getElementById("adminPortalModal")?.classList.remove("active");
 }
+function approveLiveReview(index) {
+  const review = liveCustomerReviews[index];
+  if (!review) return;
+  restaurantCustomerData.testimonials.push({ ...review, pending: false });
+  liveCustomerReviews.splice(index, 1);
+  renderRestaurant(restaurantCustomerData.name ? restaurantCustomerData : restaurantDemoData);
+  if (document.getElementById("adminPortalModal")?.classList.contains("active")) {
+    switchAdminTab('reviews');
+  }
+}
+
+function editLiveReview(index) {
+  const review = liveCustomerReviews[index];
+  if (!review) return;
+  const newMessage = prompt("Edit review message:", review.quote);
+  if (newMessage === null) return;
+  const newName = prompt("Edit customer name (optional):", review.author || "");
+  const newRating = prompt("Edit rating (1-5):", String(review.rating || 5));
+  review.quote = newMessage.trim() || review.quote;
+  review.author = (newName || "").trim();
+  review.rating = Math.min(5, Math.max(1, parseInt(newRating, 10) || 5));
+  switchAdminTab('reviews');
+}
+
+function deleteLiveReview(index) {
+  liveCustomerReviews.splice(index, 1);
+  switchAdminTab('reviews');
+}
+
 function switchAdminTab(tabName) {
-  ['orders', 'bookings', 'staff', 'inventory', 'analytics'].forEach(t => {
+  ['orders', 'bookings', 'staff', 'inventory', 'analytics', 'reviews'].forEach(t => {
     document.getElementById(`adm_tab_${t}`)?.classList.remove('active');
   });
   document.getElementById(`adm_tab_${tabName}`)?.classList.add('active');
@@ -3104,6 +3516,33 @@ function switchAdminTab(tabName) {
       <div style="font-size: 0.85rem; color: #fff; font-weight: 700; margin-bottom: 8px;">Analytics Reporting</div>
       <p style="color: #aaa; font-size: 0.8rem;">Real-time visitor counts, popular menu item CTR, and reservation conversion tracking.</p>
     `;
+  } else if (tabName === 'reviews') {
+    const pending = (liveCustomerReviews || []).filter(r => r.pending);
+    const published = restaurantCustomerData.testimonials || [];
+    box.innerHTML = `
+      <div style="font-size:0.9rem; color:#fff; font-weight:700; margin-bottom:10px;">Review Management</div>
+      <p style="color:#999; font-size:0.78rem; margin-bottom:12px;">Approve, edit, or remove customer-submitted reviews. This preview keeps submissions in current-page memory.</p>
+      ${pending.length ? pending.map((r, idx) => `
+        <div class="review-admin-card" style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:12px; border-radius:8px; margin-bottom:8px;">
+          <div style="color:var(--gold); margin-bottom:5px;">${"★".repeat(Number(r.rating||5))}${"☆".repeat(Math.max(0,5-Number(r.rating||5)))}</div>
+          <div style="font-size:0.82rem; color:#fff; margin-bottom:5px;">${escapeHtml(r.quote)}</div>
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px;">${escapeHtml(r.author || 'Customer')}</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn-gold" style="padding:6px 10px; font-size:0.72rem;" onclick="approveLiveReview(${idx})">Approve</button>
+            <button class="btn-outline-gold" style="padding:6px 10px; font-size:0.72rem;" onclick="editLiveReview(${idx})">Edit</button>
+            <button class="btn-delete" onclick="deleteLiveReview(${idx})">Delete</button>
+          </div>
+        </div>
+      `).join('') : `<div style="color:#777; font-size:0.8rem; margin-bottom:12px;">No pending customer reviews.</div>`}
+      <div style="font-size:0.8rem; color:#fff; font-weight:700; margin:14px 0 8px;">Published Reviews</div>
+      ${published.length ? published.map((r,i) => `
+        <div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div style="color:var(--gold);">${"★".repeat(Number(r.rating||5))}</div>
+          <div style="font-size:0.78rem; color:#ddd;">${escapeHtml(r.quote)}</div>
+          <button class="btn-delete" style="margin-top:5px;" onclick="restaurantCustomerData.testimonials.splice(${i},1); renderTestimonialBuilderList(); switchAdminTab('reviews');">Delete</button>
+        </div>
+      `).join('') : `<div style="color:#777; font-size:0.8rem;">No published reviews yet.</div>`}
+    `;
   }
 }
 
@@ -3114,6 +3553,12 @@ function executeWebsiteDownload() {
 
   const customerHtml = clonedMount.innerHTML;
   const faviconTag = restaurantCustomerData.favicon ? `<link rel="icon" href="${escapeHtml(restaurantCustomerData.favicon)}">` : '';
+  const seoTitleTag = restaurantCustomerData.seo?.title
+    ? `<title>${escapeHtml(restaurantCustomerData.seo.title)}</title>`
+    : `<title>${escapeHtml(restaurantCustomerData.name || "Restaurant")}</title>`;
+  const seoDescriptionTag = restaurantCustomerData.seo?.description
+    ? `<meta name="description" content="${escapeHtml(restaurantCustomerData.seo.description)}">`
+    : '';
 
   const standaloneCustomerDataJson = JSON.stringify({
     name: restaurantCustomerData.name,
@@ -3121,6 +3566,14 @@ function executeWebsiteDownload() {
     phone: restaurantCustomerData.phone,
     coupon: restaurantCustomerData.coupon,
     translations: restaurantCustomerData.translations,
+    delivery: restaurantCustomerData.delivery,
+    whatsappOrder: restaurantCustomerData.whatsappOrder,
+    qrMenuUrl: restaurantCustomerData.qrMenuUrl,
+    faq: restaurantCustomerData.faq,
+    seo: restaurantCustomerData.seo,
+    privacy: restaurantCustomerData.privacy,
+    terms: restaurantCustomerData.terms,
+    design: restaurantCustomerData.design,
     staff: restaurantCustomerData.staff,
     inventory: restaurantCustomerData.inventory,
     selectedFeatures: selectedFeatures
@@ -3309,6 +3762,73 @@ function executeWebsiteDownload() {
           if (resEl) resEl.textContent = "₹" + perHead;
         }
 
+        function toggleRestaurantMobileMenu(button) {
+          const menu = document.getElementById("restMobileMenu");
+          if (!menu) return;
+          const open = menu.classList.toggle("open");
+          if (button) { button.setAttribute("aria-expanded", open ? "true" : "false"); button.textContent = open ? "✕" : "☰"; }
+        }
+        function closeRestaurantMobileMenu() {
+          const menu = document.getElementById("restMobileMenu");
+          const button = document.querySelector(".rest-mobile-menu-btn");
+          if (menu) menu.classList.remove("open");
+          if (button) { button.setAttribute("aria-expanded", "false"); button.textContent = "☰"; }
+        }
+
+        function handleCustomerReviewSubmit(e) {
+          e.preventDefault();
+          const rating = parseInt(document.getElementById("review_rating")?.value || "5", 10);
+          const message = document.getElementById("review_message")?.value.trim() || "";
+          const name = document.getElementById("review_name")?.value.trim() || "";
+          if (!message) { alert("Please enter your feedback message."); return; }
+          const key = "review_submissions_" + (standaloneData.name || "restaurant").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          let items = [];
+          try { items = JSON.parse(localStorage.getItem(key) || "[]"); } catch {}
+          items.push({ author:name, quote:message, rating:rating, pending:true });
+          try { localStorage.setItem(key, JSON.stringify(items)); } catch {}
+          alert("Thank you! Your review has been submitted for approval.");
+          e.target.reset();
+        }
+
+        function getStandaloneReviewKey() {
+          return "review_submissions_" + (standaloneData.name || "restaurant").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        }
+        function approveStandaloneReview(index) {
+          const key = getStandaloneReviewKey();
+          let pending = [];
+          try { pending = JSON.parse(localStorage.getItem(key) || "[]"); } catch {}
+          const review = pending[index];
+          if (!review) return;
+          pending.splice(index, 1);
+          try { localStorage.setItem(key, JSON.stringify(pending)); } catch {}
+          alert("Review approved. Refresh the page to display it in the published review list.");
+          switchAdminTab('reviews');
+        }
+        function editStandaloneReview(index) {
+          const key = getStandaloneReviewKey();
+          let pending = [];
+          try { pending = JSON.parse(localStorage.getItem(key) || "[]"); } catch {}
+          const review = pending[index];
+          if (!review) return;
+          const message = prompt("Edit review message:", review.quote);
+          if (message === null) return;
+          const name = prompt("Edit customer name (optional):", review.author || "");
+          const rating = prompt("Edit rating (1-5):", String(review.rating || 5));
+          review.quote = message.trim() || review.quote;
+          review.author = (name || "").trim();
+          review.rating = Math.min(5, Math.max(1, parseInt(rating, 10) || 5));
+          try { localStorage.setItem(key, JSON.stringify(pending)); } catch {}
+          switchAdminTab('reviews');
+        }
+        function deleteStandaloneReview(index) {
+          const key = getStandaloneReviewKey();
+          let pending = [];
+          try { pending = JSON.parse(localStorage.getItem(key) || "[]"); } catch {}
+          pending.splice(index, 1);
+          try { localStorage.setItem(key, JSON.stringify(pending)); } catch {}
+          switchAdminTab('reviews');
+        }
+
         function changeWebsiteLanguage(lang) {
           currentLang = lang;
           const taglineEl = document.querySelector(".rest-tagline");
@@ -3355,11 +3875,6 @@ function executeWebsiteDownload() {
           e.target.reset();
         }
 
-        function handleFeedbackSubmit(e) {
-          e.preventDefault();
-          alert("Thank you for your valuable feedback! Our team reviews all suggestions.");
-          e.target.reset();
-        }
 
         function handleFranchiseSubmit(e) {
           e.preventDefault();
@@ -3384,14 +3899,14 @@ function executeWebsiteDownload() {
         function openAdminPortalModal() {
           document.getElementById("adminPortalModal")?.classList.add("active");
           const sel = standaloneData.selectedFeatures || {};
-          const firstTab = sel.orderDash ? "orders" : (sel.bookingDash ? "bookings" : (sel.staffMgmt ? "staff" : (sel.inventory ? "inventory" : "analytics")));
+          const firstTab = sel.testimonials ? "reviews" : (sel.orderDash ? "orders" : (sel.bookingDash ? "bookings" : (sel.staffMgmt ? "staff" : (sel.inventory ? "inventory" : "analytics"))));
           switchAdminTab(firstTab);
         }
         function closeAdminPortalModal() {
           document.getElementById("adminPortalModal")?.classList.remove("active");
         }
         function switchAdminTab(tabName) {
-          ["orders", "bookings", "staff", "inventory", "analytics"].forEach(t => {
+          ["orders", "bookings", "staff", "inventory", "analytics", "reviews"].forEach(t => {
             document.getElementById("adm_tab_" + t)?.classList.remove("active");
           });
           document.getElementById("adm_tab_" + tabName)?.classList.add("active");
@@ -3424,6 +3939,27 @@ function executeWebsiteDownload() {
               ).join("") : '<div style="color: #888; font-size: 0.8rem;">No inventory tracked items added.</div>');
           } else if (tabName === "analytics") {
             box.innerHTML = '<div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 6px;"><strong style="color:#fff;">Analytics Reporting</strong><p style="color:#aaa; font-size:0.8rem; margin-top:4px;">Real-time visitor counts, popular menu item CTR, and reservation conversion tracking.</p></div>';
+          } else if (tabName === "reviews") {
+            const key = "review_submissions_" + (standaloneData.name || "restaurant").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+            let pending = [];
+            try { pending = JSON.parse(localStorage.getItem(key) || "[]"); } catch {}
+            const published = standaloneData.testimonials || [];
+            box.innerHTML = '<div style="font-size:0.9rem;color:#fff;font-weight:700;margin-bottom:10px;">Review Management</div>' +
+              '<p style="color:#999;font-size:0.78rem;margin-bottom:12px;">Customer submissions saved on this browser are shown here for approval. Production multi-user storage can be connected later.</p>' +
+              (pending.length ? pending.map((r, i) =>
+                '<div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);padding:12px;border-radius:8px;margin-bottom:8px;">' +
+                  '<div style="color:var(--gold);">' + '★'.repeat(Number(r.rating||5)) + '☆'.repeat(Math.max(0,5-Number(r.rating||5))) + '</div>' +
+                  '<div style="font-size:0.82rem;color:#fff;margin:5px 0;">' + escapeHtml(r.quote) + '</div>' +
+                  '<div style="font-size:0.75rem;color:#888;margin-bottom:8px;">' + escapeHtml(r.author || 'Customer') + '</div>' +
+                  '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+                    '<button class="btn-gold" style="padding:6px 10px;font-size:0.72rem;" onclick="approveStandaloneReview(' + i + ')">Approve</button>' +
+                    '<button class="btn-outline-gold" style="padding:6px 10px;font-size:0.72rem;" onclick="editStandaloneReview(' + i + ')">Edit</button>' +
+                    '<button class="btn-delete" onclick="deleteStandaloneReview(' + i + ')">Delete</button>' +
+                  '</div>' +
+                '</div>'
+              ).join('') : '<div style="color:#777;font-size:0.8rem;margin-bottom:12px;">No pending customer reviews.</div>') +
+              '<div style="font-size:0.8rem;color:#fff;font-weight:700;margin:14px 0 8px;">Published Reviews</div>' +
+              (published.length ? published.map(r => '<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><div style="color:var(--gold);">' + '★'.repeat(Number(r.rating||5)) + '</div><div style="font-size:0.78rem;color:#ddd;">' + escapeHtml(r.quote) + '</div><div style="font-size:0.72rem;color:#888;">' + escapeHtml(r.author || 'Customer') + '</div></div>').join('') : '<div style="color:#777;font-size:0.8rem;">No published reviews yet.</div>');
           }
         }
       `;
@@ -3433,7 +3969,8 @@ function executeWebsiteDownload() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(restaurantCustomerData.name || "Restaurant")}</title>
+  ${seoTitleTag}
+  ${seoDescriptionTag}
   ${faviconTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3441,6 +3978,7 @@ function executeWebsiteDownload() {
   <style>
     ${document.querySelector("style").innerHTML}
     .rest-nav { top: 0 !important; }
+    @media (max-width:640px){.rest-nav-inner{height:auto;padding-top:12px;padding-bottom:12px;flex-wrap:wrap;gap:10px}.rest-brand-group{flex:1 1 auto;min-width:0}.rest-links{display:none}.rest-nav-actions{display:none!important}.rest-mobile-menu-btn{display:inline-flex}.rest-name{font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}.rest-tagline{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}.rest-logo-img{max-width:38px;max-height:38px}}
   </style>
 </head>
 <body style="background:#08080a; color:#edecec;">
