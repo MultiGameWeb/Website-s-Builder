@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
     
     <style>
         /* CSS Variables for Easy Customization */
@@ -1799,6 +1800,198 @@
             color: #A3938A;
             font-size: 0.875rem;
         }
+
+
+        /* =========================================================
+           PREMIUM RESTAURANT PREVIEW / EXPORT ENHANCEMENTS
+           ========================================================= */
+        .hero-content { position: relative; }
+        .hero-content h1.hero-3d-title {
+            transform: perspective(900px) rotateX(7deg);
+            transform-origin: center bottom;
+            text-shadow:
+                0 2px 0 rgba(255,255,255,.20),
+                0 7px 0 rgba(0,0,0,.18),
+                0 14px 28px rgba(0,0,0,.36);
+            letter-spacing: .02em;
+            animation: restaurantTitleFloat 4.8s ease-in-out infinite;
+            will-change: transform;
+        }
+        @keyframes restaurantTitleFloat {
+            0%,100% { transform: perspective(900px) rotateX(7deg) translateY(0); }
+            50% { transform: perspective(900px) rotateX(7deg) translateY(-5px); }
+        }
+        .chef-3d-scene {
+            position: absolute;
+            right: 2.5rem;
+            bottom: 1rem;
+            width: 260px;
+            height: 260px;
+            z-index: 2;
+            pointer-events: none;
+            filter: drop-shadow(0 18px 35px rgba(0,0,0,.28));
+            opacity: .96;
+        }
+        .chef-3d-scene canvas { width: 100% !important; height: 100% !important; display:block; }
+        .chef-3d-fallback {
+            width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+            font-size:7rem; filter: drop-shadow(0 12px 20px rgba(0,0,0,.35));
+            animation: chefFallbackFloat 3s ease-in-out infinite;
+        }
+        @keyframes chefFallbackFloat { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-8px)} }
+        @media (max-width: 900px) {
+            .chef-3d-scene { right: .5rem; bottom: .5rem; width: 180px; height: 180px; opacity: .82; }
+        }
+        @media (max-width: 600px) {
+            .hero-content { padding-bottom: 7rem; }
+            .chef-3d-scene { right: 50%; transform: translateX(50%); width: 145px; height: 145px; bottom: .1rem; opacity: .75; }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(34px) scale(.985);
+            transition: opacity .75s ease, transform .75s cubic-bezier(.2,.65,.2,1);
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-content h1.hero-3d-title, .chef-3d-fallback { animation: none !important; }
+            .scroll-reveal { opacity:1; transform:none; transition:none; }
+        }
+
+        /* Real cart */
+        .restaurant-cart-fab {
+            position: fixed;
+            right: 1rem;
+            bottom: 5.4rem;
+            z-index: 1500;
+            min-width: 54px;
+            height: 54px;
+            padding: 0 .95rem;
+            border-radius: 999px;
+            border: 0;
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 12px 28px rgba(0,0,0,.22);
+            cursor: pointer;
+            font-weight: 800;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:.45rem;
+        }
+        .restaurant-cart-count {
+            min-width: 22px;
+            height:22px;
+            padding:0 6px;
+            border-radius:999px;
+            background:#fff;
+            color:var(--primary-color);
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.75rem;
+        }
+        .restaurant-cart-drawer {
+            position: fixed;
+            top:0;
+            right:-430px;
+            width:min(410px, 92vw);
+            height:100vh;
+            z-index:1600;
+            background:#fff;
+            box-shadow:-18px 0 50px rgba(0,0,0,.22);
+            transition:right .3s ease;
+            display:flex;
+            flex-direction:column;
+        }
+        .restaurant-cart-drawer.open { right:0; }
+        .cart-drawer-head { padding:1rem 1.1rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; }
+        .cart-drawer-head h3 { color:var(--primary-dark); font-size:1.35rem; }
+        .cart-close-btn { background:transparent; border:0; font-size:1.5rem; cursor:pointer; color:var(--text-main); }
+        .cart-items-container { flex:1; overflow:auto; padding:1rem; }
+        .cart-empty { text-align:center; padding:3rem 1rem; color:var(--text-muted); }
+        .cart-item-row { display:grid; grid-template-columns:1fr auto; gap:.75rem; padding:.9rem 0; border-bottom:1px solid var(--border-color); }
+        .cart-item-row strong { color:var(--text-main); }
+        .cart-item-meta { color:var(--text-muted); font-size:.85rem; margin-top:.15rem; }
+        .cart-item-actions { display:flex; align-items:center; gap:.35rem; margin-top:.45rem; }
+        .cart-qty-btn { width:30px; height:30px; border:1px solid var(--border-color); border-radius:8px; background:#fff; cursor:pointer; }
+        .cart-remove-btn { border:0; background:transparent; color:var(--primary-color); cursor:pointer; font-size:.8rem; margin-left:.25rem; }
+        .cart-drawer-foot { border-top:1px solid var(--border-color); padding:1rem; }
+        .cart-total-row { display:flex; justify-content:space-between; font-weight:800; margin-bottom:.9rem; }
+        .cart-foot-actions { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+        @media (max-width:600px) {
+            .restaurant-cart-fab { bottom: 5rem; right:.75rem; }
+            .cart-foot-actions { grid-template-columns:1fr; }
+        }
+
+        /* In-site customer chat */
+        .restaurant-chat-widget { position:fixed; right:1rem; bottom:9.4rem; z-index:1490; }
+        .restaurant-chat-fab { width:54px; height:54px; border-radius:50%; border:0; background:var(--accent-color); color:#fff; font-size:1.35rem; cursor:pointer; box-shadow:0 12px 28px rgba(0,0,0,.22); }
+        .restaurant-chat-panel {
+            position:absolute; right:0; bottom:66px; width:min(360px, 92vw); height:480px;
+            background:#fff; border:1px solid var(--border-color); border-radius:18px; overflow:hidden;
+            box-shadow:0 18px 50px rgba(0,0,0,.25); display:none; flex-direction:column;
+        }
+        .restaurant-chat-panel.open { display:flex; }
+        .chat-head { padding:.95rem 1rem; background:var(--primary-dark); color:#fff; display:flex; justify-content:space-between; align-items:center; }
+        .chat-head strong { font-family:var(--font-heading); font-size:1.1rem; }
+        .chat-head button { border:0; background:transparent; color:#fff; font-size:1.2rem; cursor:pointer; }
+        .chat-messages { flex:1; overflow:auto; padding:1rem; background:#fffaf5; }
+        .chat-msg { max-width:82%; padding:.65rem .8rem; margin-bottom:.65rem; border-radius:14px; font-size:.9rem; line-height:1.45; }
+        .chat-msg.customer { margin-left:auto; background:#ffe9cf; border-bottom-right-radius:4px; }
+        .chat-msg.system { margin-right:auto; background:#fff; border:1px solid var(--border-color); border-bottom-left-radius:4px; }
+        .chat-msg small { display:block; margin-top:.2rem; opacity:.55; font-size:.7rem; }
+        .chat-compose { padding:.75rem; border-top:1px solid var(--border-color); background:#fff; }
+        .chat-compose-row { display:grid; grid-template-columns:1fr auto; gap:.5rem; }
+        .chat-input { width:100%; min-height:44px; border:1px solid var(--border-color); border-radius:10px; padding:.7rem .8rem; font-family:var(--font-body); resize:none; }
+        .chat-send-btn { border:0; border-radius:10px; min-width:48px; background:var(--primary-color); color:#fff; cursor:pointer; font-weight:700; }
+        .chat-wa-btn { width:100%; margin-top:.5rem; border:1px solid #25d366; border-radius:10px; background:#fff; color:#138c47; padding:.65rem .8rem; cursor:pointer; font-weight:700; }
+        .chat-note { font-size:.72rem; color:var(--text-muted); margin-top:.4rem; }
+        @media (max-width:600px) { .restaurant-chat-widget { right:.75rem; bottom:12.8rem; } }
+
+        /* Hidden owner admin panel in downloaded site */
+        .owner-admin-modal { display:none; position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,.72); padding:2rem; overflow:auto; }
+        .owner-admin-modal.open { display:block; }
+        .owner-admin-card { max-width:1100px; margin:0 auto; background:#fffaf5; border-radius:18px; box-shadow:0 30px 90px rgba(0,0,0,.4); overflow:hidden; }
+        .owner-admin-head { padding:1rem 1.2rem; background:var(--primary-dark); color:#fff; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+        .owner-admin-head h2 { color:#fff; font-size:1.4rem; }
+        .owner-admin-head button { border:0; background:transparent; color:#fff; font-size:1.4rem; cursor:pointer; }
+        .owner-admin-body { padding:1.2rem; }
+        .owner-admin-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1rem; }
+        .owner-admin-section { background:#fff; border:1px solid var(--border-color); border-radius:14px; padding:1rem; }
+        .owner-admin-section h3 { color:var(--primary-dark); font-size:1.1rem; margin-bottom:.75rem; }
+        .admin-form-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.6rem; }
+        .owner-admin-section label { display:block; font-size:.78rem; font-weight:700; color:var(--text-muted); margin-bottom:.25rem; }
+        .owner-admin-section input,.owner-admin-section textarea,.owner-admin-section select { width:100%; border:1px solid var(--border-color); border-radius:9px; padding:.65rem .7rem; background:#fff; color:var(--text-main); font-family:var(--font-body); }
+        .owner-admin-section textarea { resize:vertical; min-height:76px; }
+        .owner-admin-list { max-height:260px; overflow:auto; border:1px solid var(--border-color); border-radius:10px; margin-bottom:.75rem; }
+        .owner-admin-list-row { display:flex; justify-content:space-between; align-items:center; gap:.6rem; padding:.65rem .7rem; border-bottom:1px solid var(--border-color); }
+        .owner-admin-list-row:last-child { border-bottom:0; }
+        .owner-admin-list-row strong { font-size:.85rem; }
+        .owner-admin-list-row span { display:block; font-size:.72rem; color:var(--text-muted); }
+        .owner-admin-actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
+        .owner-admin-actions button { border:0; border-radius:10px; padding:.75rem 1rem; cursor:pointer; font-weight:800; }
+        .admin-save { background:var(--primary-color); color:#fff; }
+        .admin-export { background:#27ae60; color:#fff; }
+        .admin-neutral { background:#e8ddd2; color:var(--text-main); }
+        .admin-danger { background:#b33939; color:#fff; }
+        .admin-small { padding:.45rem .6rem !important; font-size:.75rem; }
+        .admin-status { margin-top:.75rem; padding:.65rem .75rem; border-radius:9px; background:#eef8f0; color:#176b36; font-size:.82rem; display:none; }
+        .admin-status.show { display:block; }
+        .owner-admin-lock { max-width:420px; margin:8vh auto; background:#fffaf5; border-radius:18px; padding:1.5rem; box-shadow:0 25px 80px rgba(0,0,0,.35); text-align:center; }
+        .owner-admin-lock h2 { color:var(--primary-dark); margin-bottom:.5rem; }
+        .owner-admin-lock p { color:var(--text-muted); font-size:.9rem; margin-bottom:1rem; }
+        .owner-admin-lock input { width:100%; padding:.8rem .9rem; border:1px solid var(--border-color); border-radius:10px; text-align:center; font-size:1.1rem; letter-spacing:.25em; }
+        .owner-admin-lock button { width:100%; margin-top:.7rem; border:0; border-radius:10px; padding:.8rem; background:var(--primary-color); color:#fff; font-weight:800; cursor:pointer; }
+
+        /* Preview page spacing after hiding the builder header */
+        body.preview-only-mode { padding-bottom: 0; }
+        body.preview-only-mode .preview-floating-toolbar { top: 18px; right: 18px; }
+        body.preview-only-mode .mobile-sticky-cta { z-index: 1400; }
+
     </style>
 </head>
 <body>
@@ -2197,7 +2390,7 @@
        WORKFLOW STEP 4: LIVE WEBSITE PREVIEW
        ========================================================= -->
     <section id="step-live-preview" class="builder-step-panel" aria-label="Step 4: Live Preview">
-        <div class="preview-floating-toolbar">
+        <div class="preview-floating-toolbar" style="display:none;">
             <span style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">Live Preview Mode</span>
             <button type="button" class="btn btn-reset btn-sm" onclick="goToStep(3)">Edit Details</button>
             <button type="button" class="btn btn-primary btn-sm" onclick="goToStep(5)">Proceed to Payment</button>
@@ -2215,9 +2408,10 @@
             <!-- Hero Section (#1) -->
             <header id="hero" style="display: flex;">
                 <div class="hero-overlay"></div>
+                <div id="chef-3d-scene" class="chef-3d-scene" aria-hidden="true"></div>
                 <div class="hero-content">
                     <span class="hero-badge" id="hero-badge">Welcome to Our Table</span>
-                    <h1 id="hero-title">{{RESTAURANT_NAME}}</h1>
+                    <h1 id="hero-title" class="hero-3d-title">{{RESTAURANT_NAME}}</h1>
                     <p id="hero-tagline">{{TAGLINE}}</p>
                     <div class="hero-btns" id="hero-btns-container"></div>
                     <div class="contact-actions-bar" id="contact-actions-bar"></div>
@@ -2226,6 +2420,46 @@
 
             <!-- Mobile Sticky CTA Bar -->
             <div class="mobile-sticky-cta" id="mobile-sticky-cta"></div>
+
+
+            <!-- Restaurant Cart -->
+            <button type="button" class="restaurant-cart-fab" id="restaurant-cart-fab" aria-label="Open cart">
+                🛒 <span class="restaurant-cart-count" id="restaurant-cart-count">0</span>
+            </button>
+            <aside class="restaurant-cart-drawer" id="restaurant-cart-drawer" aria-label="Shopping cart">
+                <div class="cart-drawer-head">
+                    <h3>Your Cart</h3>
+                    <button type="button" class="cart-close-btn" id="restaurant-cart-close" aria-label="Close cart">&times;</button>
+                </div>
+                <div class="cart-items-container" id="cart-items-container"></div>
+                <div class="cart-drawer-foot">
+                    <div class="cart-total-row"><span>Total</span><span id="cart-total">$0.00</span></div>
+                    <div class="cart-foot-actions">
+                        <button type="button" class="btn btn-reset" id="cart-clear-btn">Clear Cart</button>
+                        <button type="button" class="btn btn-primary" id="cart-checkout-btn">Checkout</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- In-site Customer Chat -->
+            <div class="restaurant-chat-widget" id="restaurant-chat-widget">
+                <div class="restaurant-chat-panel" id="restaurant-chat-panel">
+                    <div class="chat-head">
+                        <strong>Chat with us</strong>
+                        <button type="button" id="chat-close-btn" aria-label="Close chat">&times;</button>
+                    </div>
+                    <div class="chat-messages" id="chat-messages"></div>
+                    <div class="chat-compose">
+                        <div class="chat-compose-row">
+                            <textarea id="chat-input" class="chat-input" rows="2" placeholder="Type your message..."></textarea>
+                            <button type="button" id="chat-send-btn" class="chat-send-btn">Send</button>
+                        </div>
+                        <button type="button" class="chat-wa-btn" id="chat-wa-btn">Continue in WhatsApp</button>
+                        <div class="chat-note">No account or OTP is required.</div>
+                    </div>
+                </div>
+                <button type="button" class="restaurant-chat-fab" id="chat-fab" aria-label="Open chat">💬</button>
+            </div>
 
             <main>
                 <!-- Featured Dishes Section (#2) -->
@@ -2521,7 +2755,7 @@
                         </div>
                     </div>
                     <div class="footer-bottom">
-                        <p>&copy; 2026 <span id="footer-copy-name">{{RESTAURANT_NAME}}</span>. All rights reserved. Powered by No-Code Restaurant Builder.</p>
+                        <p>&copy; 2026 <span id="footer-copy-name">{{RESTAURANT_NAME}}</span>. All rights reserved.</p>
                     </div>
                 </div>
             </footer>
@@ -2874,27 +3108,31 @@
             else if (stepNumber === 6) targetId = 'step-final-setup';
 
             const targetPanel = document.getElementById(targetId);
-            if (targetPanel) {
-                targetPanel.classList.add('active-step');
+            if (targetPanel) targetPanel.classList.add('active-step');
+
+            const builderNav = document.getElementById('builder-workflow-nav');
+            const previewToolbar = document.querySelector('.preview-floating-toolbar');
+            if (stepNumber === 4) {
+                if (builderNav) builderNav.style.display = 'none';
+                if (previewToolbar) previewToolbar.style.display = 'flex';
+                document.body.classList.add('preview-only-mode');
+            } else {
+                if (builderNav) builderNav.style.display = 'block';
+                if (previewToolbar) previewToolbar.style.display = 'none';
+                document.body.classList.remove('preview-only-mode');
             }
 
             for (let i = 1; i <= 6; i++) {
                 const pill = document.getElementById(`pill-step-${i}`);
                 if (pill) {
                     pill.classList.remove('active', 'completed');
-                    if (i < stepNumber) {
-                        pill.classList.add('completed');
-                    } else if (i === stepNumber) {
-                        pill.classList.add('active');
-                    }
+                    if (i < stepNumber) pill.classList.add('completed');
+                    else if (i === stepNumber) pill.classList.add('active');
                 }
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (stepNumber === 4) {
-                renderLivePreview();
-            }
+            if (stepNumber === 4) renderLivePreview();
         }
 
         function selectTemplateAndProceed(templateName) {
@@ -2926,20 +3164,552 @@
             }
         }
 
+
+        // =========================================================
+        // Restaurant Preview Interactions: Cart, Chat, 3D Chef, Scroll Reveal
+        // =========================================================
+        let previewCart = [];
+        let chef3DInstances = new Map();
+        let scrollRevealObserver = null;
+
+        function moneyValue(value) {
+            const n = Number(String(value || '').replace(/[^0-9.-]/g, ''));
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        function initCartUi(root = document) {
+            const wrapper = root.querySelector ? root.querySelector('#live-preview-wrapper') : null;
+            const scope = wrapper || root;
+            const fab = scope.querySelector ? scope.querySelector('#restaurant-cart-fab') : null;
+            const drawer = scope.querySelector ? scope.querySelector('#restaurant-cart-drawer') : null;
+            if (!fab || !drawer) return;
+            if (!fab.dataset.bound) {
+                fab.dataset.bound = '1';
+                fab.addEventListener('click', () => drawer.classList.add('open'));
+                const closeBtn = scope.querySelector('#restaurant-cart-close');
+                if (closeBtn) closeBtn.addEventListener('click', () => drawer.classList.remove('open'));
+                const clearBtn = scope.querySelector('#cart-clear-btn');
+                if (clearBtn) clearBtn.addEventListener('click', () => { previewCart = []; renderCartUi(scope); });
+                const checkoutBtn = scope.querySelector('#cart-checkout-btn');
+                if (checkoutBtn) checkoutBtn.addEventListener('click', checkoutCart);
+                scope.addEventListener('click', (e) => {
+                    const addBtn = e.target.closest('[data-cart-index]');
+                    if (addBtn) {
+                        const idx = Number(addBtn.getAttribute('data-cart-index'));
+                        if (Number.isInteger(idx) && appState.menuItems[idx]) {
+                            addToCart(idx);
+                            drawer.classList.add('open');
+                        }
+                    }
+                    const qtyBtn = e.target.closest('[data-cart-action]');
+                    if (qtyBtn) {
+                        const idx = Number(qtyBtn.getAttribute('data-cart-index'));
+                        const action = qtyBtn.getAttribute('data-cart-action');
+                        const row = previewCart.find(x => x.index === idx);
+                        if (!row) return;
+                        if (action === 'plus') row.qty += 1;
+                        if (action === 'minus') row.qty -= 1;
+                        if (action === 'remove' || row.qty <= 0) previewCart = previewCart.filter(x => x.index !== idx);
+                        renderCartUi(scope);
+                    }
+                });
+            }
+            renderCartUi(scope);
+        }
+
+        function addToCart(index) {
+            const item = appState.menuItems[index];
+            if (!item) return;
+            const existing = previewCart.find(row => row.index === index);
+            if (existing) existing.qty += 1;
+            else previewCart.push({ index, qty: 1 });
+            renderCartUi(document);
+        }
+
+        function renderCartUi(root = document) {
+            const drawer = root.querySelector ? root.querySelector('#restaurant-cart-drawer') : null;
+            const itemsEl = root.querySelector ? root.querySelector('#cart-items-container') : null;
+            const countEl = root.querySelector ? root.querySelector('#restaurant-cart-count') : null;
+            const totalEl = root.querySelector ? root.querySelector('#cart-total') : null;
+            if (!drawer || !itemsEl || !countEl || !totalEl) return;
+            let total = 0;
+            let count = 0;
+            if (!previewCart.length) {
+                itemsEl.innerHTML = '<div class="cart-empty">Your cart is empty.<br>Choose something delicious from the menu.</div>';
+            } else {
+                itemsEl.innerHTML = previewCart.map(row => {
+                    const item = appState.menuItems[row.index];
+                    if (!item) return '';
+                    const price = moneyValue(item.price);
+                    const line = price * row.qty;
+                    total += line;
+                    count += row.qty;
+                    return `<div class="cart-item-row">
+                        <div><strong>${escapeHTML(item.name)}</strong><div class="cart-item-meta">${escapeHTML(item.price)} × ${row.qty}</div>
+                        <div class="cart-item-actions">
+                            <button type="button" class="cart-qty-btn" data-cart-action="minus" data-cart-index="${row.index}">−</button>
+                            <span>${row.qty}</span>
+                            <button type="button" class="cart-qty-btn" data-cart-action="plus" data-cart-index="${row.index}">+</button>
+                            <button type="button" class="cart-remove-btn" data-cart-action="remove" data-cart-index="${row.index}">Remove</button>
+                        </div></div>
+                        <strong>${line.toFixed(2)}</strong>
+                    </div>`;
+                }).join('');
+            }
+            countEl.textContent = String(count);
+            const symbol = (appState.menuItems[0]?.price || '').trim().match(/^[^0-9\s]+/)?.[0] || '$';
+            totalEl.textContent = `${symbol}${total.toFixed(2)}`;
+        }
+
+        function checkoutCart() {
+            if (!previewCart.length) { alert('Your cart is empty.'); return; }
+            const lines = previewCart.map(row => {
+                const item = appState.menuItems[row.index];
+                return item ? `${item.name} × ${row.qty}` : '';
+            }).filter(Boolean);
+            const total = previewCart.reduce((sum, row) => sum + moneyValue(appState.menuItems[row.index]?.price) * row.qty, 0);
+            const orderText = `Hello ${appState.name}, I would like to order:\n${lines.join('\n')}\nTotal: ${total.toFixed(2)}`;
+            const wa = normalizeWhatsAppNumber(appState.whatsappNumber);
+            if (wa) {
+                window.open(`https://wa.me/${wa}?text=${encodeURIComponent(orderText)}`, '_blank', 'noopener,noreferrer');
+                return;
+            }
+            const safeOrderUrl = sanitizeUrl(appState.onlineOrderingUrl);
+            if (safeOrderUrl) {
+                window.open(safeOrderUrl, '_blank', 'noopener,noreferrer');
+                return;
+            }
+            alert(orderText);
+        }
+
+        function getChatStorageKey() { return `restaurant-chat-${slugify(appState.name || 'restaurant')}`; }
+        function slugify(v) { return String(v || 'restaurant').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'restaurant'; }
+        function loadChatMessages(storage = true) {
+            try {
+                const key = getChatStorageKey();
+                const saved = storage ? localStorage.getItem(key) : null;
+                if (saved) return JSON.parse(saved);
+            } catch (e) {}
+            return [{role:'system', text:`Hi! Welcome to ${appState.name}. How can we help you today?`, at:Date.now()}];
+        }
+        function saveChatMessages(messages) {
+            try { localStorage.setItem(getChatStorageKey(), JSON.stringify(messages.slice(-80))); } catch (e) {}
+        }
+        let chatMessages = [];
+        function initChatUi(root = document) {
+            const scope = root.querySelector ? root : document;
+            const fab = scope.querySelector('#chat-fab');
+            const panel = scope.querySelector('#restaurant-chat-panel');
+            if (!fab || !panel || fab.dataset.bound) return;
+            fab.dataset.bound = '1';
+            chatMessages = loadChatMessages(true);
+            const messagesEl = scope.querySelector('#chat-messages');
+            const input = scope.querySelector('#chat-input');
+            const sendBtn = scope.querySelector('#chat-send-btn');
+            const waBtn = scope.querySelector('#chat-wa-btn');
+            const closeBtn = scope.querySelector('#chat-close-btn');
+            const render = () => {
+                messagesEl.innerHTML = chatMessages.map(m => `<div class="chat-msg ${m.role === 'customer' ? 'customer' : 'system'}">${escapeHTML(m.text)}<small>${new Date(m.at || Date.now()).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</small></div>`).join('');
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            };
+            fab.addEventListener('click', () => { panel.classList.toggle('open'); render(); });
+            closeBtn?.addEventListener('click', () => panel.classList.remove('open'));
+            const send = () => {
+                const text = input.value.trim();
+                if (!text) return;
+                chatMessages.push({role:'customer', text, at:Date.now()});
+                saveChatMessages(chatMessages);
+                input.value = '';
+                render();
+            };
+            sendBtn?.addEventListener('click', send);
+            input?.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+            waBtn?.addEventListener('click', () => {
+                const wa = normalizeWhatsAppNumber(appState.whatsappNumber);
+                if (!wa) { alert('WhatsApp contact is not configured yet.'); return; }
+                const latest = chatMessages.filter(m => m.role === 'customer').slice(-8).map(m => `• ${m.text}`).join('\n');
+                const msg = `Hello ${appState.name}!\n${latest || 'I would like to chat with you.'}`;
+                window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+            });
+            render();
+        }
+
+        function initScrollReveal(root = document) {
+            const scope = root.querySelector ? root : document;
+            const targets = scope.querySelectorAll('#live-preview-wrapper main section, #live-preview-wrapper footer, #live-preview-wrapper .dish-card, #live-preview-wrapper .menu-card, #live-preview-wrapper .gallery-item-card, #live-preview-wrapper .value-card, #live-preview-wrapper .review-card');
+            targets.forEach(el => el.classList.add('scroll-reveal'));
+            if (scrollRevealObserver) { try { scrollRevealObserver.disconnect(); } catch(e){} }
+            scrollRevealObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+            }, {threshold:0.14, rootMargin:'0px 0px -8% 0px'});
+            targets.forEach(el => scrollRevealObserver.observe(el));
+        }
+
+        function initChef3D(root = document) {
+            const container = root.querySelector ? root.querySelector('#chef-3d-scene') : null;
+            if (!container || container.dataset.initialized) return;
+            container.dataset.initialized = '1';
+            if (typeof THREE === 'undefined') {
+                container.innerHTML = '<div class="chef-3d-fallback">👨‍🍳</div>';
+                return;
+            }
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+            camera.position.set(0, 1.1, 7.5);
+            const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.setSize(260,260,false);
+            renderer.outputColorSpace = THREE.SRGBColorSpace;
+            renderer.domElement.setAttribute('aria-hidden','true');
+            container.innerHTML = '';
+            container.appendChild(renderer.domElement);
+
+            scene.add(new THREE.HemisphereLight(0xffffff, 0x553322, 2.0));
+            const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(3,5,4); scene.add(key);
+            const warm = new THREE.PointLight(0xff9a52, 2.4, 12); warm.position.set(-3,2,3); scene.add(warm);
+
+            const group = new THREE.Group(); scene.add(group);
+            const skin = new THREE.MeshStandardMaterial({color:0x9c633f, roughness:.8});
+            const coat = new THREE.MeshStandardMaterial({color:0xf7f3ef, roughness:.9});
+            const dark = new THREE.MeshStandardMaterial({color:0x2b211d, roughness:.8});
+            const hatMat = new THREE.MeshStandardMaterial({color:0xffffff, roughness:.95});
+            const metal = new THREE.MeshStandardMaterial({color:0xb8b8b8, metalness:.65, roughness:.35});
+            const foodMat = new THREE.MeshStandardMaterial({color:0x5a2d1f, roughness:.8});
+
+            const body = new THREE.Mesh(new THREE.CapsuleGeometry(.7,.85,8,16), coat); body.position.y=.35; group.add(body);
+            const head = new THREE.Mesh(new THREE.SphereGeometry(.55,24,18), skin); head.position.y=1.55; group.add(head);
+            const neck = new THREE.Mesh(new THREE.CylinderGeometry(.18,.18,.28,16), skin); neck.position.y=1.04; group.add(neck);
+            const hatBase = new THREE.Mesh(new THREE.CylinderGeometry(.55,.55,.22,20), hatMat); hatBase.position.y=2.03; group.add(hatBase);
+            const hatTop = new THREE.Mesh(new THREE.CylinderGeometry(.47,.30,.52,20), hatMat); hatTop.position.y=2.35; group.add(hatTop);
+            const eyeMat = new THREE.MeshBasicMaterial({color:0x17120f});
+            const eye1 = new THREE.Mesh(new THREE.SphereGeometry(.035,10,8),eyeMat); eye1.position.set(-.18,1.61,.50); group.add(eye1);
+            const eye2 = eye1.clone(); eye2.position.x=.18; group.add(eye2);
+
+            const armL = new THREE.Group(); armL.position.set(-.62,.75,0); group.add(armL);
+            const sleeveL = new THREE.Mesh(new THREE.CylinderGeometry(.18,.20,.75,12),coat); sleeveL.rotation.z=-.8; sleeveL.position.set(.18,-.05,0); armL.add(sleeveL);
+            const handL = new THREE.Mesh(new THREE.SphereGeometry(.18,14,10),skin); handL.position.set(.48,-.28,.02); armL.add(handL);
+            const armR = new THREE.Group(); armR.position.set(.62,.75,0); group.add(armR);
+            const sleeveR = new THREE.Mesh(new THREE.CylinderGeometry(.18,.20,.75,12),coat); sleeveR.rotation.z=.82; sleeveR.position.set(-.18,-.05,0); armR.add(sleeveR);
+            const handR = new THREE.Mesh(new THREE.SphereGeometry(.18,14,10),skin); handR.position.set(-.45,-.28,.12); armR.add(handR);
+
+            const counter = new THREE.Mesh(new THREE.BoxGeometry(3.4,.28,1.6),dark); counter.position.set(0,-.75,.2); group.add(counter);
+            const pot = new THREE.Mesh(new THREE.CylinderGeometry(.68,.55,.55,24),metal); pot.position.set(.8,-.42,.28); group.add(pot);
+            const food = new THREE.Mesh(new THREE.SphereGeometry(.48,20,14),foodMat); food.scale.y=.35; food.position.set(.8,-.12,.28); group.add(food);
+            const spoon = new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,1.1,10),metal); spoon.position.set(-.05,-.05,.28); spoon.rotation.z=-1.15; group.add(spoon);
+            const bowl = new THREE.Mesh(new THREE.TorusGeometry(.52,.06,12,32),metal); bowl.rotation.x=Math.PI/2; bowl.position.set(-.95,-.58,.28); group.add(bowl);
+
+            const clock = new THREE.Clock();
+            const resize = () => {
+                const w = Math.max(120, container.clientWidth || 260);
+                const h = Math.max(120, container.clientHeight || 260);
+                renderer.setSize(w,h,false);
+                camera.aspect = w/h;
+                camera.updateProjectionMatrix();
+            };
+            resize();
+            window.addEventListener('resize', resize, {passive:true});
+            const animate = () => {
+                if (!document.body.contains(container)) return;
+                const t = clock.getElapsedTime();
+                group.position.y = Math.sin(t*1.35)*.045;
+                armR.rotation.z = Math.sin(t*2.2)*.45 + .25;
+                armL.rotation.z = Math.sin(t*2.2+Math.PI)*.18 - .06;
+                spoon.rotation.y = Math.sin(t*2.2)*.4;
+                group.rotation.y = Math.sin(t*.5)*.10;
+                renderer.render(scene,camera);
+                requestAnimationFrame(animate);
+            };
+            animate();
+            chef3DInstances.set(container, {scene,camera,renderer});
+        }
+
+        function initPreviewEnhancements(root = document) {
+            initCartUi(root);
+            initChatUi(root);
+            initScrollReveal(root);
+            initChef3D(root);
+        }
+
+        // Download ONLY the final restaurant website — never the builder UI.
         function downloadWebsitePackage() {
-            alert("Preparing your restaurant website package (.zip) for download...");
-            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const wrapper = document.getElementById('live-preview-wrapper');
+            if (!wrapper) { alert('Please open Preview first.'); return; }
+
+            // Ensure the preview is fully rendered before export.
+            renderLivePreview();
+
+            const clone = wrapper.cloneNode(true);
+            clone.removeAttribute('id');
+            clone.setAttribute('id', 'restaurant-site-root');
+
+            // Close transient UI states in the exported copy.
+            clone.querySelector('#restaurant-cart-drawer')?.classList.remove('open');
+            clone.querySelector('#restaurant-chat-panel')?.classList.remove('open');
+            clone.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('is-visible'));
+
+            const styleText = Array.from(document.querySelectorAll('style')).map(s => s.textContent).join('\n');
+            const siteState = JSON.stringify(appState).replace(/</g, '\\u003c');
+            const exportedRuntime = getStandaloneRuntimeScript();
+
+            const cleanHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="${escapeHTML(appState.tagline || appState.name + ' restaurant website')}">
+    <title>${escapeHTML(appState.name)} - Restaurant & Dining</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
+    <style>${styleText}</style>
+</head>
+<body>
+${clone.outerHTML}
+${getStandaloneAdminMarkup()}
+<script id="standalone-runtime-script">
+window.__RESTAURANT_SITE_STATE__ = ${siteState};
+${exportedRuntime}
+</script>
+</body>
+</html>`;
+
+            const blob = new Blob([cleanHtml], {type:'text/html;charset=utf-8'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${appState.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-website.html`;
+            a.download = `${slugify(appState.name)}-website.html`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
         }
 
+        function getStandaloneAdminMarkup() {
+            return `
+<div id="owner-admin-modal" class="owner-admin-modal" aria-hidden="true">
+  <div class="owner-admin-lock" id="owner-admin-lock">
+    <h2>Owner Admin</h2>
+    <p>Hidden owner panel. Customer-facing visitors never see this panel in normal site navigation.</p>
+    <input id="owner-admin-pin" type="password" inputmode="numeric" maxlength="12" placeholder="Admin PIN">
+    <button type="button" id="owner-admin-unlock">Open Admin Panel</button>
+  </div>
+  <div class="owner-admin-card" id="owner-admin-card" style="display:none;">
+    <div class="owner-admin-head"><h2>${escapeHTML(appState.name)} — Owner Admin</h2><button type="button" id="owner-admin-close" aria-label="Close admin">&times;</button></div>
+    <div class="owner-admin-body">
+      <div class="owner-admin-grid">
+        <section class="owner-admin-section">
+          <h3>Branding Images</h3>
+          <label>Logo Image</label><input type="file" id="admin-logo-file" accept="image/*">
+          <div style="height:.6rem"></div>
+          <label>Hero Background Image</label><input type="file" id="admin-hero-file" accept="image/*">
+          <div class="owner-admin-actions"><button class="admin-save" type="button" id="admin-save-branding">Save Branding</button></div>
+        </section>
+
+        <section class="owner-admin-section">
+          <h3>Offer / Promotion</h3>
+          <label>Offer Title</label><input id="admin-offer-title" type="text">
+          <div style="height:.5rem"></div>
+          <label>Description</label><textarea id="admin-offer-desc"></textarea>
+          <div style="height:.5rem"></div>
+          <label>Valid Until</label><input id="admin-offer-valid" type="text">
+          <div class="owner-admin-actions"><button class="admin-save" type="button" id="admin-save-offer">Save Offer</button></div>
+        </section>
+
+        <section class="owner-admin-section" style="grid-column:1/-1;">
+          <h3>Menu Manager</h3>
+          <div class="owner-admin-list" id="admin-menu-list-export"></div>
+          <div class="admin-form-row">
+            <div><label>Name</label><input id="admin-menu-name" type="text"></div>
+            <div><label>Price</label><input id="admin-menu-price" type="text"></div>
+            <div><label>Category</label><input id="admin-menu-category" type="text"></div>
+            <div><label>Type</label><select id="admin-menu-type"><option value="veg">Veg</option><option value="non-veg">Non-Veg</option></select></div>
+          </div>
+          <div style="height:.5rem"></div>
+          <label>Description</label><textarea id="admin-menu-desc"></textarea>
+          <div style="height:.5rem"></div>
+          <label>Dish Image</label><input id="admin-menu-image" type="file" accept="image/*">
+          <div style="height:.5rem"></div>
+          <div class="admin-form-row">
+            <label><input id="admin-menu-spicy" type="checkbox"> Spicy</label>
+            <label><input id="admin-menu-gluten" type="checkbox"> Gluten-Free</label>
+            <label><input id="admin-menu-vegan" type="checkbox"> Vegan</label>
+            <label><input id="admin-menu-best" type="checkbox"> Best Seller</label>
+          </div>
+          <input type="hidden" id="admin-menu-index" value="-1">
+          <div class="owner-admin-actions"><button class="admin-save" type="button" id="admin-menu-save">Save Menu Item</button><button class="admin-neutral" type="button" id="admin-menu-new">New Item</button></div>
+        </section>
+
+        <section class="owner-admin-section" style="grid-column:1/-1;">
+          <h3>Gallery Manager</h3>
+          <div class="owner-admin-list" id="admin-gallery-list-export"></div>
+          <div class="admin-form-row">
+            <div><label>Category</label><select id="admin-gallery-category"><option>Food</option><option>Ambience</option><option>Events</option></select></div>
+            <div><label>Title / Alt Text</label><input id="admin-gallery-alt" type="text"></div>
+          </div>
+          <div style="height:.5rem"></div>
+          <label>Photo</label><input id="admin-gallery-image" type="file" accept="image/*">
+          <input type="hidden" id="admin-gallery-index" value="-1">
+          <div class="owner-admin-actions"><button class="admin-save" type="button" id="admin-gallery-save">Save Gallery Item</button><button class="admin-neutral" type="button" id="admin-gallery-new">New Photo</button></div>
+        </section>
+
+        <section class="owner-admin-section" style="grid-column:1/-1;">
+          <h3>Customer Reviews</h3>
+          <div class="owner-admin-list" id="admin-review-list-export"></div>
+          <div class="admin-form-row">
+            <div><label>Customer Name</label><input id="admin-review-name" type="text"></div>
+            <div><label>Rating</label><select id="admin-review-rating"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+          </div>
+          <div style="height:.5rem"></div>
+          <label>Review</label><textarea id="admin-review-quote"></textarea>
+          <div style="height:.5rem"></div>
+          <label>Customer Photo</label><input id="admin-review-photo" type="file" accept="image/*">
+          <input type="hidden" id="admin-review-index" value="-1">
+          <div class="owner-admin-actions"><button class="admin-save" type="button" id="admin-review-save">Save Review</button><button class="admin-neutral" type="button" id="admin-review-new">New Review</button></div>
+        </section>
+
+        <section class="owner-admin-section" style="grid-column:1/-1;">
+          <h3>Customer Chat Inbox</h3>
+          <div class="owner-admin-list" id="admin-chat-inbox" style="max-height:320px;"></div>
+          <div class="owner-admin-actions"><button class="admin-danger" type="button" id="admin-chat-clear">Clear Chat</button></div>
+        </section>
+      </div>
+      <div class="owner-admin-actions" style="justify-content:flex-end;"><button class="admin-neutral" type="button" id="admin-save-all">Save Changes</button><button class="admin-export" type="button" id="admin-download-updated">Download Updated Website</button></div>
+      <div class="admin-status" id="admin-status">Saved.</div>
+    </div>
+  </div>
+</div>`;
+        }
+
+        function getStandaloneRuntimeScript() {
+            return String.raw`(() => {
+const ADMIN_PIN = '2468';
+let siteState = window.__RESTAURANT_SITE_STATE__ || {};
+const STORE_KEY = 'restaurant-site-state-' + slugify(siteState.name || 'restaurant');
+let cart = [];
+let chatLog = [];
+let currentMenuIndex = -1;
+let currentGalleryIndex = -1;
+let currentReviewIndex = -1;
+
+function slugify(v){return String(v||'restaurant').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'restaurant';}
+function esc(v){return String(v??'').replace(/[&<>'"]/g,t=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));}
+function normWa(v){return String(v||'').replace(/[^0-9]/g,'');}
+function money(v){const n=Number(String(v||'').replace(/[^0-9.-]/g,''));return Number.isFinite(n)?n:0;}
+function saveState(){try{localStorage.setItem(STORE_KEY,JSON.stringify(siteState));}catch(e){alert('Local save is full. Large image data may need to be reduced.');}}
+function loadState(){try{const raw=localStorage.getItem(STORE_KEY);if(raw) siteState=JSON.parse(raw);}catch(e){}}
+function mergeAndRender(){
+  applyStateToSite();
+  renderMenu(); renderFeatured(); renderGallery(); renderOffer(); renderReviews(); renderContact(); renderChef(); renderBranding(); renderNavigation();
+  initCart(); initChat(); initReveal(); initChef();
+}
+function applyStateToSite(){
+ const f=siteState.features||{};
+ const show=(id,on,display='block')=>{const el=document.getElementById(id);if(el)el.style.display=on?display:'none';};
+ show('hero',f.hero!==false,'flex'); show('featured-dishes',f.featuredDishes!==false); show('offers',f.offers!==false); show('about-intro-section',f.aboutIntro!==false);
+ show('timeline-section',f.storyTimeline!==false); show('chef-section',f.meetChef!==false); show('core-values-section',f.coreValues!==false); show('loyalty-section',f.loyaltyBanner!==false);
+ show('google-reviews-section',f.googleReviewsEmbed!==false); show('testimonials',f.testimonials!==false); show('contact-section',f.locationTiming!==false||f.googleMapsEmbed!==false||f.phoneCallNow!==false); show('site-footer',f.footerQuickLinks!==false);
+ show('order-section',f.orderingCTA!==false);
+ show('menu-section',(f.categoryTabs!==false||f.foodCards!==false||f.foodFilters!==false));
+ const cat=document.getElementById('menu-category-tabs'); if(cat)cat.style.display=f.categoryTabs!==false?'flex':'none';
+ const fil=document.getElementById('menu-attribute-filters'); if(fil)fil.style.display=f.foodFilters!==false?'flex':'none';
+ const gal=document.getElementById('gallery-section'); if(gal)gal.style.display=(f.galleryLayout!==false||f.galleryFilters!==false)?'block':'none';
+ const gfil=document.getElementById('gallery-filter-tabs');if(gfil)gfil.style.display=f.galleryFilters!==false?'flex':'none';
+ const nav=document.querySelector('.site-nav');if(nav)nav.style.display=f.sixTabNavigation!==false?'block':'none';
+}
+function renderBranding(){
+ const logo=document.getElementById('nav-logo-area'); if(logo)logo.innerHTML=siteState.logo?'<img src="'+esc(siteState.logo)+'" alt="Logo" class="nav-logo-img" width="40" height="40"> <span>'+esc(siteState.name)+'</span>':'<span>'+esc(siteState.name)+'</span>';
+ const hero=document.getElementById('hero'); if(hero){hero.style.backgroundImage='url("'+String(siteState.heroBg||'').replace(/"/g,'%22')+'")';}
+ const title=document.getElementById('hero-title');if(title)title.textContent=siteState.name||'';
+ const tag=document.getElementById('hero-tagline');if(tag)tag.textContent=siteState.tagline||'';
+ const footerName=document.getElementById('footer-brand-name');if(footerName)footerName.textContent=siteState.name||'';
+ const footerTag=document.getElementById('footer-tagline-text');if(footerTag)footerTag.textContent=siteState.tagline||'';
+ const copy=document.getElementById('footer-copy-name');if(copy)copy.textContent=siteState.name||'';
+ const hours=document.getElementById('footer-hours-text');if(hours)hours.textContent=siteState.businessHours||'';
+ const phone=document.getElementById('footer-phone-display');if(phone)phone.textContent=siteState.businessPhone?'Phone: '+siteState.businessPhone:'Phone: Not configured';
+}
+function renderNavigation(){
+ const f=siteState.features||{}; const tabs=[['Home','#hero'],['Menu','#menu-section'],['Order','#order-section'],['Reservations','#reservation-section'],['About','#chef-section'],['Contact','#contact-section']];
+ const html=tabs.map(t=>'<li><a href="'+t[1]+'">'+t[0]+'</a></li>').join('');
+ const n=document.getElementById('nav-links-container');if(n)n.innerHTML=html;
+ const fl=document.getElementById('footer-quick-links');if(fl)fl.innerHTML=html;
+}
+function renderFeatured(){const el=document.getElementById('dishes-grid-container');if(!el)return;const f=siteState.features||{};if(f.featuredDishes===false||f.foodCards===false){el.innerHTML='';return;}const arr=(siteState.menuItems||[]).filter(x=>x.isBestSeller).slice(0,4);el.innerHTML=arr.length?arr.map(x=>{const i=siteState.menuItems.indexOf(x);return '<div class="dish-card"><div class="dish-img-wrapper"><span class="best-seller-badge">Best Seller</span><img src="'+esc(x.image||'')+'" alt="'+esc(x.name)+'" loading="lazy"></div><div class="dish-info"><div class="dish-header-row"><h3 class="dish-name">'+esc(x.name)+'</h3><span class="dish-price">'+esc(x.price)+'</span></div><p class="dish-desc">'+esc(x.description)+'</p><button class="dish-order-btn" data-cart-index="'+i+'" type="button">Add to Cart</button></div></div>';}).join(''):'<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No featured items selected.</p>';}
+let activeMenu='all',activeFilter='all',activeGallery='all';
+function renderMenu(){const el=document.getElementById('menu-grid-container');if(!el)return;const f=siteState.features||{};if(f.foodCards===false){el.innerHTML='';return;}const arr=(siteState.menuItems||[]).filter(x=>(activeMenu==='all'||(activeMenu==='veg'&&x.type==='veg')||(activeMenu==='non-veg'&&x.type==='non-veg')||x.category===activeMenu)&&(activeFilter==='all'||(activeFilter==='spicy'&&x.isSpicy)||(activeFilter==='glutenFree'&&x.isGlutenFree)||(activeFilter==='vegan'&&x.isVegan)));el.innerHTML=arr.length?arr.map(x=>{const i=siteState.menuItems.indexOf(x);let tags='';if(x.isSpicy)tags+='<span class="menu-attr-badge">Spicy</span>';if(x.isGlutenFree)tags+='<span class="menu-attr-badge">Gluten-Free</span>';if(x.isVegan)tags+='<span class="menu-attr-badge">Vegan</span>';return '<div class="menu-card"><div class="menu-card-img"><span class="item-type-indicator '+esc(x.type)+'">'+esc(x.type)+'</span>'+ (tags?'<div class="menu-attributes-tags">'+tags+'</div>':'') +'<img src="'+esc(x.image||'')+'" alt="'+esc(x.name)+'" loading="lazy"></div><div class="menu-card-body"><div class="menu-card-header"><h3 class="menu-card-title">'+esc(x.name)+'</h3><span class="menu-card-price">'+esc(x.price)+'</span></div><p class="menu-card-desc">'+esc(x.description)+'</p><button class="dish-order-btn" data-cart-index="'+i+'" type="button">Add to Cart</button></div></div>';}).join(''):'<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No menu items matching your filters.</p>';}
+function renderOffer(){const a=siteState.offer||{};if(document.getElementById('offer-tag-text'))document.getElementById('offer-tag-text').textContent=a.label||'Special Offer';if(document.getElementById('offer-title-text'))document.getElementById('offer-title-text').textContent=a.title||'';if(document.getElementById('offer-desc-text'))document.getElementById('offer-desc-text').textContent=a.description||'';if(document.getElementById('offer-validity-text'))document.getElementById('offer-validity-text').textContent='Valid until: '+(a.validUntil||'');}
+function renderGallery(){const el=document.getElementById('gallery-grid-container');if(!el)return;const mode=siteState.galleryLayout==='masonry'?'masonry-mode':'grid-mode';el.className='gallery-grid '+mode;const arr=(siteState.galleryItems||[]).filter(x=>activeGallery==='all'||x.category===activeGallery);el.innerHTML=arr.length?arr.map(x=>'<div class="gallery-item-card"><img src="'+esc(x.image||'')+'" alt="'+esc(x.alt||'')+'" loading="lazy"><span class="gallery-overlay-badge">'+esc(x.category||'')+'</span></div>').join(''):'<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No photos in this category.</p>';}
+function renderChef(){const a=siteState.about||{};const img=document.getElementById('meet-chef-img');if(img)img.src=a.chefPhoto||'';const story=document.getElementById('meet-chef-story');if(story)story.textContent=siteState.aboutStory||'';const note=document.getElementById('meet-chef-note');if(note)note.textContent='"'+(a.chefNote||'')+'"';const name=document.getElementById('meet-chef-name');if(name)name.textContent='Chef '+(a.chefName||'');const title=document.getElementById('meet-chef-title');if(title)title.textContent=a.chefTitle||'';const intro=document.getElementById('about-intro-note-text');if(intro)intro.textContent='"'+(a.chefNote||'')+'" — Chef '+(a.chefName||'');}
+function renderReviews(){const track=document.getElementById('reviews-track');if(!track)return;track.innerHTML=(siteState.reviews||[]).map(r=>'<div class="review-card"><img src="'+esc(r.photo||'')+'" class="review-avatar" alt="'+esc(r.name)+'" loading="lazy"><div class="review-stars">'+('★'.repeat(Math.max(0,Math.min(5,Number(r.rating)||0))))+'</div><p class="review-quote">"'+esc(r.quote)+'"</p><h4 class="review-author">— '+esc(r.name)+'</h4></div>').join('');setTimeout(bindSlider,0);}
+function renderContact(){const a=siteState.about||{};const el=id=>document.getElementById(id);if(el('contact-restaurant-name'))el('contact-restaurant-name').textContent=siteState.name||'';if(el('contact-address-text'))el('contact-address-text').textContent=siteState.businessAddress||'Address not provided';if(el('contact-hours-text'))el('contact-hours-text').textContent=siteState.businessHours||'Hours not provided';if(el('contact-phone-text'))el('contact-phone-text').textContent=siteState.businessPhone||'';const map=el('map-container-wrap');if(map){if(siteState.googleMapsEmbedUrl)map.innerHTML='<iframe src="'+esc(siteState.googleMapsEmbedUrl)+'" loading="lazy" title="Restaurant Location Map"></iframe>';else if(siteState.googleMapsUrl)map.innerHTML='<div class="map-placeholder"><h4>Find Us on the Map</h4><p>'+esc(siteState.businessAddress||siteState.name)+'</p><a href="'+esc(siteState.googleMapsUrl)+'" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Open in Google Maps</a></div>';else map.innerHTML='<div class="map-placeholder">Map location not configured.</div>';}}
+function initCart(){const fab=document.getElementById('restaurant-cart-fab'),drawer=document.getElementById('restaurant-cart-drawer');if(!fab||!drawer)return;if(!fab.dataset.bound){fab.dataset.bound=1;fab.onclick=()=>drawer.classList.add('open');document.getElementById('restaurant-cart-close').onclick=()=>drawer.classList.remove('open');document.getElementById('cart-clear-btn').onclick=()=>{cart=[];renderCart();};document.getElementById('cart-checkout-btn').onclick=checkout;document.getElementById('restaurant-site-root').addEventListener('click',e=>{const a=e.target.closest('[data-cart-index]');if(a){const i=+a.dataset.cartIndex;const row=cart.find(r=>r.i===i);if(row)row.q++;else cart.push({i,q:1});renderCart();drawer.classList.add('open');}const q=e.target.closest('[data-caction]');if(q){const i=+q.dataset.i,row=cart.find(r=>r.i===i);if(!row)return;if(q.dataset.caction==='plus')row.q++;if(q.dataset.caction==='minus')row.q--;if(q.dataset.caction==='remove'||row.q<=0)cart=cart.filter(r=>r.i!==i);renderCart();}});}renderCart();}
+function renderCart(){const items=document.getElementById('cart-items-container'),count=document.getElementById('restaurant-cart-count'),total=document.getElementById('cart-total');if(!items)return;let c=0,t=0;if(!cart.length)items.innerHTML='<div class="cart-empty">Your cart is empty.<br>Choose something delicious from the menu.</div>';else items.innerHTML=cart.map(r=>{const x=siteState.menuItems[r.i];if(!x)return '';const line=money(x.price)*r.q;c+=r.q;t+=line;return '<div class="cart-item-row"><div><strong>'+esc(x.name)+'</strong><div class="cart-item-meta">'+esc(x.price)+' × '+r.q+'</div><div class="cart-item-actions"><button class="cart-qty-btn" data-caction="minus" data-i="'+r.i+'">−</button><span>'+r.q+'</span><button class="cart-qty-btn" data-caction="plus" data-i="'+r.i+'">+</button><button class="cart-remove-btn" data-caction="remove" data-i="'+r.i+'">Remove</button></div></div><strong>'+t.toFixed(2)+'</strong></div>';}).join('');count.textContent=String(c);const sym=(siteState.menuItems?.[0]?.price||'').trim().match(/^[^0-9\s]+/)?.[0]||'$';total.textContent=sym+t.toFixed(2);}
+function checkout(){if(!cart.length){alert('Your cart is empty.');return;}const lines=cart.map(r=>siteState.menuItems[r.i]?siteState.menuItems[r.i].name+' × '+r.q:'').filter(Boolean);const total=cart.reduce((s,r)=>s+money(siteState.menuItems[r.i]?.price)*r.q,0);const msg='Hello '+siteState.name+', I would like to order:\n'+lines.join('\n')+'\nTotal: '+total.toFixed(2);const wa=normWa(siteState.whatsappNumber);if(wa){open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');return;}if(siteState.onlineOrderingUrl)open(siteState.onlineOrderingUrl,'_blank');else alert(msg);}
+function initChat(){const fab=document.getElementById('chat-fab'),panel=document.getElementById('restaurant-chat-panel');if(!fab||!panel)return;if(!fab.dataset.bound){fab.dataset.bound=1;try{chatLog=JSON.parse(localStorage.getItem('restaurant-chat-log-'+slugify(siteState.name))||'[]');}catch(e){chatLog=[];}if(!chatLog.length)chatLog=[{role:'system',text:'Hi! Welcome to '+siteState.name+'. How can we help you today?',at:Date.now()}];fab.onclick=()=>{panel.classList.toggle('open');renderChat();};document.getElementById('chat-close-btn').onclick=()=>panel.classList.remove('open');const send=()=>{const inp=document.getElementById('chat-input'),v=inp.value.trim();if(!v)return;chatLog.push({role:'customer',text:v,at:Date.now()});try{localStorage.setItem('restaurant-chat-log-'+slugify(siteState.name),JSON.stringify(chatLog.slice(-80)));}catch(e){}inp.value='';renderChat();};document.getElementById('chat-send-btn').onclick=send;document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});document.getElementById('chat-wa-btn').onclick=()=>{const wa=normWa(siteState.whatsappNumber);if(!wa){alert('WhatsApp is not configured.');return;}const latest=chatLog.filter(x=>x.role==='customer').slice(-8).map(x=>'• '+x.text).join('\n');open('https://wa.me/'+wa+'?text='+encodeURIComponent('Hello '+siteState.name+'!\n'+(latest||'I would like to chat with you.')),'_blank');}}renderChat();}
+function renderChat(){const el=document.getElementById('chat-messages');if(!el)return;el.innerHTML=chatLog.map(m=>'<div class="chat-msg '+(m.role==='customer'?'customer':'system')+'">'+esc(m.text)+'<small>'+new Date(m.at||Date.now()).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'</small></div>').join('');el.scrollTop=el.scrollHeight;}
+function initReveal(){document.querySelectorAll('#restaurant-site-root main section,#restaurant-site-root footer,#restaurant-site-root .dish-card,#restaurant-site-root .menu-card,#restaurant-site-root .gallery-item-card,#restaurant-site-root .value-card,#restaurant-site-root .review-card').forEach(x=>{x.classList.add('scroll-reveal');});const obs=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('is-visible',e.isIntersecting)),{threshold:.14,rootMargin:'0px 0px -8% 0px'});document.querySelectorAll('.scroll-reveal').forEach(x=>obs.observe(x));}
+function initChef(){const c=document.getElementById('chef-3d-scene');if(!c||c.dataset.init)return;c.dataset.init=1;if(typeof THREE==='undefined'){c.innerHTML='<div class="chef-3d-fallback">👨‍🍳</div>';return;}const s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(28,1,.1,100);cam.position.set(0,1.1,7.5);const r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.outputColorSpace=THREE.SRGBColorSpace;c.innerHTML='';c.appendChild(r.domElement);s.add(new THREE.HemisphereLight(0xffffff,0x553322,2));const d=new THREE.DirectionalLight(0xffffff,2.4);d.position.set(3,5,4);s.add(d);const p=new THREE.PointLight(0xff9a52,2.4,12);p.position.set(-3,2,3);s.add(p);const g=new THREE.Group();s.add(g);const skin=new THREE.MeshStandardMaterial({color:0x9c633f,roughness:.8}),coat=new THREE.MeshStandardMaterial({color:0xf7f3ef,roughness:.9}),dark=new THREE.MeshStandardMaterial({color:0x2b211d,roughness:.8}),hat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.95}),metal=new THREE.MeshStandardMaterial({color:0xb8b8b8,metalness:.65,roughness:.35}),food=new THREE.MeshStandardMaterial({color:0x5a2d1f,roughness:.8});const mk=(geom,mat,pos)=>{const m=new THREE.Mesh(geom,mat);m.position.set(...pos);g.add(m);return m;};mk(new THREE.CapsuleGeometry(.7,.85,8,16),coat).position.y=.35;mk(new THREE.SphereGeometry(.55,24,18),skin).position.y=1.55;mk(new THREE.CylinderGeometry(.18,.18,.28,16),skin).position.y=1.04;mk(new THREE.CylinderGeometry(.55,.55,.22,20),hat).position.y=2.03;mk(new THREE.CylinderGeometry(.47,.30,.52,20),hat).position.y=2.35;const aR=new THREE.Group();aR.position.set(.62,.75,0);g.add(aR);const sR=new THREE.Mesh(new THREE.CylinderGeometry(.18,.20,.75,12),coat);sR.rotation.z=.82;sR.position.set(-.18,-.05,0);aR.add(sR);const aL=new THREE.Group();aL.position.set(-.62,.75,0);g.add(aL);const sL=new THREE.Mesh(new THREE.CylinderGeometry(.18,.20,.75,12),coat);sL.rotation.z=-.8;sL.position.set(.18,-.05,0);aL.add(sL);mk(new THREE.BoxGeometry(3.4,.28,1.6),dark).position.set(0,-.75,.2);mk(new THREE.CylinderGeometry(.68,.55,.55,24),metal).position.set(.8,-.42,.28);const fdm=mk(new THREE.SphereGeometry(.48,20,14),food);fdm.scale.y=.35;fdm.position.set(.8,-.12,.28);const spoon=mk(new THREE.CylinderGeometry(.035,.035,1.1,10),metal);spoon.position.set(-.05,-.05,.28);spoon.rotation.z=-1.15;const clock=new THREE.Clock();function resize(){const w=Math.max(120,c.clientWidth||260),h=Math.max(120,c.clientHeight||260);r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();}resize();addEventListener('resize',resize,{passive:true});function tick(){if(!document.body.contains(c))return;const t=clock.getElapsedTime();g.position.y=Math.sin(t*1.35)*.045;aR.rotation.z=Math.sin(t*2.2)*.45+.25;aL.rotation.z=Math.sin(t*2.2+Math.PI)*.18-.06;spoon.rotation.y=Math.sin(t*2.2)*.4;g.rotation.y=Math.sin(t*.5)*.1;r.render(s,cam);requestAnimationFrame(tick);}tick();}
+function bindSlider(){const track=document.getElementById('reviews-track'),dots=document.getElementById('slider-dots');if(!track||!dots)return;const n=(siteState.reviews||[]).length;let idx=0;dots.innerHTML=Array.from({length:n},(_,i)=>'<button class="dot '+(i===0?'active':'')+'" data-dot="'+i+'" aria-label="Review '+(i+1)+'"></button>').join('');const update=()=>{track.style.transform='translateX(-'+idx*100+'%)';dots.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));};document.getElementById('prev-review')?.addEventListener('click',()=>{if(!n)return;idx=(idx-1+n)%n;update();});document.getElementById('next-review')?.addEventListener('click',()=>{if(!n)return;idx=(idx+1)%n;update();});dots.addEventListener('click',e=>{const b=e.target.closest('[data-dot]');if(!b)return;idx=+b.dataset.dot;update();});update();}
+function bindFilters(){document.querySelectorAll('.menu-tab-btn').forEach(b=>b.onclick=()=>{activeMenu=b.dataset.category||'all';document.querySelectorAll('.menu-tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderMenu();});document.querySelectorAll('.menu-filter-btn').forEach(b=>b.onclick=()=>{activeFilter=b.dataset.filter||'all';document.querySelectorAll('.menu-filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderMenu();});document.querySelectorAll('.gallery-filter-btn').forEach(b=>b.onclick=()=>{activeGallery=b.dataset.galleryCat||'all';document.querySelectorAll('.gallery-filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderGallery();});}
+async function fileToDataUrl(file){return new Promise((resolve,reject)=>{if(!file){resolve(null);return;}const rd=new FileReader();rd.onload=()=>resolve(rd.result);rd.onerror=reject;rd.readAsDataURL(file);});}
+function openAdmin(){document.getElementById('owner-admin-modal').classList.add('open');document.getElementById('owner-admin-modal').setAttribute('aria-hidden','false');}
+function closeAdmin(){document.getElementById('owner-admin-modal').classList.remove('open');document.getElementById('owner-admin-modal').setAttribute('aria-hidden','true');}
+function renderAdminLists(){
+ const ml=document.getElementById('admin-menu-list-export');ml.innerHTML=(siteState.menuItems||[]).map((x,i)=>'<div class="owner-admin-list-row"><div><strong>'+esc(x.name)+'</strong><span>'+esc(x.price)+' · '+esc(x.category)+'</span></div><div><button class="admin-neutral admin-small" data-medit="'+i+'">Edit</button> <button class="admin-danger admin-small" data-mdelete="'+i+'">Delete</button></div></div>').join('');
+ ml.querySelectorAll('[data-medit]').forEach(b=>b.onclick=()=>editMenu(+b.dataset.medit));ml.querySelectorAll('[data-mdelete]').forEach(b=>b.onclick=()=>{if(confirm('Delete this menu item?')){siteState.menuItems.splice(+b.dataset.mdelete,1);saveState();renderAdminLists();mergeAndRender();}});
+ const gl=document.getElementById('admin-gallery-list-export');gl.innerHTML=(siteState.galleryItems||[]).map((x,i)=>'<div class="owner-admin-list-row"><div><strong>'+esc(x.alt||'Gallery Photo')+'</strong><span>'+esc(x.category)+'</span></div><div><button class="admin-neutral admin-small" data-gedit="'+i+'">Edit</button> <button class="admin-danger admin-small" data-gdelete="'+i+'">Delete</button></div></div>').join('');gl.querySelectorAll('[data-gedit]').forEach(b=>b.onclick=()=>editGallery(+b.dataset.gedit));gl.querySelectorAll('[data-gdelete]').forEach(b=>b.onclick=()=>{if(confirm('Delete this gallery photo?')){siteState.galleryItems.splice(+b.dataset.gdelete,1);saveState();renderAdminLists();mergeAndRender();}});
+ const rl=document.getElementById('admin-review-list-export');rl.innerHTML=(siteState.reviews||[]).map((x,i)=>'<div class="owner-admin-list-row"><div><strong>'+esc(x.name)+'</strong><span>'+('★'.repeat(Number(x.rating)||0))+' · '+esc(x.quote)+'</span></div><div><button class="admin-neutral admin-small" data-redit="'+i+'">Edit</button> <button class="admin-danger admin-small" data-rdelete="'+i+'">Delete</button></div></div>').join('');rl.querySelectorAll('[data-redit]').forEach(b=>b.onclick=()=>editReview(+b.dataset.redit));rl.querySelectorAll('[data-rdelete]').forEach(b=>b.onclick=()=>{if(confirm('Delete this review?')){siteState.reviews.splice(+b.dataset.rdelete,1);saveState();renderAdminLists();mergeAndRender();}});
+ const inbox=document.getElementById('admin-chat-inbox');let logs=[];try{logs=JSON.parse(localStorage.getItem('restaurant-chat-log-'+slugify(siteState.name))||'[]');}catch(e){};inbox.innerHTML=logs.length?logs.map(x=>'<div class="owner-admin-list-row"><div><strong>'+esc(x.role==='customer'?'Customer':'Restaurant')+'</strong><span>'+esc(x.text)+'</span></div></div>').join(''):'<div style="padding:.8rem;color:var(--text-muted)">No chat messages yet.</div>';
+ const a=siteState.offer||{};document.getElementById('admin-offer-title').value=a.title||'';document.getElementById('admin-offer-desc').value=a.description||'';document.getElementById('admin-offer-valid').value=a.validUntil||'';
+}
+function editMenu(i){const x=siteState.menuItems[i];if(!x)return;currentMenuIndex=i;document.getElementById('admin-menu-index').value=i;document.getElementById('admin-menu-name').value=x.name||'';document.getElementById('admin-menu-price').value=x.price||'';document.getElementById('admin-menu-category').value=x.category||'';document.getElementById('admin-menu-type').value=x.type||'veg';document.getElementById('admin-menu-desc').value=x.description||'';document.getElementById('admin-menu-spicy').checked=!!x.isSpicy;document.getElementById('admin-menu-gluten').checked=!!x.isGlutenFree;document.getElementById('admin-menu-vegan').checked=!!x.isVegan;document.getElementById('admin-menu-best').checked=!!x.isBestSeller;}
+function newMenu(){currentMenuIndex=-1;document.getElementById('admin-menu-index').value=-1;['admin-menu-name','admin-menu-price','admin-menu-category','admin-menu-desc'].forEach(id=>document.getElementById(id).value='');document.getElementById('admin-menu-type').value='veg';['admin-menu-spicy','admin-menu-gluten','admin-menu-vegan','admin-menu-best'].forEach(id=>document.getElementById(id).checked=false);document.getElementById('admin-menu-image').value='';}
+function editGallery(i){const x=siteState.galleryItems[i];if(!x)return;currentGalleryIndex=i;document.getElementById('admin-gallery-index').value=i;document.getElementById('admin-gallery-category').value=x.category||'Food';document.getElementById('admin-gallery-alt').value=x.alt||'';document.getElementById('admin-gallery-image').value='';}
+function newGallery(){currentGalleryIndex=-1;document.getElementById('admin-gallery-index').value=-1;document.getElementById('admin-gallery-alt').value='';document.getElementById('admin-gallery-image').value='';}
+function editReview(i){const x=siteState.reviews[i];if(!x)return;currentReviewIndex=i;document.getElementById('admin-review-index').value=i;document.getElementById('admin-review-name').value=x.name||'';document.getElementById('admin-review-rating').value=String(x.rating||5);document.getElementById('admin-review-quote').value=x.quote||'';document.getElementById('admin-review-photo').value='';}
+function newReview(){currentReviewIndex=-1;document.getElementById('admin-review-index').value=-1;document.getElementById('admin-review-name').value='';document.getElementById('admin-review-rating').value='5';document.getElementById('admin-review-quote').value='';document.getElementById('admin-review-photo').value='';}
+function status(msg){const e=document.getElementById('admin-status');e.textContent=msg;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2500);}
+function buildStandaloneHtmlFromSite(){
+ const root=document.getElementById('restaurant-site-root').cloneNode(true);root.querySelector('#restaurant-cart-drawer')?.classList.remove('open');root.querySelector('#restaurant-chat-panel')?.classList.remove('open');root.querySelectorAll('.scroll-reveal').forEach(x=>x.classList.add('is-visible'));
+ const styleText=Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');const safe=JSON.stringify(siteState).replace(/</g,'\\u003c');
+ const runtimeEl=document.getElementById('standalone-runtime-script');
+ let runtime=runtimeEl ? runtimeEl.textContent : '';
+ runtime=runtime.replace(/^\s*window\.__RESTAURANT_SITE_STATE__\s*=.*?;\s*/s,'');
+ const admin=document.getElementById('owner-admin-modal').cloneNode(true);
+ admin.classList.remove('open');admin.setAttribute('aria-hidden','true');
+ const lock=admin.querySelector('#owner-admin-lock');if(lock)lock.style.display='block';
+ const card=admin.querySelector('#owner-admin-card');if(card)card.style.display='none';
+ return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>'+esc(siteState.name)+' - Restaurant & Dining</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script><style>'+styleText+'</style></head><body>'+root.outerHTML+admin.outerHTML+'<script id="standalone-runtime-script">window.__RESTAURANT_SITE_STATE__='+safe+';\n'+runtime+'<\/script></body></html>';
+}
+function downloadUpdated(){const html=buildStandaloneHtmlFromSite();const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=slugify(siteState.name)+'-website-updated.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),800);}
+function bindAdmin(){
+ document.getElementById('owner-admin-unlock').onclick=()=>{if(document.getElementById('owner-admin-pin').value===ADMIN_PIN){document.getElementById('owner-admin-lock').style.display='none';document.getElementById('owner-admin-card').style.display='block';renderAdminLists();}else alert('Incorrect admin PIN.');};
+ document.getElementById('owner-admin-close').onclick=closeAdmin;
+ document.getElementById('admin-save-offer').onclick=()=>{siteState.offer.title=document.getElementById('admin-offer-title').value.trim();siteState.offer.description=document.getElementById('admin-offer-desc').value.trim();siteState.offer.validUntil=document.getElementById('admin-offer-valid').value.trim();saveState();mergeAndRender();renderAdminLists();status('Offer saved.');};
+ document.getElementById('admin-save-branding').onclick=async()=>{const l=await fileToDataUrl(document.getElementById('admin-logo-file').files[0]);const h=await fileToDataUrl(document.getElementById('admin-hero-file').files[0]);if(l)siteState.logo=l;if(h)siteState.heroBg=h;saveState();mergeAndRender();status('Branding saved.');};
+ document.getElementById('admin-menu-save').onclick=async()=>{const idx=+document.getElementById('admin-menu-index').value;const old=idx>=0?siteState.menuItems[idx]:{};const img=await fileToDataUrl(document.getElementById('admin-menu-image').files[0]);const item={name:document.getElementById('admin-menu-name').value.trim(),price:document.getElementById('admin-menu-price').value.trim(),description:document.getElementById('admin-menu-desc').value.trim(),category:document.getElementById('admin-menu-category').value.trim()||'main course',type:document.getElementById('admin-menu-type').value,isSpicy:document.getElementById('admin-menu-spicy').checked,isGlutenFree:document.getElementById('admin-menu-gluten').checked,isVegan:document.getElementById('admin-menu-vegan').checked,isBestSeller:document.getElementById('admin-menu-best').checked,image:img||old.image||''};if(!item.name){alert('Menu item name is required.');return;}if(idx>=0)siteState.menuItems[idx]=item;else siteState.menuItems.push(item);saveState();renderAdminLists();newMenu();mergeAndRender();status('Menu item saved.');};
+ document.getElementById('admin-menu-new').onclick=newMenu;
+ document.getElementById('admin-gallery-save').onclick=async()=>{const idx=+document.getElementById('admin-gallery-index').value;const old=idx>=0?siteState.galleryItems[idx]:{};const img=await fileToDataUrl(document.getElementById('admin-gallery-image').files[0]);const item={category:document.getElementById('admin-gallery-category').value,alt:document.getElementById('admin-gallery-alt').value.trim(),image:img||old.image||''};if(!item.alt||!item.image){alert('Gallery title and image are required.');return;}if(idx>=0)siteState.galleryItems[idx]=item;else siteState.galleryItems.push(item);saveState();renderAdminLists();newGallery();mergeAndRender();status('Gallery saved.');};
+ document.getElementById('admin-gallery-new').onclick=newGallery;
+ document.getElementById('admin-review-save').onclick=async()=>{const idx=+document.getElementById('admin-review-index').value;const old=idx>=0?siteState.reviews[idx]:{};const img=await fileToDataUrl(document.getElementById('admin-review-photo').files[0]);const item={name:document.getElementById('admin-review-name').value.trim(),rating:+document.getElementById('admin-review-rating').value,quote:document.getElementById('admin-review-quote').value.trim(),photo:img||old.photo||''};if(!item.name||!item.quote){alert('Customer name and review are required.');return;}if(idx>=0)siteState.reviews[idx]=item;else siteState.reviews.push(item);saveState();renderAdminLists();newReview();mergeAndRender();status('Review saved.');};
+ document.getElementById('admin-review-new').onclick=newReview;
+ document.getElementById('admin-chat-clear').onclick=()=>{localStorage.removeItem('restaurant-chat-log-'+slugify(siteState.name));renderAdminLists();status('Chat cleared.');};
+ document.getElementById('admin-save-all').onclick=()=>{saveState();mergeAndRender();renderAdminLists();status('All changes saved locally.');};
+ document.getElementById('admin-download-updated').onclick=downloadUpdated;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('owner-admin-modal').classList.contains('open'))closeAdmin();});
+}
+
+loadState();
+document.addEventListener('DOMContentLoaded',()=>{
+  mergeAndRender();bindFilters();bindAdmin();
+  document.getElementById('owner-admin-modal').classList.add('open');
+  document.getElementById('owner-admin-modal').setAttribute('aria-hidden','true');
+  document.getElementById('owner-admin-modal').classList.remove('open');
+  document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==='a')openAdmin();});
+  if(location.hash==='#admin')openAdmin();
+});
+})();`;
+        }
         function updateGalleryLayoutMode(mode) {
             appState.galleryLayout = mode;
             renderLivePreview();
@@ -3227,7 +3997,7 @@
                                     <span class="dish-price">${escapeHTML(dish.price)}</span>
                                 </div>
                                 <p class="dish-desc">${escapeHTML(dish.description)}</p>
-                                <button class="dish-order-btn" type="button" onclick="alert('Added ${escapeHTML(dish.name)} to order list!')">Add to Order</button>
+                                <button class="dish-order-btn" type="button" data-cart-index="${appState.menuItems.indexOf(dish)}">Add to Cart</button>
                             </div>
                         </div>
                     `).join('');
@@ -3277,7 +4047,7 @@
                                         <span class="menu-card-price">${escapeHTML(item.price)}</span>
                                     </div>
                                     <p class="menu-card-desc">${escapeHTML(item.description)}</p>
-                                    <button class="dish-order-btn" type="button" onclick="alert('Added ${escapeHTML(item.name)} to order queue!')">Add to Cart</button>
+                                    <button class="dish-order-btn" type="button" data-cart-index="${appState.menuItems.indexOf(item)}">Add to Cart</button>
                                 </div>
                             </div>
                         `;
@@ -3505,6 +4275,9 @@
             renderAdminMenuList();
             renderAdminGalleryList();
             renderAdminReviewsList();
+            if (document.getElementById('step-live-preview')?.classList.contains('active-step')) {
+                initPreviewEnhancements(document);
+            }
         }
 
         // Render Admin Lists
