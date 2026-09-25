@@ -1,0 +1,2117 @@
+/* CSS Variables for Easy Customization */
+        :root {
+            --primary-color: #8B0000;      /* Deep Rich Red */
+            --primary-dark: #5c0000;
+            --accent-color: #FF8C00;      /* Warm Appetizing Orange/Amber */
+            --bg-color: #FFF8F0;          /* Warm Neutral Cream */
+            --surface-color: #FFFFFF;     /* White card backgrounds */
+            --text-main: #2C221E;         /* Dark earthy brown for text */
+            --text-muted: #6B5B53;        /* Muted text */
+            --border-color: #E6D5C3;      /* Soft border tint */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --shadow-sm: 0 4px 6px -1px rgba(44, 34, 30, 0.05), 0 2px 4px -1px rgba(44, 34, 30, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(44, 34, 30, 0.08), 0 4px 6px -2px rgba(44, 34, 30, 0.04);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        /* Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 70px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+        }
+
+        /* Reusable Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body);
+            font-weight: 600;
+            padding: 0.85rem 1.75rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: #e07b00;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-secondary:hover {
+            background-color: #ffffff;
+            color: var(--text-main);
+        }
+
+        /* =========================================================
+           BUILDER WORKFLOW STEPS CONTAINER & NAV BAR
+           ========================================================= */
+        #builder-workflow-nav {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 1rem 0;
+            border-bottom: 2px solid #52423C;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+        }
+
+        .workflow-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .workflow-steps-indicator {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .step-pill {
+            background-color: #3D302B;
+            color: #D2C2B9;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #52423C;
+            transition: all 0.2s;
+        }
+
+        .step-pill.active {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        .step-pill.completed {
+            background-color: #27ae60;
+            color: #ffffff;
+            border-color: #27ae60;
+        }
+
+        /* Step Panels Visibility Control */
+        .builder-step-panel {
+            display: none;
+        }
+        .builder-step-panel.active-step {
+            display: block;
+        }
+
+        /* 1. Template Selection Screen Styling */
+        #step-template-selection {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 4rem 0;
+            min-height: 100vh;
+        }
+
+        .template-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .template-card {
+            background-color: #3D302B;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 2px solid #52423C;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .template-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.2);
+        }
+
+        .template-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .template-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .template-card-title {
+            font-size: 1.35rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .template-card-desc {
+            color: #D2C2B9;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* 3. Feature Selection Screen Styling (Exactly 28 Core Features Grouped & Sorted) */
+        #step-feature-selection {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 4rem 0;
+            min-height: 100vh;
+        }
+
+        .feature-selection-box {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #3D302B;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid #52423C;
+        }
+
+        .feature-groups-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-group-card {
+            background: #2C221E;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid #52423C;
+        }
+
+        .feature-group-card h4 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid #52423C;
+            padding-bottom: 0.35rem;
+            font-family: var(--font-body);
+            font-weight: 700;
+        }
+
+        .feature-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .feature-toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.875rem;
+            color: #E6D5C3;
+            cursor: pointer;
+            background: #352924;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #483832;
+            transition: background 0.2s;
+        }
+
+        .feature-toggle-item:hover {
+            background: #42332c;
+        }
+
+        .feature-toggle-item input {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        /* 6. Payment Screen Styling */
+        #step-payment {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 4rem 0;
+            min-height: 100vh;
+        }
+
+        .payment-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #3D302B;
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid #52423C;
+            text-align: center;
+        }
+
+        /* 7. Final Setup Options Screen Styling */
+        #step-final-setup {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 4rem 0;
+            min-height: 100vh;
+        }
+
+        .setup-options-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #3D302B;
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid #52423C;
+        }
+
+        .setup-question-group {
+            background: #2C221E;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #52423C;
+            margin-bottom: 1.5rem;
+        }
+
+        .setup-question-group p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #FFF8F0;
+            margin-bottom: 1rem;
+        }
+
+        .radio-options-flex {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .radio-options-flex label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #E6D5C3;
+        }
+
+        .radio-options-flex input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .executive-notice-box {
+            display: none;
+            background-color: #27ae60;
+            color: #fff;
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           NO-CODE BUILDER DASHBOARD CONTROLS (Step 4: Enter Details)
+           ========================================================= */
+        #builder-dashboard {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 2.5rem 0;
+            border-bottom: 5px solid var(--accent-color);
+            min-height: 100vh;
+        }
+
+        .builder-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .builder-header h1 {
+            color: #FFF8F0;
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .builder-header p {
+            color: #D2C2B9;
+            font-size: 1rem;
+        }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .builder-card {
+            background-color: #3D302B;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border: 1px solid #52423C;
+        }
+
+        .builder-card h3 {
+            color: var(--accent-color);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #52423C;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.35rem;
+            color: #E6D5C3;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            background-color: #2C221E;
+            border: 1px solid #52423C;
+            border-radius: 6px;
+            color: #FFF8F0;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            min-height: 44px;
+            word-break: break-all;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .builder-actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-reset {
+            background-color: #52423C;
+            color: #FFF;
+        }
+        .btn-reset:hover {
+            background-color: #6B5B53;
+        }
+
+        .admin-item-row {
+            background: #2C221E;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #52423C;
+            gap: 1rem;
+        }
+
+        .admin-item-info span {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+        }
+        .admin-item-info strong {
+            font-size: 0.9rem;
+            color: #FFF;
+        }
+
+        .admin-item-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            min-height: 36px;
+        }
+
+        .toast-banner {
+            background-color: #27ae60;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .img-preview-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            background: #2C221E;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #52423C;
+        }
+
+        .img-preview-box img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        /* =========================================================
+           LIVE WEBSITE PREVIEW CONTAINER (Step 5: Live Preview)
+           ========================================================= */
+        #step-live-preview {
+            background-color: var(--bg-color);
+            position: relative;
+        }
+
+        .preview-floating-toolbar {
+            position: fixed;
+            top: 75px;
+            right: 20px;
+            z-index: 1200;
+            background: var(--surface-color);
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* 28. Simple 6-Tab Navigation (#28) */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 0.75rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .nav-logo-img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            transition: color 0.2s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .nav-links {
+                display: flex;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: 0.85rem;
+            }
+            .nav-links a {
+                padding: 0.3rem 0.6rem;
+                background: var(--surface-color);
+                border: 1px solid var(--border-color);
+                border-radius: 20px;
+            }
+        }
+
+        /* 1. HERO SECTION */
+        #hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            padding: 4rem 1rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            scroll-margin-top: 70px;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(44, 34, 30, 0.65), rgba(44, 34, 30, 0.75));
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            margin-bottom: 2rem;
+            color: #f3e9e2;
+            font-weight: 400;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Actionable Contact Buttons Bar (#19 & #25) */
+        .contact-actions-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-contact-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            min-height: 44px;
+        }
+
+        .btn-call {
+            background-color: #27ae60;
+            color: #fff;
+        }
+        .btn-call:hover { background-color: #219653; }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: #fff;
+        }
+        .btn-whatsapp:hover { background-color: #20ba5a; }
+
+        /* Mobile Sticky CTA Footer Bar (#26) */
+        .mobile-sticky-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--surface-color);
+            padding: 0.75rem 1rem;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            gap: 0.75rem;
+        }
+
+        .mobile-sticky-cta .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            min-height: 44px;
+        }
+
+        .mobile-sticky-cta .btn-order {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .mobile-sticky-cta .btn-book {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-sticky-cta {
+                display: flex;
+            }
+            body {
+                padding-bottom: 80px;
+            }
+        }
+
+        /* Section Heading Utilities & Scroll Margins */
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 3.5vw, 2.75rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        section {
+            scroll-margin-top: 80px;
+        }
+
+        /* 2. FEATURED DISHES SECTION */
+        #featured-dishes {
+            padding: 5rem 0;
+        }
+
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .dish-card {
+            background-color: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        .dish-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dish-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .dish-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .dish-card:hover .dish-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .best-seller-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .dish-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .dish-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .dish-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+
+        .dish-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .dish-desc {
+            color: var(--text-muted);
+            font-size: 0.925rem;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .dish-order-btn {
+            width: 100%;
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.6rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .dish-order-btn:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        /* 3. MENU SECTION & FILTERS (#8) */
+        #menu-section {
+            padding: 5rem 0;
+            background-color: rgba(230, 213, 195, 0.15);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .menu-tabs-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-filters-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-tab-btn, .menu-filter-btn {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 44px;
+        }
+
+        .menu-tab-btn:hover, .menu-tab-btn.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .menu-filter-btn:hover, .menu-filter-btn.active {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background-color: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-card-img {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-type-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+        .item-type-indicator.veg { border-left: 3px solid #2ecc71; }
+        .item-type-indicator.non-veg { border-left: 3px solid #e74c3c; }
+
+        .menu-attributes-tags {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 4px;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+
+        .menu-attr-badge {
+            background: rgba(44, 34, 30, 0.85);
+            color: #FFF8F0;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .menu-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+
+        .menu-card-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .menu-card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        /* 4. TODAY'S SPECIALS / OFFERS BANNER */
+        #offers {
+            padding: 5rem 0 2rem 0;
+        }
+
+        .offer-banner {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .offer-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .offer-tag {
+            background-color: var(--accent-color);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.25rem 0.85rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .offer-title {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .offer-desc {
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+            color: #fcece2;
+        }
+
+        .offer-validity {
+            font-size: 0.875rem;
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+
+        /* 5. GALLERY SECTION (#9 & #10 - Supports Grid or Real Masonry) */
+        #gallery-section {
+            padding: 5rem 0;
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gallery-filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-filter-btn {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 44px;
+        }
+
+        .gallery-filter-btn:hover, .gallery-filter-btn.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Gallery Layout Mode Styles */
+        .gallery-grid.grid-mode {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .gallery-grid.grid-mode .gallery-item-card {
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-grid.masonry-mode {
+            column-count: 3;
+            column-gap: 1.5rem;
+        }
+        @media (max-width: 900px) {
+            .gallery-grid.masonry-mode { column-count: 2; }
+        }
+        @media (max-width: 600px) {
+            .gallery-grid.masonry-mode { column-count: 1; }
+        }
+        .gallery-grid.masonry-mode .gallery-item-card {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            break-inside: avoid;
+        }
+
+        .gallery-item-card {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            background-color: var(--border-color);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gallery-item-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .gallery-item-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(44, 34, 30, 0.85);
+            color: #FFF8F0;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+        }
+
+        /* 6. OUR STORY TIMELINE (#11) */
+        #timeline-section {
+            padding: 6rem 0;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 5px;
+            bottom: 5px;
+            width: 3px;
+            background-color: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 4px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: 3px solid var(--bg-color);
+            box-shadow: 0 0 0 2px var(--border-color);
+        }
+
+        .timeline-content {
+            background-color: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .timeline-year {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5px;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* 7. MEET THE CHEF (#12) */
+        #chef-section {
+            padding: 6rem 0;
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .chef-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .chef-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+
+        .chef-img-container {
+            position: relative;
+            margin: 0 auto;
+            max-width: 380px;
+        }
+
+        .chef-img-container img {
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .chef-content h2 {
+            font-size: clamp(2rem, 3vw, 2.5rem);
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+        }
+
+        .chef-content p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .chef-signature-box {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .chef-signature-box {
+                justify-content: center;
+            }
+        }
+
+        .chef-name-label {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-family: var(--font-heading);
+        }
+
+        /* 8. CORE VALUES (#13) */
+        #core-values-section {
+            padding: 6rem 0;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background-color: var(--surface-color);
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-symbol {
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+        }
+
+        .value-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .value-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* 9. TABLE RESERVATION (#14, #15, #16, #17) */
+        #reservation-section {
+            padding: 6rem 0;
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .reservation-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .reservation-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .reservation-success-box {
+            display: none;
+            background-color: #27ae60;
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .reservation-success-box h3 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 10. LOYALTY / REWARDS BANNER (#21) */
+        #loyalty-section {
+            padding: 4rem 0;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .loyalty-banner {
+            background: linear-gradient(135deg, var(--accent-color), #e07b00);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .loyalty-title {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .loyalty-desc {
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+            color: #fff8f0;
+        }
+
+        /* 11. GOOGLE REVIEWS EMBED (#20) */
+        #google-reviews-section {
+            padding: 6rem 0;
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .google-reviews-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .google-reviews-fallback {
+            background-color: var(--bg-color);
+            padding: 3rem 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .google-reviews-iframe-wrap {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .google-reviews-iframe-wrap iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+
+        /* 12. TESTIMONIALS / REVIEWS SLIDER (#5) */
+        #testimonials {
+            padding: 6rem 0;
+            position: relative;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .testimonials-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0;
+            touch-action: pan-y;
+        }
+
+        .reviews-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .review-card {
+            min-width: 100%;
+            box-sizing: border-box;
+            background: var(--surface-color);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .review-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--accent-color);
+        }
+
+        .review-stars {
+            color: #ffc107;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .review-quote {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        /* Slider Controls */
+        .slider-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .slider-btn {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .slider-btn:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        .slider-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: var(--primary-color);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* 13. LOCATION & TIMING & GOOGLE MAPS (#23 & #24) */
+        #contact-section {
+            padding: 6rem 0;
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3.5rem;
+            align-items: stretch;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .contact-info-card {
+            background-color: var(--bg-color);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-info-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-info-group h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.4rem;
+            font-family: var(--font-heading);
+        }
+
+        .contact-info-group p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            word-break: break-word;
+        }
+
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 380px;
+            border: none;
+        }
+
+        .map-placeholder {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* 14. FOOTER QUICK LINKS (#22) */
+        .site-footer {
+            background-color: #2C221E;
+            color: #FFF8F0;
+            padding: 4rem 0 2rem 0;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+            font-family: var(--font-heading);
+        }
+
+        .footer-col p {
+            color: #D2C2B9;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .footer-links a {
+            color: #D2C2B9;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            padding: 0.25rem 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #52423C;
+            color: #A3938A;
+            font-size: 0.875rem;
+        }
+
+
+        /* =========================================================
+           PREMIUM RESTAURANT PREVIEW / EXPORT ENHANCEMENTS
+           ========================================================= */
+        .hero-content { position: relative; }
+        .hero-content h1.hero-3d-title {
+            transform: perspective(900px) rotateX(7deg);
+            transform-origin: center bottom;
+            text-shadow:
+                0 2px 0 rgba(255,255,255,.20),
+                0 7px 0 rgba(0,0,0,.18),
+                0 14px 28px rgba(0,0,0,.36);
+            letter-spacing: .02em;
+            animation: restaurantTitleFloat 4.8s ease-in-out infinite;
+            will-change: transform;
+        }
+        @keyframes restaurantTitleFloat {
+            0%,100% { transform: perspective(900px) rotateX(7deg) translateY(0); }
+            50% { transform: perspective(900px) rotateX(7deg) translateY(-5px); }
+        }
+        .chef-3d-scene {
+            position: absolute;
+            right: 2.5rem;
+            bottom: 1rem;
+            width: 260px;
+            height: 260px;
+            z-index: 2;
+            pointer-events: none;
+            filter: drop-shadow(0 18px 35px rgba(0,0,0,.28));
+            opacity: .96;
+        }
+        .chef-3d-scene canvas { width: 100% !important; height: 100% !important; display:block; }
+        .chef-3d-fallback {
+            width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+            font-size:7rem; filter: drop-shadow(0 12px 20px rgba(0,0,0,.35));
+            animation: chefFallbackFloat 3s ease-in-out infinite;
+        }
+        @keyframes chefFallbackFloat { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-8px)} }
+        @media (max-width: 900px) {
+            .chef-3d-scene { right: .5rem; bottom: .5rem; width: 180px; height: 180px; opacity: .82; }
+        }
+        @media (max-width: 600px) {
+            .hero-content { padding-bottom: 7rem; }
+            .chef-3d-scene { right: 50%; transform: translateX(50%); width: 145px; height: 145px; bottom: .1rem; opacity: .75; }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(34px) scale(.985);
+            transition: opacity .75s ease, transform .75s cubic-bezier(.2,.65,.2,1);
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-content h1.hero-3d-title, .chef-3d-fallback { animation: none !important; }
+            .scroll-reveal { opacity:1; transform:none; transition:none; }
+        }
+
+        /* Real cart */
+        .restaurant-cart-fab {
+            position: fixed;
+            right: 1rem;
+            bottom: 5.4rem;
+            z-index: 1500;
+            min-width: 54px;
+            height: 54px;
+            padding: 0 .95rem;
+            border-radius: 999px;
+            border: 0;
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 12px 28px rgba(0,0,0,.22);
+            cursor: pointer;
+            font-weight: 800;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:.45rem;
+        }
+        .restaurant-cart-count {
+            min-width: 22px;
+            height:22px;
+            padding:0 6px;
+            border-radius:999px;
+            background:#fff;
+            color:var(--primary-color);
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.75rem;
+        }
+        .restaurant-cart-drawer {
+            position: fixed;
+            top:0;
+            right:-430px;
+            width:min(410px, 92vw);
+            height:100vh;
+            z-index:1600;
+            background:#fff;
+            box-shadow:-18px 0 50px rgba(0,0,0,.22);
+            transition:right .3s ease;
+            display:flex;
+            flex-direction:column;
+        }
+        .restaurant-cart-drawer.open { right:0; }
+        .cart-drawer-head { padding:1rem 1.1rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; }
+        .cart-drawer-head h3 { color:var(--primary-dark); font-size:1.35rem; }
+        .cart-close-btn { background:transparent; border:0; font-size:1.5rem; cursor:pointer; color:var(--text-main); }
+        .cart-items-container { flex:1; overflow:auto; padding:1rem; }
+        .cart-empty { text-align:center; padding:3rem 1rem; color:var(--text-muted); }
+        .cart-item-row { display:grid; grid-template-columns:1fr auto; gap:.75rem; padding:.9rem 0; border-bottom:1px solid var(--border-color); }
+        .cart-item-row strong { color:var(--text-main); }
+        .cart-item-meta { color:var(--text-muted); font-size:.85rem; margin-top:.15rem; }
+        .cart-item-actions { display:flex; align-items:center; gap:.35rem; margin-top:.45rem; }
+        .cart-qty-btn { width:30px; height:30px; border:1px solid var(--border-color); border-radius:8px; background:#fff; cursor:pointer; }
+        .cart-remove-btn { border:0; background:transparent; color:var(--primary-color); cursor:pointer; font-size:.8rem; margin-left:.25rem; }
+        .cart-drawer-foot { border-top:1px solid var(--border-color); padding:1rem; }
+        .cart-total-row { display:flex; justify-content:space-between; font-weight:800; margin-bottom:.9rem; }
+        .cart-foot-actions { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+        @media (max-width:600px) {
+            .restaurant-cart-fab { bottom: 5rem; right:.75rem; }
+            .cart-foot-actions { grid-template-columns:1fr; }
+        }
+
+        /* In-site customer chat */
+        .restaurant-chat-widget { position:fixed; right:1rem; bottom:9.4rem; z-index:1490; }
+        .restaurant-chat-fab { width:54px; height:54px; border-radius:50%; border:0; background:var(--accent-color); color:#fff; font-size:1.35rem; cursor:pointer; box-shadow:0 12px 28px rgba(0,0,0,.22); }
+        .restaurant-chat-panel {
+            position:absolute; right:0; bottom:66px; width:min(360px, 92vw); height:480px;
+            background:#fff; border:1px solid var(--border-color); border-radius:18px; overflow:hidden;
+            box-shadow:0 18px 50px rgba(0,0,0,.25); display:none; flex-direction:column;
+        }
+        .restaurant-chat-panel.open { display:flex; }
+        .chat-head { padding:.95rem 1rem; background:var(--primary-dark); color:#fff; display:flex; justify-content:space-between; align-items:center; }
+        .chat-head strong { font-family:var(--font-heading); font-size:1.1rem; }
+        .chat-head button { border:0; background:transparent; color:#fff; font-size:1.2rem; cursor:pointer; }
+        .chat-messages { flex:1; overflow:auto; padding:1rem; background:#fffaf5; }
+        .chat-msg { max-width:82%; padding:.65rem .8rem; margin-bottom:.65rem; border-radius:14px; font-size:.9rem; line-height:1.45; }
+        .chat-msg.customer { margin-left:auto; background:#ffe9cf; border-bottom-right-radius:4px; }
+        .chat-msg.system { margin-right:auto; background:#fff; border:1px solid var(--border-color); border-bottom-left-radius:4px; }
+        .chat-msg small { display:block; margin-top:.2rem; opacity:.55; font-size:.7rem; }
+        .chat-compose { padding:.75rem; border-top:1px solid var(--border-color); background:#fff; }
+        .chat-compose-row { display:grid; grid-template-columns:1fr auto; gap:.5rem; }
+        .chat-input { width:100%; min-height:44px; border:1px solid var(--border-color); border-radius:10px; padding:.7rem .8rem; font-family:var(--font-body); resize:none; }
+        .chat-send-btn { border:0; border-radius:10px; min-width:48px; background:var(--primary-color); color:#fff; cursor:pointer; font-weight:700; }
+        .chat-wa-btn { width:100%; margin-top:.5rem; border:1px solid #25d366; border-radius:10px; background:#fff; color:#138c47; padding:.65rem .8rem; cursor:pointer; font-weight:700; }
+        .chat-note { font-size:.72rem; color:var(--text-muted); margin-top:.4rem; }
+        @media (max-width:600px) { .restaurant-chat-widget { right:.75rem; bottom:12.8rem; } }
+
+        /* Hidden owner admin panel in downloaded site */
+        .owner-admin-modal { display:none; position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,.72); padding:2rem; overflow:auto; }
+        .owner-admin-modal.open { display:block; }
+        .owner-admin-card { max-width:1100px; margin:0 auto; background:#fffaf5; border-radius:18px; box-shadow:0 30px 90px rgba(0,0,0,.4); overflow:hidden; }
+        .owner-admin-head { padding:1rem 1.2rem; background:var(--primary-dark); color:#fff; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+        .owner-admin-head h2 { color:#fff; font-size:1.4rem; }
+        .owner-admin-head button { border:0; background:transparent; color:#fff; font-size:1.4rem; cursor:pointer; }
+        .owner-admin-body { padding:1.2rem; }
+        .owner-admin-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1rem; }
+        .owner-admin-section { background:#fff; border:1px solid var(--border-color); border-radius:14px; padding:1rem; }
+        .owner-admin-section h3 { color:var(--primary-dark); font-size:1.1rem; margin-bottom:.75rem; }
+        .admin-form-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.6rem; }
+        .owner-admin-section label { display:block; font-size:.78rem; font-weight:700; color:var(--text-muted); margin-bottom:.25rem; }
+        .owner-admin-section input,.owner-admin-section textarea,.owner-admin-section select { width:100%; border:1px solid var(--border-color); border-radius:9px; padding:.65rem .7rem; background:#fff; color:var(--text-main); font-family:var(--font-body); }
+        .owner-admin-section textarea { resize:vertical; min-height:76px; }
+        .owner-admin-list { max-height:260px; overflow:auto; border:1px solid var(--border-color); border-radius:10px; margin-bottom:.75rem; }
+        .owner-admin-list-row { display:flex; justify-content:space-between; align-items:center; gap:.6rem; padding:.65rem .7rem; border-bottom:1px solid var(--border-color); }
+        .owner-admin-list-row:last-child { border-bottom:0; }
+        .owner-admin-list-row strong { font-size:.85rem; }
+        .owner-admin-list-row span { display:block; font-size:.72rem; color:var(--text-muted); }
+        .owner-admin-actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
+        .owner-admin-actions button { border:0; border-radius:10px; padding:.75rem 1rem; cursor:pointer; font-weight:800; }
+        .admin-save { background:var(--primary-color); color:#fff; }
+        .admin-export { background:#27ae60; color:#fff; }
+        .admin-neutral { background:#e8ddd2; color:var(--text-main); }
+        .admin-danger { background:#b33939; color:#fff; }
+        .admin-small { padding:.45rem .6rem !important; font-size:.75rem; }
+        .admin-status { margin-top:.75rem; padding:.65rem .75rem; border-radius:9px; background:#eef8f0; color:#176b36; font-size:.82rem; display:none; }
+        .admin-status.show { display:block; }
+        .owner-admin-lock { max-width:420px; margin:8vh auto; background:#fffaf5; border-radius:18px; padding:1.5rem; box-shadow:0 25px 80px rgba(0,0,0,.35); text-align:center; }
+        .owner-admin-lock h2 { color:var(--primary-dark); margin-bottom:.5rem; }
+        .owner-admin-lock p { color:var(--text-muted); font-size:.9rem; margin-bottom:1rem; }
+        .owner-admin-lock input { width:100%; padding:.8rem .9rem; border:1px solid var(--border-color); border-radius:10px; text-align:center; font-size:1.1rem; letter-spacing:.25em; }
+        .owner-admin-lock button { width:100%; margin-top:.7rem; border:0; border-radius:10px; padding:.8rem; background:var(--primary-color); color:#fff; font-weight:800; cursor:pointer; }
+
+        /* Preview page spacing after hiding the builder header */
+        body.preview-only-mode { padding-bottom: 80px; }
+        body.preview-only-mode .preview-floating-toolbar { top: 18px; right: 18px; }
+        body.preview-only-mode .mobile-sticky-cta { z-index: 1400; }
+
+        /* Feature #26: explicit desktop-only behavior when responsive mode is disabled. */
+        #live-preview-wrapper.builder-responsive-off {
+            min-width: 1080px;
+        }
+        #live-preview-wrapper.builder-responsive-off .mobile-sticky-cta {
+            display: none !important;
+        }
+        @media (max-width: 768px) {
+            #live-preview-wrapper.builder-responsive-off {
+                overflow-x: auto;
+            }
+        }
+
+    
+
+        /* =========================================================
+           ASTROCOSMOS 3D TEMPLATE — BUILDER / PREVIEW STYLES
+           ========================================================= */
+        .template-card.astro-template-card {
+            background: radial-gradient(circle at 20% 10%, rgba(211,170,82,.16), transparent 35%),
+                        linear-gradient(145deg, #14090c 0%, #2a1018 55%, #0b0709 100%);
+            border-color: #6d5424;
+        }
+        .template-card.astro-template-card:hover { border-color:#d7b45a; box-shadow:0 12px 32px rgba(215,180,90,.2); }
+        .astro-template-preview {
+            height:200px; position:relative; overflow:hidden;
+            background:radial-gradient(circle at 52% 46%, rgba(255,210,112,.28), transparent 11%),
+                       radial-gradient(circle at 50% 50%, rgba(117,67,132,.22), transparent 32%),
+                       linear-gradient(135deg,#170b12,#050507 70%);
+        }
+        .astro-template-preview::before {
+            content:""; position:absolute; inset:0;
+            background-image:radial-gradient(circle at 8% 20%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 30% 70%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 76% 28%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 91% 78%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 64% 88%, #fff 0 1px, transparent 1.5px);
+            opacity:.65;
+        }
+        .astro-template-orbit { position:absolute; border:1px solid rgba(215,180,90,.34); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); }
+        .astro-template-orbit.o1{width:70px;height:34px}.astro-template-orbit.o2{width:120px;height:58px}.astro-template-orbit.o3{width:180px;height:86px}.astro-template-orbit.o4{width:250px;height:120px}
+        .astro-template-sun { position:absolute; width:46px;height:46px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 35% 35%,#fff0b0,#e7b84e 42%,#935a1f 80%);box-shadow:0 0 25px rgba(255,207,91,.65); }
+        .astro-template-planet { position:absolute;border-radius:50%;background:#d7b45a;box-shadow:0 0 8px rgba(215,180,90,.45); }
+        .astro-template-planet.p1{width:6px;height:6px;left:46%;top:38%}.astro-template-planet.p2{width:8px;height:8px;left:59%;top:34%}.astro-template-planet.p3{width:10px;height:10px;left:38%;top:63%}.astro-template-planet.p4{width:7px;height:7px;left:68%;top:64%}
+
+        .astrology-details-fields { display:none; }
+        .astro-form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+        .astro-form-wide { grid-column:1/-1; }
+        .astro-form-help { color:#D2C2B9; font-size:.86rem; margin-top:.35rem; }
+
+        .astrology-preview {
+            --astro-gold:#d7b45a; --astro-gold-soft:#f1d68d; --astro-maroon:#4a1522;
+            --astro-ivory:#fff8e8; --astro-dark:#0b0709; --astro-surface:rgba(28,12,18,.84); --astro-border:rgba(215,180,90,.28);
+            background:
+                radial-gradient(circle at 15% 5%,rgba(106,58,102,.16),transparent 28%),
+                radial-gradient(circle at 82% 18%,rgba(187,112,57,.1),transparent 24%),
+                linear-gradient(180deg,#0a0709 0%,#170a10 42%,#0d080b 100%);
+            color:#f8edd6; min-height:100vh; overflow:hidden; position:relative;
+            font-family:'Plus Jakarta Sans',sans-serif;
+        }
+        .astrology-preview.light-mode {
+            background:linear-gradient(180deg,#fffaf0 0%,#f6ede1 46%,#fffaf5 100%);
+            color:#3b2a25;
+        }
+        .astro-shell { width:min(1200px,calc(100% - 2rem)); margin:0 auto; }
+        .astro-live-bar { position:sticky;top:0;z-index:55; background:rgba(10,6,8,.92); border-bottom:1px solid var(--astro-border); backdrop-filter:blur(12px); }
+        .astrology-preview.light-mode .astro-live-bar { background:rgba(255,250,240,.94); }
+        .astro-live-inner { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; padding:.55rem 0; font-size:.78rem; color:#e9d6a3; }
+        .astrology-preview.light-mode .astro-live-inner { color:#6a493b; }
+        .astro-live-inner span { white-space:nowrap; }
+        .astro-top-nav { position:sticky; top:33px; z-index:50; background:rgba(17,8,12,.76); border-bottom:1px solid var(--astro-border); backdrop-filter:blur(14px); }
+        .astrology-preview.light-mode .astro-top-nav { background:rgba(255,250,245,.86); }
+        .astro-nav-inner { min-height:64px; display:flex;align-items:center;justify-content:space-between;gap:1rem; }
+        .astro-brand { display:flex;align-items:center;gap:.7rem;font-weight:800;letter-spacing:.02em;color:var(--astro-gold-soft); }
+        .astro-brand-mark { width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 35%,#fff3b2,#d7b45a 45%,#643217 82%); box-shadow:0 0 18px rgba(215,180,90,.35); }
+        .astro-nav-links { display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;justify-content:flex-end; }
+        .astro-nav-links a,.astro-nav-button { border:1px solid transparent;background:none;color:inherit;padding:.46rem .7rem;border-radius:999px;cursor:pointer;font-weight:650;font:inherit;text-decoration:none; }
+        .astro-nav-links a:hover,.astro-nav-button:hover { border-color:var(--astro-border); background:rgba(215,180,90,.08); }
+        .astro-nav-tools { display:flex; gap:.45rem; align-items:center; }
+        .astro-mini-btn { width:40px;height:40px;border-radius:50%;border:1px solid var(--astro-border);background:rgba(215,180,90,.08);color:inherit;cursor:pointer; }
+        @media(max-width:900px){.astro-nav-links a:nth-child(n+5){display:none}.astro-nav-inner{align-items:flex-start;padding:.6rem 0;flex-wrap:wrap}.astro-top-nav{top:33px}.astro-nav-links{flex:1}}
+        @media(max-width:600px){.astro-live-inner{font-size:.72rem}.astro-nav-links{gap:.1rem}.astro-nav-links a,.astro-nav-button{padding:.38rem .52rem;font-size:.78rem}.astro-brand span:last-child{display:none}}
+
+        .astro-hero { position:relative; min-height:86vh; display:grid; place-items:center; overflow:hidden; isolation:isolate; }
+        .astro-hero::before { content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,rgba(224,184,82,.11),transparent 26%),radial-gradient(circle at 15% 25%,rgba(126,68,145,.12),transparent 24%),radial-gradient(circle at 80% 80%,rgba(172,92,43,.08),transparent 25%); z-index:-2; }
+        .astro-starfield,.astro-starfield::before,.astro-starfield::after{position:absolute;inset:0;content:"";pointer-events:none;z-index:-1;background-image:radial-gradient(circle at 11% 16%,rgba(255,255,255,.8) 0 1px,transparent 1.5px),radial-gradient(circle at 47% 24%,rgba(255,255,255,.65) 0 1px,transparent 1.5px),radial-gradient(circle at 73% 12%,rgba(255,255,255,.7) 0 1px,transparent 1.5px),radial-gradient(circle at 86% 38%,rgba(255,255,255,.55) 0 1px,transparent 1.5px),radial-gradient(circle at 28% 73%,rgba(255,255,255,.5) 0 1px,transparent 1.5px),radial-gradient(circle at 65% 82%,rgba(255,255,255,.75) 0 1px,transparent 1.5px)}
+        .astro-starfield::before{transform:scale(1.15);opacity:.35}.astro-starfield::after{transform:scale(.8);opacity:.24}
+        .astro-hero-grid { width:min(1200px,calc(100% - 2rem));display:grid;grid-template-columns:1.05fr .95fr;gap:1rem;align-items:center; }
+        @media(max-width:900px){.astro-hero-grid{grid-template-columns:1fr;text-align:center;padding:3.5rem 0 2rem}.astro-hero-copy{order:2}.astro-solar-card{order:1}}
+        .astro-eyebrow {display:inline-flex;align-items:center;gap:.5rem;padding:.38rem .8rem;border-radius:999px;border:1px solid var(--astro-border);background:rgba(215,180,90,.08);color:var(--astro-gold-soft);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;}
+        .astro-hero h1 {margin:1rem 0 .75rem;font-family:'Playfair Display',serif;font-size:clamp(2.6rem,6vw,5.2rem);line-height:.98;color:#fff8e8;text-shadow:0 0 28px rgba(215,180,90,.12);}
+        .astrology-preview.light-mode .astro-hero h1{color:#4b3028;text-shadow:none}
+        .astro-hero p {max-width:620px;font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.8;color:#e6d6c1;}
+        .astrology-preview.light-mode .astro-hero p{color:#6a5348}
+        .astro-cta-row{display:flex;gap:.7rem;flex-wrap:wrap;margin:1.35rem 0;}.astro-hero .astro-cta-row{justify-content:flex-start}@media(max-width:900px){.astro-hero .astro-cta-row{justify-content:center}}
+        .astro-btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.8rem 1.15rem;border-radius:999px;border:1px solid var(--astro-border);background:linear-gradient(135deg,#e7c56f,#b88737);color:#26150f;font-weight:800;cursor:pointer;min-height:44px;text-decoration:none;box-shadow:0 8px 24px rgba(215,180,90,.16);}
+        .astro-btn.alt{background:rgba(215,180,90,.08);color:inherit;box-shadow:none}.astro-btn.ghost{background:transparent;color:inherit;box-shadow:none}
+        .astro-planet-pills{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}.astro-planet-pills button{padding:.48rem .72rem;border-radius:999px;border:1px solid rgba(215,180,90,.2);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;font-size:.8rem}.astro-planet-pills button:hover,.astro-planet-pills button.active{border-color:var(--astro-gold);background:rgba(215,180,90,.12)}
+        .astro-solar-card{min-height:470px;border:1px solid var(--astro-border);border-radius:28px;background:linear-gradient(145deg,rgba(20,9,14,.86),rgba(54,20,30,.72));box-shadow:0 24px 80px rgba(0,0,0,.28);padding:1rem;position:relative;overflow:hidden;}
+        .astrology-preview.light-mode .astro-solar-card{background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(250,239,224,.96));}
+        #astro-solar-system-canvas{width:100%;height:410px;display:block;border-radius:20px;}.astro-solar-fallback{height:410px;display:grid;place-items:center;color:var(--astro-gold-soft);text-align:center;padding:2rem;}
+        .astro-focus-status{position:absolute;left:1.2rem;right:1.2rem;bottom:1.2rem;padding:.8rem 1rem;border:1px solid var(--astro-border);background:rgba(5,3,4,.72);backdrop-filter:blur(10px);border-radius:16px;font-size:.82rem}.astrology-preview.light-mode .astro-focus-status{background:rgba(255,250,245,.85)}
+
+        .astro-section{padding:5.5rem 0;border-top:1px solid rgba(215,180,90,.10)}
+        .astro-section.alt{background:rgba(215,180,90,.025)}
+        .astro-section-head{max-width:760px;margin:0 auto 2.3rem;text-align:center}.astro-section-head h2{margin:0 0 .7rem;font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:var(--astro-gold-soft)}.astrology-preview.light-mode .astro-section-head h2{color:#613a2d}.astro-section-head p{color:#d9cab7}.astrology-preview.light-mode .astro-section-head p{color:#705b50}
+        .astro-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.astro-glass-card{border:1px solid var(--astro-border);background:var(--astro-surface);border-radius:20px;padding:1.2rem;box-shadow:0 12px 36px rgba(0,0,0,.14);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}.astro-glass-card:hover{transform:translateY(-5px);border-color:rgba(215,180,90,.5);box-shadow:0 18px 48px rgba(0,0,0,.2)}.astrology-preview.light-mode .astro-glass-card{background:rgba(255,255,255,.72)}
+        .astro-icon{font-size:1.8rem}.astro-glass-card h3{margin:.7rem 0 .4rem;color:var(--astro-gold-soft)}.astrology-preview.light-mode .astro-glass-card h3{color:#613a2d}.astro-glass-card p{margin:0;color:#d8cbbb;font-size:.9rem;line-height:1.65}.astrology-preview.light-mode .astro-glass-card p{color:#705d52}
+
+        .astro-rashi-toolbar{display:flex;justify-content:center;gap:.45rem;flex-wrap:wrap;margin-bottom:1.4rem}.astro-rashi-toolbar button{padding:.58rem 1rem;border:1px solid var(--astro-border);border-radius:999px;background:rgba(215,180,90,.06);color:inherit;cursor:pointer;font-weight:700}.astro-rashi-toolbar button.active{background:linear-gradient(135deg,#e7c56f,#b88737);color:#24140f;border-color:transparent}
+        .astro-rashi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem}.astro-rashi-card{padding:1rem;border:1px solid var(--astro-border);background:var(--astro-surface);border-radius:18px;cursor:pointer;text-align:center}.astro-rashi-card:hover,.astro-rashi-card.active{border-color:var(--astro-gold);transform:translateY(-2px)}.astro-rashi-symbol{font-size:1.8rem}.astro-rashi-name{font-weight:800;margin-top:.35rem}.astro-rashi-status{font-size:.72rem;color:#cdb88e;margin-top:.25rem}.astrology-preview.light-mode .astro-rashi-status{color:#8a6c52}
+        .astro-rashi-detail{margin-top:1.2rem;padding:1.2rem;border-radius:20px;border:1px solid var(--astro-border);background:linear-gradient(135deg,rgba(215,180,90,.07),rgba(255,255,255,.02));display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:center}.astro-rashi-detail .symbol{width:96px;height:96px;border-radius:22px;display:grid;place-items:center;background:rgba(215,180,90,.09);font-size:3rem}.astro-rashi-detail h3{margin:0 0 .3rem;color:var(--astro-gold-soft)}.astro-rashi-detail p{margin:0;line-height:1.7;color:#ddd0bf}.astrology-preview.light-mode .astro-rashi-detail p{color:#6d594f}@media(max-width:650px){.astro-rashi-detail{grid-template-columns:1fr;text-align:center}.astro-rashi-detail .symbol{margin:auto}}
+
+        .astro-two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start}@media(max-width:900px){.astro-two-col{grid-template-columns:1fr}}
+        .astro-panel{border:1px solid var(--astro-border);border-radius:22px;padding:1.25rem;background:var(--astro-surface)}.astro-panel h3{margin-top:0;color:var(--astro-gold-soft)}
+        .astro-form{display:grid;gap:.8rem}.astro-label{font-size:.82rem;color:#d8cbbb;font-weight:700}.astrology-preview.light-mode .astro-label{color:#745b50}.astro-input,.astro-select,.astro-textarea{width:100%;padding:.78rem .85rem;border-radius:12px;border:1px solid var(--astro-border);background:rgba(0,0,0,.18);color:inherit;font:inherit;min-height:44px}.astrology-preview.light-mode .astro-input,.astrology-preview.light-mode .astro-select,.astrology-preview.light-mode .astro-textarea{background:rgba(255,255,255,.76);color:#3b2a25}.astro-textarea{min-height:100px;resize:vertical}
+        .astro-kundali-result{display:none;margin-top:1rem}.astro-kundali-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}@media(max-width:600px){.astro-kundali-meta{grid-template-columns:1fr 1fr}}.astro-meta-box{padding:.8rem;border:1px solid var(--astro-border);border-radius:14px;text-align:center}.astro-meta-box small{display:block;color:#c8b493;margin-bottom:.2rem}.astro-kundali-chart{margin-top:1rem;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,72px);gap:4px}.astro-house{border:1px solid var(--astro-border);background:rgba(215,180,90,.035);display:grid;place-items:center;text-align:center;font-size:.74rem;padding:.3rem}.astro-house:nth-child(1){grid-column:1/2}.astro-house:nth-child(2){grid-column:2/3}.astro-house:nth-child(3){grid-column:3/4}.astro-house:nth-child(4){grid-column:4/5}.astro-house:nth-child(5){grid-column:4/5}.astro-house:nth-child(6){grid-column:4/5}.astro-house:nth-child(7){grid-column:3/4;grid-row:4}.astro-house:nth-child(8){grid-column:2/3;grid-row:4}.astro-house:nth-child(9){grid-column:1/2;grid-row:4}.astro-house:nth-child(10){grid-column:1/2;grid-row:3}.astro-house:nth-child(11){grid-column:1/2;grid-row:2}.astro-house:nth-child(12){grid-column:2/4;grid-row:2/4}
+
+        .astro-zodiac-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.3rem;align-items:center}@media(max-width:850px){.astro-zodiac-wrap{grid-template-columns:1fr}}
+        .astro-zodiac-wheel{width:min(360px,80vw);aspect-ratio:1;margin:auto;border-radius:50%;border:2px solid var(--astro-gold);position:relative;background:radial-gradient(circle,#27111a 0 35%,#130a0f 36% 58%,#0b0709 59%);box-shadow:inset 0 0 50px rgba(215,180,90,.08),0 20px 70px rgba(0,0,0,.28)}
+        .astro-wheel-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--astro-border);background:radial-gradient(circle,#d7b45a55,#2b121b 70%);text-align:center;padding:.7rem;font-weight:800}
+        .astro-zodiac-item{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--astro-border);background:rgba(255,255,255,.035);cursor:pointer;color:inherit;font-size:1.2rem;transform:rotate(var(--angle)) translateY(-138px) rotate(calc(var(--angle) * -1));transition:.25s ease}.astro-zodiac-item.active,.astro-zodiac-item:hover{background:rgba(215,180,90,.16);border-color:var(--astro-gold);box-shadow:0 0 20px rgba(215,180,90,.18)}
+
+        .astro-moon-card{display:grid;grid-template-columns:130px 1fr;gap:1rem;align-items:center}@media(max-width:550px){.astro-moon-card{grid-template-columns:1fr;text-align:center}}.astro-moon{width:120px;height:120px;border-radius:50%;margin:auto;background:radial-gradient(circle at 38% 34%,#fffef0 0 9%,#efedce 34%,#aca995 62%,#5f5c55 100%);box-shadow:0 0 24px rgba(255,245,200,.2)}.astro-moon-phase{font-size:1.35rem;font-weight:800;color:var(--astro-gold-soft)}
+
+        .astro-muhurtham{display:grid;grid-template-columns:150px 1fr;gap:1rem;align-items:center}@media(max-width:600px){.astro-muhurtham{grid-template-columns:1fr;text-align:center}}.astro-score{width:130px;height:130px;border-radius:50%;margin:auto;display:grid;place-items:center;border:8px solid rgba(215,180,90,.16);background:radial-gradient(circle,rgba(215,180,90,.15),transparent 67%);font-size:1.7rem;font-weight:900;color:var(--astro-gold-soft)}.astro-disclaimer{margin-top:.8rem;font-size:.76rem;color:#bfae99}
+
+        .astro-calendar-toolbar{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}.astro-calendar-toolbar button{border:1px solid var(--astro-border);background:rgba(215,180,90,.06);color:inherit;border-radius:10px;padding:.55rem .8rem;cursor:pointer}.astro-calendar-title{font-weight:900;color:var(--astro-gold-soft)}.astro-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.astro-day-name{font-size:.72rem;font-weight:800;text-align:center;color:#bfae99;padding:.4rem 0}.astro-date-cell{min-height:74px;padding:.45rem;border:1px solid rgba(215,180,90,.16);border-radius:12px;background:rgba(255,255,255,.025);cursor:pointer;font-size:.74rem}.astro-date-cell:hover,.astro-date-cell.active{border-color:var(--astro-gold);background:rgba(215,180,90,.08)}.astro-date-cell .num{font-weight:900}.astro-date-cell .tag{display:inline-block;margin-top:.2rem;padding:.12rem .3rem;border-radius:5px;background:rgba(215,180,90,.14);font-size:.62rem}.astro-calendar-detail{margin-top:1rem;padding:.9rem 1rem;border:1px solid var(--astro-border);border-radius:14px;background:rgba(215,180,90,.04)}
+
+        .astro-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}.astro-gallery-card{border:1px solid var(--astro-border);border-radius:18px;overflow:hidden;min-height:180px;background:linear-gradient(135deg,#29111a,#10090d);position:relative}.astro-gallery-card img{width:100%;height:100%;min-height:180px;object-fit:cover}.astro-gallery-card span{position:absolute;left:.7rem;bottom:.7rem;padding:.28rem .55rem;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:.72rem;font-weight:800}
+
+        .astro-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:850px){.astro-contact-grid{grid-template-columns:1fr}}.astro-contact-actions{display:flex;gap:.55rem;flex-wrap:wrap}.astro-contact-note{font-size:.77rem;color:#bfae99}.astro-footer{padding:2.5rem 0 3.3rem;border-top:1px solid rgba(215,180,90,.12);color:#baa992;font-size:.82rem}
+
+        .astro-quick-guide{position:fixed;right:18px;bottom:18px;z-index:90}.astro-guide-fab{width:54px;height:54px;border-radius:50%;border:1px solid var(--astro-gold);background:linear-gradient(135deg,#e7c56f,#b88737);color:#28160f;font-size:1.35rem;cursor:pointer;box-shadow:0 12px 28px rgba(0,0,0,.25)}.astro-guide-panel{position:absolute;right:0;bottom:66px;width:min(330px,calc(100vw - 36px));border:1px solid var(--astro-border);border-radius:18px;background:rgba(15,8,11,.96);backdrop-filter:blur(14px);padding:.8rem;display:none}.astro-guide-panel.open{display:block}.astrology-preview.light-mode .astro-guide-panel{background:rgba(255,250,245,.97)}.astro-guide-head{display:flex;justify-content:space-between;align-items:center}.astro-guide-messages{height:220px;overflow:auto;padding:.5rem 0}.astro-guide-msg{padding:.55rem .7rem;border-radius:11px;background:rgba(215,180,90,.06);margin-bottom:.45rem;font-size:.8rem;line-height:1.5}.astro-guide-input{display:flex;gap:.4rem}.astro-guide-input input{flex:1;min-width:0;border:1px solid var(--astro-border);border-radius:10px;padding:.65rem;background:rgba(255,255,255,.05);color:inherit}
+
+        .astro-reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}.astro-reveal.visible{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){.astro-reveal{opacity:1;transform:none;transition:none}}
