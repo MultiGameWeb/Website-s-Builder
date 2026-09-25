@@ -2006,6 +2006,130 @@
             }
         }
 
+    
+
+        /* =========================================================
+           ASTROCOSMOS 3D TEMPLATE — BUILDER / PREVIEW STYLES
+           ========================================================= */
+        .template-card.astro-template-card {
+            background: radial-gradient(circle at 20% 10%, rgba(211,170,82,.16), transparent 35%),
+                        linear-gradient(145deg, #14090c 0%, #2a1018 55%, #0b0709 100%);
+            border-color: #6d5424;
+        }
+        .template-card.astro-template-card:hover { border-color:#d7b45a; box-shadow:0 12px 32px rgba(215,180,90,.2); }
+        .astro-template-preview {
+            height:200px; position:relative; overflow:hidden;
+            background:radial-gradient(circle at 52% 46%, rgba(255,210,112,.28), transparent 11%),
+                       radial-gradient(circle at 50% 50%, rgba(117,67,132,.22), transparent 32%),
+                       linear-gradient(135deg,#170b12,#050507 70%);
+        }
+        .astro-template-preview::before {
+            content:""; position:absolute; inset:0;
+            background-image:radial-gradient(circle at 8% 20%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 30% 70%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 76% 28%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 91% 78%, #fff 0 1px, transparent 1.5px),
+                             radial-gradient(circle at 64% 88%, #fff 0 1px, transparent 1.5px);
+            opacity:.65;
+        }
+        .astro-template-orbit { position:absolute; border:1px solid rgba(215,180,90,.34); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); }
+        .astro-template-orbit.o1{width:70px;height:34px}.astro-template-orbit.o2{width:120px;height:58px}.astro-template-orbit.o3{width:180px;height:86px}.astro-template-orbit.o4{width:250px;height:120px}
+        .astro-template-sun { position:absolute; width:46px;height:46px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 35% 35%,#fff0b0,#e7b84e 42%,#935a1f 80%);box-shadow:0 0 25px rgba(255,207,91,.65); }
+        .astro-template-planet { position:absolute;border-radius:50%;background:#d7b45a;box-shadow:0 0 8px rgba(215,180,90,.45); }
+        .astro-template-planet.p1{width:6px;height:6px;left:46%;top:38%}.astro-template-planet.p2{width:8px;height:8px;left:59%;top:34%}.astro-template-planet.p3{width:10px;height:10px;left:38%;top:63%}.astro-template-planet.p4{width:7px;height:7px;left:68%;top:64%}
+
+        .astrology-details-fields { display:none; }
+        .astro-form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+        .astro-form-wide { grid-column:1/-1; }
+        .astro-form-help { color:#D2C2B9; font-size:.86rem; margin-top:.35rem; }
+
+        .astrology-preview {
+            --astro-gold:#d7b45a; --astro-gold-soft:#f1d68d; --astro-maroon:#4a1522;
+            --astro-ivory:#fff8e8; --astro-dark:#0b0709; --astro-surface:rgba(28,12,18,.84); --astro-border:rgba(215,180,90,.28);
+            background:
+                radial-gradient(circle at 15% 5%,rgba(106,58,102,.16),transparent 28%),
+                radial-gradient(circle at 82% 18%,rgba(187,112,57,.1),transparent 24%),
+                linear-gradient(180deg,#0a0709 0%,#170a10 42%,#0d080b 100%);
+            color:#f8edd6; min-height:100vh; overflow:hidden; position:relative;
+            font-family:'Plus Jakarta Sans',sans-serif;
+        }
+        .astrology-preview.light-mode {
+            background:linear-gradient(180deg,#fffaf0 0%,#f6ede1 46%,#fffaf5 100%);
+            color:#3b2a25;
+        }
+        .astro-shell { width:min(1200px,calc(100% - 2rem)); margin:0 auto; }
+        .astro-live-bar { position:sticky;top:0;z-index:55; background:rgba(10,6,8,.92); border-bottom:1px solid var(--astro-border); backdrop-filter:blur(12px); }
+        .astrology-preview.light-mode .astro-live-bar { background:rgba(255,250,240,.94); }
+        .astro-live-inner { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; padding:.55rem 0; font-size:.78rem; color:#e9d6a3; }
+        .astrology-preview.light-mode .astro-live-inner { color:#6a493b; }
+        .astro-live-inner span { white-space:nowrap; }
+        .astro-top-nav { position:sticky; top:33px; z-index:50; background:rgba(17,8,12,.76); border-bottom:1px solid var(--astro-border); backdrop-filter:blur(14px); }
+        .astrology-preview.light-mode .astro-top-nav { background:rgba(255,250,245,.86); }
+        .astro-nav-inner { min-height:64px; display:flex;align-items:center;justify-content:space-between;gap:1rem; }
+        .astro-brand { display:flex;align-items:center;gap:.7rem;font-weight:800;letter-spacing:.02em;color:var(--astro-gold-soft); }
+        .astro-brand-mark { width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 35%,#fff3b2,#d7b45a 45%,#643217 82%); box-shadow:0 0 18px rgba(215,180,90,.35); }
+        .astro-nav-links { display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;justify-content:flex-end; }
+        .astro-nav-links a,.astro-nav-button { border:1px solid transparent;background:none;color:inherit;padding:.46rem .7rem;border-radius:999px;cursor:pointer;font-weight:650;font:inherit;text-decoration:none; }
+        .astro-nav-links a:hover,.astro-nav-button:hover { border-color:var(--astro-border); background:rgba(215,180,90,.08); }
+        .astro-nav-tools { display:flex; gap:.45rem; align-items:center; }
+        .astro-mini-btn { width:40px;height:40px;border-radius:50%;border:1px solid var(--astro-border);background:rgba(215,180,90,.08);color:inherit;cursor:pointer; }
+        @media(max-width:900px){.astro-nav-links a:nth-child(n+5){display:none}.astro-nav-inner{align-items:flex-start;padding:.6rem 0;flex-wrap:wrap}.astro-top-nav{top:33px}.astro-nav-links{flex:1}}
+        @media(max-width:600px){.astro-live-inner{font-size:.72rem}.astro-nav-links{gap:.1rem}.astro-nav-links a,.astro-nav-button{padding:.38rem .52rem;font-size:.78rem}.astro-brand span:last-child{display:none}}
+
+        .astro-hero { position:relative; min-height:86vh; display:grid; place-items:center; overflow:hidden; isolation:isolate; }
+        .astro-hero::before { content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,rgba(224,184,82,.11),transparent 26%),radial-gradient(circle at 15% 25%,rgba(126,68,145,.12),transparent 24%),radial-gradient(circle at 80% 80%,rgba(172,92,43,.08),transparent 25%); z-index:-2; }
+        .astro-starfield,.astro-starfield::before,.astro-starfield::after{position:absolute;inset:0;content:"";pointer-events:none;z-index:-1;background-image:radial-gradient(circle at 11% 16%,rgba(255,255,255,.8) 0 1px,transparent 1.5px),radial-gradient(circle at 47% 24%,rgba(255,255,255,.65) 0 1px,transparent 1.5px),radial-gradient(circle at 73% 12%,rgba(255,255,255,.7) 0 1px,transparent 1.5px),radial-gradient(circle at 86% 38%,rgba(255,255,255,.55) 0 1px,transparent 1.5px),radial-gradient(circle at 28% 73%,rgba(255,255,255,.5) 0 1px,transparent 1.5px),radial-gradient(circle at 65% 82%,rgba(255,255,255,.75) 0 1px,transparent 1.5px)}
+        .astro-starfield::before{transform:scale(1.15);opacity:.35}.astro-starfield::after{transform:scale(.8);opacity:.24}
+        .astro-hero-grid { width:min(1200px,calc(100% - 2rem));display:grid;grid-template-columns:1.05fr .95fr;gap:1rem;align-items:center; }
+        @media(max-width:900px){.astro-hero-grid{grid-template-columns:1fr;text-align:center;padding:3.5rem 0 2rem}.astro-hero-copy{order:2}.astro-solar-card{order:1}}
+        .astro-eyebrow {display:inline-flex;align-items:center;gap:.5rem;padding:.38rem .8rem;border-radius:999px;border:1px solid var(--astro-border);background:rgba(215,180,90,.08);color:var(--astro-gold-soft);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;}
+        .astro-hero h1 {margin:1rem 0 .75rem;font-family:'Playfair Display',serif;font-size:clamp(2.6rem,6vw,5.2rem);line-height:.98;color:#fff8e8;text-shadow:0 0 28px rgba(215,180,90,.12);}
+        .astrology-preview.light-mode .astro-hero h1{color:#4b3028;text-shadow:none}
+        .astro-hero p {max-width:620px;font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.8;color:#e6d6c1;}
+        .astrology-preview.light-mode .astro-hero p{color:#6a5348}
+        .astro-cta-row{display:flex;gap:.7rem;flex-wrap:wrap;margin:1.35rem 0;}.astro-hero .astro-cta-row{justify-content:flex-start}@media(max-width:900px){.astro-hero .astro-cta-row{justify-content:center}}
+        .astro-btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.8rem 1.15rem;border-radius:999px;border:1px solid var(--astro-border);background:linear-gradient(135deg,#e7c56f,#b88737);color:#26150f;font-weight:800;cursor:pointer;min-height:44px;text-decoration:none;box-shadow:0 8px 24px rgba(215,180,90,.16);}
+        .astro-btn.alt{background:rgba(215,180,90,.08);color:inherit;box-shadow:none}.astro-btn.ghost{background:transparent;color:inherit;box-shadow:none}
+        .astro-planet-pills{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}.astro-planet-pills button{padding:.48rem .72rem;border-radius:999px;border:1px solid rgba(215,180,90,.2);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;font-size:.8rem}.astro-planet-pills button:hover,.astro-planet-pills button.active{border-color:var(--astro-gold);background:rgba(215,180,90,.12)}
+        .astro-solar-card{min-height:470px;border:1px solid var(--astro-border);border-radius:28px;background:linear-gradient(145deg,rgba(20,9,14,.86),rgba(54,20,30,.72));box-shadow:0 24px 80px rgba(0,0,0,.28);padding:1rem;position:relative;overflow:hidden;}
+        .astrology-preview.light-mode .astro-solar-card{background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(250,239,224,.96));}
+        #astro-solar-system-canvas{width:100%;height:410px;display:block;border-radius:20px;}.astro-solar-fallback{height:410px;display:grid;place-items:center;color:var(--astro-gold-soft);text-align:center;padding:2rem;}
+        .astro-focus-status{position:absolute;left:1.2rem;right:1.2rem;bottom:1.2rem;padding:.8rem 1rem;border:1px solid var(--astro-border);background:rgba(5,3,4,.72);backdrop-filter:blur(10px);border-radius:16px;font-size:.82rem}.astrology-preview.light-mode .astro-focus-status{background:rgba(255,250,245,.85)}
+
+        .astro-section{padding:5.5rem 0;border-top:1px solid rgba(215,180,90,.10)}
+        .astro-section.alt{background:rgba(215,180,90,.025)}
+        .astro-section-head{max-width:760px;margin:0 auto 2.3rem;text-align:center}.astro-section-head h2{margin:0 0 .7rem;font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:var(--astro-gold-soft)}.astrology-preview.light-mode .astro-section-head h2{color:#613a2d}.astro-section-head p{color:#d9cab7}.astrology-preview.light-mode .astro-section-head p{color:#705b50}
+        .astro-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.astro-glass-card{border:1px solid var(--astro-border);background:var(--astro-surface);border-radius:20px;padding:1.2rem;box-shadow:0 12px 36px rgba(0,0,0,.14);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}.astro-glass-card:hover{transform:translateY(-5px);border-color:rgba(215,180,90,.5);box-shadow:0 18px 48px rgba(0,0,0,.2)}.astrology-preview.light-mode .astro-glass-card{background:rgba(255,255,255,.72)}
+        .astro-icon{font-size:1.8rem}.astro-glass-card h3{margin:.7rem 0 .4rem;color:var(--astro-gold-soft)}.astrology-preview.light-mode .astro-glass-card h3{color:#613a2d}.astro-glass-card p{margin:0;color:#d8cbbb;font-size:.9rem;line-height:1.65}.astrology-preview.light-mode .astro-glass-card p{color:#705d52}
+
+        .astro-rashi-toolbar{display:flex;justify-content:center;gap:.45rem;flex-wrap:wrap;margin-bottom:1.4rem}.astro-rashi-toolbar button{padding:.58rem 1rem;border:1px solid var(--astro-border);border-radius:999px;background:rgba(215,180,90,.06);color:inherit;cursor:pointer;font-weight:700}.astro-rashi-toolbar button.active{background:linear-gradient(135deg,#e7c56f,#b88737);color:#24140f;border-color:transparent}
+        .astro-rashi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem}.astro-rashi-card{padding:1rem;border:1px solid var(--astro-border);background:var(--astro-surface);border-radius:18px;cursor:pointer;text-align:center}.astro-rashi-card:hover,.astro-rashi-card.active{border-color:var(--astro-gold);transform:translateY(-2px)}.astro-rashi-symbol{font-size:1.8rem}.astro-rashi-name{font-weight:800;margin-top:.35rem}.astro-rashi-status{font-size:.72rem;color:#cdb88e;margin-top:.25rem}.astrology-preview.light-mode .astro-rashi-status{color:#8a6c52}
+        .astro-rashi-detail{margin-top:1.2rem;padding:1.2rem;border-radius:20px;border:1px solid var(--astro-border);background:linear-gradient(135deg,rgba(215,180,90,.07),rgba(255,255,255,.02));display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:center}.astro-rashi-detail .symbol{width:96px;height:96px;border-radius:22px;display:grid;place-items:center;background:rgba(215,180,90,.09);font-size:3rem}.astro-rashi-detail h3{margin:0 0 .3rem;color:var(--astro-gold-soft)}.astro-rashi-detail p{margin:0;line-height:1.7;color:#ddd0bf}.astrology-preview.light-mode .astro-rashi-detail p{color:#6d594f}@media(max-width:650px){.astro-rashi-detail{grid-template-columns:1fr;text-align:center}.astro-rashi-detail .symbol{margin:auto}}
+
+        .astro-two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start}@media(max-width:900px){.astro-two-col{grid-template-columns:1fr}}
+        .astro-panel{border:1px solid var(--astro-border);border-radius:22px;padding:1.25rem;background:var(--astro-surface)}.astro-panel h3{margin-top:0;color:var(--astro-gold-soft)}
+        .astro-form{display:grid;gap:.8rem}.astro-label{font-size:.82rem;color:#d8cbbb;font-weight:700}.astrology-preview.light-mode .astro-label{color:#745b50}.astro-input,.astro-select,.astro-textarea{width:100%;padding:.78rem .85rem;border-radius:12px;border:1px solid var(--astro-border);background:rgba(0,0,0,.18);color:inherit;font:inherit;min-height:44px}.astrology-preview.light-mode .astro-input,.astrology-preview.light-mode .astro-select,.astrology-preview.light-mode .astro-textarea{background:rgba(255,255,255,.76);color:#3b2a25}.astro-textarea{min-height:100px;resize:vertical}
+        .astro-kundali-result{display:none;margin-top:1rem}.astro-kundali-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}@media(max-width:600px){.astro-kundali-meta{grid-template-columns:1fr 1fr}}.astro-meta-box{padding:.8rem;border:1px solid var(--astro-border);border-radius:14px;text-align:center}.astro-meta-box small{display:block;color:#c8b493;margin-bottom:.2rem}.astro-kundali-chart{margin-top:1rem;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,72px);gap:4px}.astro-house{border:1px solid var(--astro-border);background:rgba(215,180,90,.035);display:grid;place-items:center;text-align:center;font-size:.74rem;padding:.3rem}.astro-house:nth-child(1){grid-column:1/2}.astro-house:nth-child(2){grid-column:2/3}.astro-house:nth-child(3){grid-column:3/4}.astro-house:nth-child(4){grid-column:4/5}.astro-house:nth-child(5){grid-column:4/5}.astro-house:nth-child(6){grid-column:4/5}.astro-house:nth-child(7){grid-column:3/4;grid-row:4}.astro-house:nth-child(8){grid-column:2/3;grid-row:4}.astro-house:nth-child(9){grid-column:1/2;grid-row:4}.astro-house:nth-child(10){grid-column:1/2;grid-row:3}.astro-house:nth-child(11){grid-column:1/2;grid-row:2}.astro-house:nth-child(12){grid-column:2/4;grid-row:2/4}
+
+        .astro-zodiac-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.3rem;align-items:center}@media(max-width:850px){.astro-zodiac-wrap{grid-template-columns:1fr}}
+        .astro-zodiac-wheel{width:min(360px,80vw);aspect-ratio:1;margin:auto;border-radius:50%;border:2px solid var(--astro-gold);position:relative;background:radial-gradient(circle,#27111a 0 35%,#130a0f 36% 58%,#0b0709 59%);box-shadow:inset 0 0 50px rgba(215,180,90,.08),0 20px 70px rgba(0,0,0,.28)}
+        .astro-wheel-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--astro-border);background:radial-gradient(circle,#d7b45a55,#2b121b 70%);text-align:center;padding:.7rem;font-weight:800}
+        .astro-zodiac-item{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--astro-border);background:rgba(255,255,255,.035);cursor:pointer;color:inherit;font-size:1.2rem;transform:rotate(var(--angle)) translateY(-138px) rotate(calc(var(--angle) * -1));transition:.25s ease}.astro-zodiac-item.active,.astro-zodiac-item:hover{background:rgba(215,180,90,.16);border-color:var(--astro-gold);box-shadow:0 0 20px rgba(215,180,90,.18)}
+
+        .astro-moon-card{display:grid;grid-template-columns:130px 1fr;gap:1rem;align-items:center}@media(max-width:550px){.astro-moon-card{grid-template-columns:1fr;text-align:center}}.astro-moon{width:120px;height:120px;border-radius:50%;margin:auto;background:radial-gradient(circle at 38% 34%,#fffef0 0 9%,#efedce 34%,#aca995 62%,#5f5c55 100%);box-shadow:0 0 24px rgba(255,245,200,.2)}.astro-moon-phase{font-size:1.35rem;font-weight:800;color:var(--astro-gold-soft)}
+
+        .astro-muhurtham{display:grid;grid-template-columns:150px 1fr;gap:1rem;align-items:center}@media(max-width:600px){.astro-muhurtham{grid-template-columns:1fr;text-align:center}}.astro-score{width:130px;height:130px;border-radius:50%;margin:auto;display:grid;place-items:center;border:8px solid rgba(215,180,90,.16);background:radial-gradient(circle,rgba(215,180,90,.15),transparent 67%);font-size:1.7rem;font-weight:900;color:var(--astro-gold-soft)}.astro-disclaimer{margin-top:.8rem;font-size:.76rem;color:#bfae99}
+
+        .astro-calendar-toolbar{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}.astro-calendar-toolbar button{border:1px solid var(--astro-border);background:rgba(215,180,90,.06);color:inherit;border-radius:10px;padding:.55rem .8rem;cursor:pointer}.astro-calendar-title{font-weight:900;color:var(--astro-gold-soft)}.astro-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.astro-day-name{font-size:.72rem;font-weight:800;text-align:center;color:#bfae99;padding:.4rem 0}.astro-date-cell{min-height:74px;padding:.45rem;border:1px solid rgba(215,180,90,.16);border-radius:12px;background:rgba(255,255,255,.025);cursor:pointer;font-size:.74rem}.astro-date-cell:hover,.astro-date-cell.active{border-color:var(--astro-gold);background:rgba(215,180,90,.08)}.astro-date-cell .num{font-weight:900}.astro-date-cell .tag{display:inline-block;margin-top:.2rem;padding:.12rem .3rem;border-radius:5px;background:rgba(215,180,90,.14);font-size:.62rem}.astro-calendar-detail{margin-top:1rem;padding:.9rem 1rem;border:1px solid var(--astro-border);border-radius:14px;background:rgba(215,180,90,.04)}
+
+        .astro-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}.astro-gallery-card{border:1px solid var(--astro-border);border-radius:18px;overflow:hidden;min-height:180px;background:linear-gradient(135deg,#29111a,#10090d);position:relative}.astro-gallery-card img{width:100%;height:100%;min-height:180px;object-fit:cover}.astro-gallery-card span{position:absolute;left:.7rem;bottom:.7rem;padding:.28rem .55rem;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:.72rem;font-weight:800}
+
+        .astro-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:850px){.astro-contact-grid{grid-template-columns:1fr}}.astro-contact-actions{display:flex;gap:.55rem;flex-wrap:wrap}.astro-contact-note{font-size:.77rem;color:#bfae99}.astro-footer{padding:2.5rem 0 3.3rem;border-top:1px solid rgba(215,180,90,.12);color:#baa992;font-size:.82rem}
+
+        .astro-quick-guide{position:fixed;right:18px;bottom:18px;z-index:90}.astro-guide-fab{width:54px;height:54px;border-radius:50%;border:1px solid var(--astro-gold);background:linear-gradient(135deg,#e7c56f,#b88737);color:#28160f;font-size:1.35rem;cursor:pointer;box-shadow:0 12px 28px rgba(0,0,0,.25)}.astro-guide-panel{position:absolute;right:0;bottom:66px;width:min(330px,calc(100vw - 36px));border:1px solid var(--astro-border);border-radius:18px;background:rgba(15,8,11,.96);backdrop-filter:blur(14px);padding:.8rem;display:none}.astro-guide-panel.open{display:block}.astrology-preview.light-mode .astro-guide-panel{background:rgba(255,250,245,.97)}.astro-guide-head{display:flex;justify-content:space-between;align-items:center}.astro-guide-messages{height:220px;overflow:auto;padding:.5rem 0}.astro-guide-msg{padding:.55rem .7rem;border-radius:11px;background:rgba(215,180,90,.06);margin-bottom:.45rem;font-size:.8rem;line-height:1.5}.astro-guide-input{display:flex;gap:.4rem}.astro-guide-input input{flex:1;min-width:0;border:1px solid var(--astro-border);border-radius:10px;padding:.65rem;background:rgba(255,255,255,.05);color:inherit}
+
+        .astro-reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}.astro-reveal.visible{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){.astro-reveal{opacity:1;transform:none;transition:none}}
+
     </style>
 </head>
 <body>
@@ -2016,7 +2140,7 @@
     <header id="builder-workflow-nav" aria-label="Builder Workflow">
         <div class="container workflow-nav-container">
             <div style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; color: var(--accent-color);">
-                Restaurant Builder Studio
+                Website Builder Studio
             </div>
             <div class="workflow-steps-indicator" id="workflow-steps-indicator">
                 <span class="step-pill active" id="pill-step-1">1. Template</span>
@@ -2035,8 +2159,8 @@
     <section id="step-template-selection" class="builder-step-panel active-step" aria-label="Step 1: Choose Template">
         <div class="container">
             <div class="builder-header" style="max-width: 700px; margin: 0 auto 2rem auto;">
-                <h1>Select Restaurant Template</h1>
-                <p>Choose a professional pre-designed restaurant template style to kickstart your website creation.</p>
+                <h1>Select Website Template</h1>
+                <p>Choose a professional pre-designed website template to kickstart your website creation.</p>
             </div>
             <div class="template-gallery-grid">
                 <div class="template-card" onclick="selectTemplateAndProceed('The Rustic Hearth')">
@@ -2069,6 +2193,20 @@
                         <button type="button" class="btn btn-primary" style="width: 100%;">Select This Template</button>
                     </div>
                 </div>
+
+                <div class="template-card astro-template-card" onclick="selectTemplateAndProceed('AstroCosmos 3D')">
+                    <div class="astro-template-preview" aria-label="AstroCosmos 3D template preview">
+                        <div class="astro-template-orbit o1"></div><div class="astro-template-orbit o2"></div><div class="astro-template-orbit o3"></div><div class="astro-template-orbit o4"></div>
+                        <div class="astro-template-sun"></div><div class="astro-template-planet p1"></div><div class="astro-template-planet p2"></div><div class="astro-template-planet p3"></div><div class="astro-template-planet p4"></div>
+                    </div>
+                    <div class="template-card-body">
+                        <div>
+                            <h3 class="template-card-title" style="color:#D7B45A;">AstroCosmos 3D</h3>
+                            <p class="template-card-desc">Premium Vedic astrology template with a hero-only 3D Solar System, bilingual UI, Rashi, Kundali, calendar, Zodiac Wheel and cosmic tools.</p>
+                        </div>
+                        <button type="button" class="btn btn-primary" style="width:100%;">Select This Template</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -2080,8 +2218,8 @@
         <div class="container">
             <div class="feature-selection-box">
                 <div class="builder-header" style="margin-bottom: 1.5rem;">
-                    <h1>Choose Website Features</h1>
-                    <p>Customize your template by selecting or unselecting any of the exact 28 core restaurant features below.</p>
+                    <h1 id="feature-selection-title">Choose Website Features</h1>
+                    <p id="feature-selection-description">Customize your selected template using the available features below.</p>
                 </div>
                 
                 <div class="feature-groups-container" id="workflow-feature-groups-container">
@@ -2103,8 +2241,8 @@
         <div id="builder-dashboard">
             <div class="container">
                 <div class="builder-header">
-                    <h1>Configure Your Restaurant Details</h1>
-                    <p>Customize your business info, branding, menu items, gallery, and reviews below.</p>
+                    <h1 id="details-step-title">Configure Your Website Details</h1>
+                    <p id="details-step-description">Customize the details used by your selected website template.</p>
                 </div>
 
                 <form id="restaurant-builder-form" onsubmit="return false;">
@@ -2387,6 +2525,28 @@
 
                     </div>
 
+
+                    <div id="astrology-builder-fields" class="astrology-details-fields">
+                        <div class="builder-grid">
+                            <div class="builder-card">
+                                <h3>AstroCosmos 3D — Website Details</h3>
+                                <div class="astro-form-grid">
+                                    <div class="form-group"><label for="astro-input-name">Website / Astro Center Name <span style="color:var(--accent-color)">*</span></label><input id="astro-input-name" class="form-control" value="AstroCosmos 3D"></div>
+                                    <div class="form-group"><label for="astro-input-badge">Hero Badge</label><input id="astro-input-badge" class="form-control" value="Vedic Astrology • Cosmic Guidance"></div>
+                                    <div class="form-group astro-form-wide"><label for="astro-input-tagline">Hero Introduction</label><textarea id="astro-input-tagline" class="form-control">Explore Vedic astrology through a premium cosmic experience with personalised guidance, Kundali insights and traditional wisdom.</textarea></div>
+                                    <div class="form-group"><label for="astro-input-phone">Phone</label><input id="astro-input-phone" class="form-control" value="+919876543210"></div>
+                                    <div class="form-group"><label for="astro-input-whatsapp">WhatsApp</label><input id="astro-input-whatsapp" class="form-control" value="919876543210"></div>
+                                    <div class="form-group"><label for="astro-input-email">Email</label><input id="astro-input-email" class="form-control" value="hello@astrocosmos.example"></div>
+                                    <div class="form-group"><label for="astro-input-address">Address</label><input id="astro-input-address" class="form-control" value="Jubilee Hills, Hyderabad, Telangana"></div>
+                                    <div class="form-group"><label for="astro-input-maps">Google Maps Link</label><input id="astro-input-maps" class="form-control" value="https://maps.google.com/?q=Hyderabad"></div>
+                                    <div class="form-group astro-form-wide"><label for="astro-input-about">About AstroCosmos</label><textarea id="astro-input-about" class="form-control">A modern presentation of Vedic astrology inspired by India's astronomical heritage, traditional interpretation and contemporary 3D visualisation.</textarea></div>
+                                    <div class="form-group"><label for="astro-input-admin-email">Testing Admin Email</label><input id="astro-input-admin-email" class="form-control" value="admin@astrocosmos.example"></div>
+                                    <div class="form-group"><label for="astro-input-theme">Default Theme</label><select id="astro-input-theme" class="form-control"><option value="dark">Dark</option><option value="light">Light</option></select></div>
+                                </div>
+                                <p class="astro-form-help">Astrology-specific content remains template demo content for now; later it can be connected to the customer's Firebase/GitHub setup.</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="builder-actions" style="display: flex; justify-content: space-between;">
                         <button type="button" class="btn btn-reset" onclick="goToStep(2)">Back to Features</button>
                         <div style="display: flex; gap: 1rem;">
@@ -2410,7 +2570,114 @@
             <button type="button" class="btn btn-primary btn-sm" onclick="goToStep(5)">Proceed to Payment</button>
         </div>
 
+
         <div id="live-preview-wrapper">
+            <div id="astrology-preview-root" class="astrology-preview" style="display:none;" data-template-root="astrology">
+                <div class="astro-live-bar">
+                    <div class="astro-shell astro-live-inner">
+                        <span id="astro-india-time">India: --:--:--</span><span id="astro-utc-time">UTC: --:--:--</span><span id="astro-current-date">Date: --</span>
+                    </div>
+                </div>
+                <nav class="astro-top-nav" aria-label="Astrology Navigation">
+                    <div class="astro-shell astro-nav-inner">
+                        <a href="#astro-hero" class="astro-brand"><span class="astro-brand-mark">☼</span><span id="astro-brand-name">AstroCosmos 3D</span></a>
+                        <div class="astro-nav-links">
+                            <a href="#astro-hero" data-astro-i18n="navHome">Home</a><a href="#astro-services" data-astro-i18n="navServices">Services</a><a href="#astro-rashi" data-astro-i18n="navRashi">Rashi Phalalu</a><a href="#astro-kundali" data-astro-i18n="navKundali">Free Kundali</a><a href="#astro-gallery" data-astro-i18n="navGallery">Gallery</a><a href="#astro-contact" data-astro-i18n="navLocation">Location</a>
+                        </div>
+                        <div class="astro-nav-tools"><button class="astro-mini-btn" type="button" id="astro-admin-open" title="Testing Admin">⚙</button><button class="astro-mini-btn" type="button" id="astro-lang-toggle" title="English / Telugu">తె</button><button class="astro-mini-btn" type="button" id="astro-theme-toggle" title="Dark / Light">☼</button></div>
+                    </div>
+                </nav>
+
+                <header id="astro-hero" class="astro-hero" data-astro-feature="hero3d">
+                    <div class="astro-starfield"></div>
+                    <div class="astro-hero-grid">
+                        <div class="astro-hero-copy">
+                            <span class="astro-eyebrow" id="astro-hero-badge">Vedic Astrology • Cosmic Guidance</span>
+                            <h1 id="astro-hero-title">AstroCosmos 3D</h1>
+                            <p id="astro-hero-tagline">Explore Vedic astrology through a premium cosmic experience with personalised guidance, Kundali insights and traditional wisdom.</p>
+                            <div class="astro-cta-row">
+                                <a class="astro-btn" id="astro-hero-whatsapp" href="#" target="_blank" rel="noopener" data-astro-i18n="whatsapp">WhatsApp</a>
+                                <a class="astro-btn alt" id="astro-hero-call" href="#" data-astro-i18n="callNow">Call Now</a>
+                                <a class="astro-btn ghost" href="#astro-about" data-astro-i18n="explore">Explore ↓</a>
+                            </div>
+                            <div class="astro-planet-pills" id="astro-planet-pills"></div>
+                        </div>
+                        <div class="astro-solar-card">
+                            <div id="astro-solar-system-canvas"></div>
+                            <div class="astro-focus-status" id="astro-focus-status">3D Solar System • Focus: Sun</div>
+                        </div>
+                    </div>
+                </header>
+
+                <main>
+                    <section id="astro-about" class="astro-section astro-reveal" data-astro-feature="about">
+                        <div class="astro-shell">
+                            <div class="astro-section-head"><h2 data-astro-i18n="aboutTitle">About AstroCosmos</h2><p id="astro-about-text">A modern presentation of Vedic astrology inspired by India's astronomical heritage, traditional interpretation and contemporary 3D visualisation.</p></div>
+                            <div class="astro-card-grid">
+                                <article class="astro-glass-card"><div class="astro-icon">🪷</div><h3 data-astro-i18n="aboutVedic">Vedic Astrology</h3><p data-astro-i18n="aboutVedicDesc">Traditional Jyotisha concepts presented through a clean modern interface.</p></article>
+                                <article class="astro-glass-card"><div class="astro-icon">🏛️</div><h3 data-astro-i18n="aboutHeritage">Indian Astronomical Heritage</h3><p data-astro-i18n="aboutHeritageDesc">A visual experience inspired by India's long astronomical and calendrical traditions.</p></article>
+                                <article class="astro-glass-card"><div class="astro-icon">🪐</div><h3 data-astro-i18n="about3d">3D Visualisation</h3><p data-astro-i18n="about3dDesc">A single hero-only WebGL Solar System keeps the experience immersive without duplicating heavy scenes.</p></article>
+                                <article class="astro-glass-card"><div class="astro-icon">🔭</div><h3 data-astro-i18n="aboutConsult">Astrology Consultation</h3><p data-astro-i18n="aboutConsultDesc">A polished front end ready to connect later to the customer's consultation and content systems.</p></article>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="astro-services" class="astro-section alt astro-reveal" data-astro-feature="services">
+                        <div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="servicesTitle">Vedic Astrology Services</h2><p data-astro-i18n="servicesSub">Guidance for every important phase of life — consultations available in Telugu, Hindi, Kannada and English, open every day.</p></div><div class="astro-card-grid" id="astro-services-grid"></div></div>
+                    </section>
+
+                    <section id="astro-rashi" class="astro-section astro-reveal" data-astro-feature="rashi"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="rashiTitle">Rashi Phalalu</h2><p data-astro-i18n="rashiSub">Daily, monthly and yearly horoscope content for all 12 Rashis.</p></div><div class="astro-rashi-toolbar" id="astro-rashi-periods"></div><div class="astro-rashi-grid" id="astro-rashi-grid"></div><div class="astro-rashi-detail" id="astro-rashi-detail"></div></div></section>
+
+                    <section id="astro-muhurtham" class="astro-section alt astro-reveal" data-astro-feature="muhurtham"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="muhurthamTitle">Today's Shubha Muhurtham</h2><p data-astro-i18n="muhurthamSub">An indicative local score with a simple traditional-style summary.</p></div><div class="astro-panel astro-muhurtham"><div class="astro-score" id="astro-muhurtham-score">--</div><div><h3 id="astro-muhurtham-verdict">Indicative Score</h3><p id="astro-muhurtham-detail">Tithi: -- • Vara: --</p><div class="astro-cta-row"><a class="astro-btn alt" href="#astro-contact" data-astro-i18n="contactForFull">Contact Us for a detailed consultation</a></div><div class="astro-disclaimer" data-astro-i18n="muhurthamDisclaimer">Indicative only. Major events should be confirmed with a qualified astrologer.</div></div></div></div></section>
+
+                    <section id="astro-kundali" class="astro-section astro-reveal" data-astro-feature="kundali"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="kundaliTitle">Free Horoscope & Kundali Generator</h2><p data-astro-i18n="kundaliSub">Enter birth details to create a local template demonstration chart.</p></div><div class="astro-two-col"><div class="astro-panel"><form class="astro-form" id="astro-kundali-form"><label class="astro-label" for="astro-k-name" data-astro-i18n="labelName">Name</label><input class="astro-input" id="astro-k-name" required><label class="astro-label" for="astro-k-dob" data-astro-i18n="labelDob">Date of Birth</label><input class="astro-input" id="astro-k-dob" type="date" required><label class="astro-label" for="astro-k-time" data-astro-i18n="labelTime">Time of Birth</label><input class="astro-input" id="astro-k-time" type="time" required><label class="astro-label" for="astro-k-place" data-astro-i18n="labelPlace">Place of Birth</label><input class="astro-input" id="astro-k-place" required placeholder="City, Country"><button class="astro-btn" type="submit" data-astro-i18n="generateKundali">Generate Kundali</button></form><p class="astro-form-help" data-astro-i18n="kundaliNote">Template demo calculation for frontend testing. Production astronomical calculations can be connected later.</p></div><div class="astro-panel astro-kundali-result" id="astro-kundali-result"><div class="astro-kundali-meta"><div class="astro-meta-box"><small data-astro-i18n="lagna">Lagna</small><strong id="astro-k-lagna">--</strong></div><div class="astro-meta-box"><small data-astro-i18n="moonRashi">Moon Rashi</small><strong id="astro-k-moon">--</strong></div><div class="astro-meta-box"><small data-astro-i18n="nakshatra">Nakshatra</small><strong id="astro-k-nakshatra">--</strong></div></div><div class="astro-meta-box" style="margin-top:.7rem"><small data-astro-i18n="sunRashi">Sun Rashi</small><strong id="astro-k-sun">--</strong></div><div class="astro-kundali-chart" id="astro-k-chart"></div><p class="astro-form-help" data-astro-i18n="chartNote">Basic planet information and 12-house representation for template testing.</p></div></div></div></section>
+
+                    <section id="astro-zodiac" class="astro-section alt astro-reveal" data-astro-feature="zodiac"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="zodiacTitle">Interactive Zodiac Wheel</h2><p data-astro-i18n="zodiacSub">Click a sign to highlight it and view a short description.</p></div><div class="astro-zodiac-wrap"><div class="astro-zodiac-wheel" id="astro-zodiac-wheel"><div class="astro-wheel-core" id="astro-wheel-core">Select a Rashi</div></div><div class="astro-panel"><h3 id="astro-zodiac-selected">Mesha / Aries</h3><p id="astro-zodiac-desc">Fire sign • initiative • leadership</p></div></div></div></section>
+
+                    <section id="astro-moon" class="astro-section astro-reveal" data-astro-feature="moon"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="moonTitle">Live Moon Phase</h2><p data-astro-i18n="moonSub">A local browser-side phase estimate.</p></div><div class="astro-panel astro-moon-card"><div class="astro-moon" id="astro-moon-disc"></div><div><div class="astro-moon-phase" id="astro-moon-phase">--</div><p id="astro-moon-age">Moon age: -- days</p></div></div></div></section>
+
+                    <section id="astro-calendar" class="astro-section alt astro-reveal" data-astro-feature="calendar"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="calendarTitle">Vedic Calendar</h2><p data-astro-i18n="calendarSub">Monthly grid with indicative Tithi, Nakshatra and festival markers.</p></div><div class="astro-panel"><div class="astro-calendar-toolbar"><button type="button" id="astro-cal-prev" data-astro-i18n="prevMonth">Previous</button><div class="astro-calendar-title" id="astro-calendar-title">September 2026</div><button type="button" id="astro-cal-next" data-astro-i18n="nextMonth">Next</button><button type="button" id="astro-cal-today" data-astro-i18n="today">Today</button></div><div class="astro-calendar-grid" id="astro-calendar-grid"></div><div class="astro-calendar-detail" id="astro-calendar-detail">Select a date to view Tithi, Nakshatra and festival information.</div><p class="astro-form-help" data-astro-i18n="calendarDisclaimer">Regional festival dates may vary. Confirm locally before making important plans.</p></div></div></section>
+
+                    <section id="astro-gallery" class="astro-section astro-reveal" data-astro-feature="gallery"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="galleryTitle">Gallery</h2><p data-astro-i18n="gallerySub">A flexible visual panel for the customer's astrology content.</p></div><div class="astro-gallery" id="astro-gallery-grid"></div><div class="astro-panel" style="margin-top:1rem"><h3 data-astro-i18n="servicesClients">Our Services & Clients</h3><p data-astro-i18n="servicesClientsNote">Customer-managed gallery/content panel. Add your own visuals later.</p></div></div></section>
+
+                    <section id="astro-contact" class="astro-section alt astro-reveal" data-astro-feature="contact"><div class="astro-shell"><div class="astro-section-head"><h2 data-astro-i18n="contactTitle">Contact & Location</h2><p data-astro-i18n="contactSub">Send your enquiry directly to WhatsApp or use the contact actions below.</p></div><div class="astro-contact-grid"><div class="astro-panel"><form class="astro-form" id="astro-contact-form"><label class="astro-label" for="astro-c-name" data-astro-i18n="labelName">Name</label><input class="astro-input" id="astro-c-name" required><label class="astro-label" for="astro-c-email" data-astro-i18n="labelEmail">Email</label><input class="astro-input" id="astro-c-email" type="email"><label class="astro-label" for="astro-c-dob" data-astro-i18n="labelDobOptional">DOB / Time (optional)</label><input class="astro-input" id="astro-c-dob" placeholder="DD/MM/YYYY • HH:MM"><label class="astro-label" for="astro-c-message" data-astro-i18n="labelMessage">Message</label><textarea class="astro-textarea" id="astro-c-message" required></textarea><button class="astro-btn" type="submit" data-astro-i18n="sendWhatsApp">Send via WhatsApp</button></form></div><div class="astro-panel"><h3 id="astro-contact-name">AstroCosmos 3D</h3><p id="astro-contact-address">Jubilee Hills, Hyderabad, Telangana</p><p id="astro-contact-email">hello@astrocosmos.example</p><div class="astro-contact-actions"><a class="astro-btn alt" id="astro-contact-wa" href="#" target="_blank" rel="noopener" data-astro-i18n="whatsapp">WhatsApp</a><a class="astro-btn alt" id="astro-contact-call" href="#" data-astro-i18n="callNow">Call</a><a class="astro-btn alt" id="astro-contact-map" href="#" target="_blank" rel="noopener" data-astro-i18n="location">Location</a></div></div></div></div></section>
+                </main>
+                <footer class="astro-footer"><div class="astro-shell"><span id="astro-footer-name">AstroCosmos 3D</span> • <span data-astro-i18n="footerText">Premium Vedic Astrology Website Template</span></div></footer>
+
+
+                <div id="astro-admin-modal" class="owner-admin-modal" aria-hidden="true">
+                    <div class="owner-admin-lock" id="astro-admin-lock">
+                        <h2>Astro Rashi Admin</h2><p>Testing panel. Production access will use the customer's authorized Google account later.</p>
+                        <input id="astro-admin-pin" type="password" inputmode="numeric" maxlength="12" placeholder="Test Admin PIN">
+                        <button type="button" id="astro-admin-unlock">Open Admin</button>
+                    </div>
+                    <div class="owner-admin-card" id="astro-admin-card" style="display:none;max-width:980px;">
+                        <div class="owner-admin-head"><h2>Rashi Content Manager</h2><button type="button" id="astro-admin-close" aria-label="Close admin">&times;</button></div>
+                        <div class="owner-admin-body">
+                            <div class="owner-admin-list" id="astro-admin-list" style="max-height:260px;"></div>
+                            <div class="admin-form-row">
+                                <div><label>Rashi</label><select id="astro-admin-rashi"></select></div>
+                                <div><label>Period</label><select id="astro-admin-period"><option value="daily">Daily</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select></div>
+                                <div><label>Publish Date</label><input id="astro-admin-publish" type="date"></div>
+                                <div><label>Availability Date</label><input id="astro-admin-available" type="date"></div>
+                            </div>
+                            <div class="admin-form-row">
+                                <div><label>Start Time</label><input id="astro-admin-start" type="time" value="00:00"></div>
+                                <div><label>End Time</label><input id="astro-admin-end" type="time" value="23:59"></div>
+                                <div><label>Image Upload</label><input id="astro-admin-image" type="file" accept="image/*"></div>
+                                <input type="hidden" id="astro-admin-index" value="-1">
+                            </div>
+                            <label>English Content</label><textarea id="astro-admin-en"></textarea>
+                            <div style="height:.6rem"></div>
+                            <label>Telugu Content</label><textarea id="astro-admin-te"></textarea>
+                            <div class="owner-admin-actions"><button class="admin-save" type="button" id="astro-admin-save">Save Rashi Content</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="astro-quick-guide"><button class="astro-guide-fab" id="astro-guide-fab" type="button" aria-label="Quick Astro Guide">✦</button><div class="astro-guide-panel" id="astro-guide-panel"><div class="astro-guide-head"><strong data-astro-i18n="guideTitle">Quick Astro Guide</strong><button class="astro-nav-button" id="astro-guide-close" type="button">×</button></div><div class="astro-guide-messages" id="astro-guide-messages"></div><div class="astro-guide-input"><input id="astro-guide-input" data-placeholder-en="Ask about Rashi, Kundali or Muhurtham" data-placeholder-te="రాశి, కుండలి లేదా ముహూర్తం గురించి అడగండి"><button class="astro-btn" id="astro-guide-send" type="button" data-astro-i18n="send">Send</button></div></div></div>
+            </div>
+
+            <div id="restaurant-preview-root" data-template-root="restaurant">
             <!-- Navigation Header -->
             <nav class="site-nav" aria-label="Main Navigation">
                 <div class="container nav-container">
@@ -2773,6 +3040,7 @@
                     </div>
                 </div>
             </footer>
+            </div>
         </div>
     </section>
 
@@ -2784,11 +3052,11 @@
             <div class="payment-box">
                 <div class="builder-header" style="margin-bottom: 1.5rem;">
                     <h1>Complete Your Order</h1>
-                    <p>Secure checkout to unlock your fully generated, production-ready restaurant website package.</p>
+                    <p>Secure checkout to unlock your fully generated, production-ready website package.</p>
                 </div>
                 <div style="background: #2C221E; padding: 2rem; border-radius: var(--radius-md); border: 1px solid #52423C; margin-bottom: 2rem; text-align: left;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; color: #E6D5C3;">
-                        <span>Restaurant Template & Code Export</span>
+                        <span>Website Template & Code Export</span>
                         <strong>$29.00</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; color: #E6D5C3;">
@@ -2855,6 +3123,7 @@
     <script>
         // Default Sample Demo Configuration State
         const defaultRestaurantState = {
+            templateType: 'restaurant',
             name: "The Rustic Hearth",
             tagline: "Authentic flavors, wood-fired perfection, and unforgettable dining experiences crafted daily.",
             aboutStory: "Founded with an uncompromising passion for authentic heritage flavors, this restaurant brings farm-fresh ingredients straight to your flame-kissed plate. Every recipe is a tribute to traditional craftsmanship blended seamlessly with modern culinary imagination.",
@@ -2962,6 +3231,118 @@
                 { name: "Elena Rostova", quote: "From the appetizers to the dessert, everything felt wholesome, authentic, and bursting with rich flavor. Highly recommended!", rating: 5, photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" }
             ]
         };
+
+
+        // =========================================================
+        // TEMPLATE #2 — ASTROCOSMOS 3D (Vedic Astrology Template)
+        // Only astrology-specific features from the supplied template prompt are included.
+        // =========================================================
+        const defaultAstrologyState = {
+            templateType: 'astrology',
+            templateName: 'AstroCosmos 3D',
+            name: 'AstroCosmos 3D',
+            heroBadge: 'Vedic Astrology • Cosmic Guidance',
+            tagline: 'Explore Vedic astrology through a premium cosmic experience with personalised guidance, Kundali insights and traditional wisdom.',
+            aboutText: "A modern presentation of Vedic astrology inspired by India's astronomical heritage, traditional interpretation and contemporary 3D visualisation.",
+            phone: '+919876543210',
+            whatsapp: '919876543210',
+            email: 'hello@astrocosmos.example',
+            address: 'Jubilee Hills, Hyderabad, Telangana',
+            mapsUrl: 'https://maps.google.com/?q=Hyderabad',
+            adminEmail: 'admin@astrocosmos.example',
+            theme: 'dark',
+            language: 'en',
+            features: {
+                hero3d: true,
+                navigation: true,
+                liveInfoBar: true,
+                bilingual: true,
+                darkLightMode: true,
+                about: true,
+                services: true,
+                rashi: true,
+                rashiAdmin: true,
+                kundali: true,
+                zodiac: true,
+                moonPhase: true,
+                shubhaMuhurtham: true,
+                vedicCalendar: true,
+                gallery: true,
+                contact: true,
+                quickGuide: true,
+                cosmicEffects: true,
+                scrollReveal: true,
+                pwa: true,
+                responsive: true
+            },
+            services: [
+                { icon:'💞', titleEn:'Kundli Matching', titleTe:'కుండలి మ్యాచింగ్', descEn:'Compatibility review between two birth charts using the traditional Guna Milan / 36-point framework and dosha considerations.', descTe:'సాంప్రదాయ గుణమేళనం / 36 పాయింట్ల విధానం మరియు దోషాలను పరిగణలోకి తీసుకుని రెండు జన్మకుండళ్ల అనుకూలత పరిశీలన.' },
+                { icon:'💍', titleEn:'Marriage & Delay Guidance', titleTe:'వివాహం & ఆలస్య మార్గదర్శనం', descEn:'Astrology-based review of marriage timing and possible reasons for delays, with traditional remedy suggestions.', descTe:'వివాహ సమయం మరియు ఆలస్యానికి సాధ్యమైన కారణాలపై జ్యోతిష్య ఆధారిత సమీక్ష, సాంప్రదాయ పరిహార సూచనలతో.' },
+                { icon:'💼', titleEn:'Career & Job Guidance', titleTe:'కెరీర్ & ఉద్యోగ మార్గదర్శనం', descEn:'Timing-oriented guidance for career decisions, job changes and professional growth.', descTe:'కెరీర్ నిర్ణయాలు, ఉద్యోగ మార్పులు మరియు వృత్తి అభివృద్ధికి సమయానుకూల మార్గదర్శనం.' },
+                { icon:'📈', titleEn:'Business Astrology', titleTe:'బిజినెస్ ఆస్ట్రాలజీ', descEn:'Guidance regarding timing, partnerships and growth considerations for businesses and entrepreneurs.', descTe:'వ్యాపారాలు మరియు వ్యాపారవేత్తలకు సమయం, భాగస్వామ్యాలు, వృద్ధి అంశాలపై మార్గదర్శనం.' },
+                { icon:'🪔', titleEn:'Muhurtham', titleTe:'ముహూర్తం', descEn:'Selecting auspicious dates for weddings, housewarmings and other important beginnings.', descTe:'వివాహాలు, గృహప్రవేశాలు మరియు ఇతర ముఖ్య ప్రారంభాలకు శుభ తేదీల ఎంపిక.' },
+                { icon:'🏡', titleEn:'Vastu Consultation', titleTe:'వాస్తు కన్సల్టేషన్', descEn:'Practical space guidance for homes and offices with a balance-first approach.', descTe:'ఇళ్లు, కార్యాలయాల కోసం సమతుల్యతకు ప్రాధాన్యమిచ్చే ఆచరణాత్మక స్థల మార్గదర్శనం.' },
+                { icon:'🕉️', titleEn:'Dosha Remedies', titleTe:'దోష పరిహారాలు', descEn:'Information and traditional remedies relating to Kaal Sarp, Mangal Dosha and Navagraha concerns.', descTe:'కాలసర్ప, మంగళ దోషం మరియు నవగ్రహ సంబంధిత అంశాలపై సమాచారం మరియు సాంప్రదాయ పరిహారాలు.' },
+                { icon:'🔢', titleEn:'Numerology', titleTe:'న్యూమరాలజీ', descEn:'Insights using birth-number and name-based analysis.', descTe:'జన్మ సంఖ్య మరియు పేరు ఆధారిత విశ్లేషణ ద్వారా సూచనలు.' }
+            ],
+            rashis: [
+                ['Mesha','Aries','మేష','♈'],['Vrishabha','Taurus','వృషభ','♉'],['Mithuna','Gemini','మిథున','♊'],['Karkataka','Cancer','కర్కాటక','♋'],
+                ['Simha','Leo','సింహ','♌'],['Kanya','Virgo','కన్య','♍'],['Tula','Libra','తుల','♎'],['Vrischika','Scorpio','వృశ్చిక','♏'],
+                ['Dhanu','Sagittarius','ధనుస్సు','♐'],['Makara','Capricorn','మకరం','♑'],['Kumbha','Aquarius','కుంభం','♒'],['Meena','Pisces','మీనం','♓']
+            ].map((x,i)=>({key:x[0].toLowerCase(),vedic:x[0],en:x[1],te:x[2],symbol:x[3],predictions:{daily:{en:'A focused day for steady progress and thoughtful decisions.',te:'స్థిరమైన పురోగతి మరియు ఆలోచించి నిర్ణయాలు తీసుకునే రోజు.'},monthly:{en:'Use the month to strengthen routines, relationships and long-term plans.',te:'ఈ నెలలో అలవాట్లు, సంబంధాలు మరియు దీర్ఘకాల ప్రణాళికలను బలోపేతం చేసుకోండి.'},yearly:{en:'A year for learning, patience and measured growth across important life areas.',te:'ముఖ్యమైన జీవిత రంగాల్లో నేర్చుకోవడం, సహనం మరియు సమతుల్య పురోగతికి అనుకూల సంవత్సరం.'}},publishDate:'2026-01-01',status:'Published',availableDate:'2026-01-01',startTime:'00:00',endTime:'23:59'})),
+            galleryItems: [
+                {image:'https://images.unsplash.com/photo-1518568740560-333139a27e72?auto=format&fit=crop&w=900&q=80', titleEn:'Cosmic Meditation', titleTe:'కాస్మిక్ మెడిటేషన్'},
+                {image:'https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=900&q=80', titleEn:'Astronomy & Time', titleTe:'ఖగోళం & కాలం'},
+                {image:'https://images.unsplash.com/photo-1534791547706-6c7b9f0d4a3d?auto=format&fit=crop&w=900&q=80', titleEn:'Night Sky', titleTe:'రాత్రి ఆకాశం'},
+                {image:'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=80', titleEn:'Starlight', titleTe:'నక్షత్ర కాంతి'}
+            ]
+        };
+
+        const RESTAURANT_FEATURE_GROUPS = [
+            { groupName: "Core Sections & Navigation", items: [
+                { key: "hero", label: "1. Hero Section" }, { key: "sixTabNavigation", label: "28. Simple 6-tab Navigation" },
+                { key: "responsiveDesign", label: "26. Mobile-first Responsive Design" }, { key: "fastLoadImages", label: "27. Fast Load / Optimized Images" }, { key: "footerQuickLinks", label: "22. Footer Quick Links" }
+            ]},
+            { groupName: "Menu & Food Showcase", items: [
+                { key: "categoryTabs", label: "6. Category Tabs" }, { key: "foodCards", label: "7. Food Item Cards" }, { key: "foodFilters", label: "8. Food Filters" },
+                { key: "featuredDishes", label: "2. Featured Dishes" }, { key: "offers", label: "3. Today's Specials / Offers Banner" }
+            ]},
+            { groupName: "Gallery & Story", items: [
+                { key: "galleryLayout", label: "9. Gallery Layout (Grid / Masonry)" }, { key: "galleryFilters", label: "10. Gallery Filter Tags" },
+                { key: "storyTimeline", label: "11. Our Story Timeline" }, { key: "meetChef", label: "12. Meet the Chef" }, { key: "aboutIntro", label: "4. About / Chef's Note Intro" },
+                { key: "coreValues", label: "13. Core Values" }, { key: "testimonials", label: "5. Testimonials / Reviews Slider" }
+            ]},
+            { groupName: "Table Reservations", items: [
+                { key: "datePicker", label: "14. Date & Time Picker" }, { key: "guests", label: "15. Number of Guests" }, { key: "seatingPreference", label: "16. Seating Preference" }, { key: "contactDetails", label: "17. Contact Details" }
+            ]},
+            { groupName: "Ordering & Contact Actions", items: [
+                { key: "orderingCTA", label: "18. Direct Online Ordering CTA" }, { key: "phoneCallNow", label: "25. Actionable Phone Number / Call Now" },
+                { key: "whatsappCallNow", label: "19. WhatsApp / Call Now" }, { key: "locationTiming", label: "23. Location & Timing" }, { key: "googleMapsEmbed", label: "24. Google Maps Embed" }
+            ]},
+            { groupName: "Promotions & Social Proof", items: [
+                { key: "googleReviewsEmbed", label: "20. Google Reviews Embed" }, { key: "loyaltyBanner", label: "21. Loyalty / Rewards Banner" }
+            ]}
+        ];
+
+        const ASTROLOGY_FEATURE_GROUPS = [
+            { groupName:'Cosmic Experience', items:[
+                {key:'hero3d',label:'1. Hero-only 3D Solar System'}, {key:'navigation',label:'2. Astrology Navigation'}, {key:'liveInfoBar',label:'3. India / UTC Time & Date Bar'},
+                {key:'bilingual',label:'4. English ↔ Telugu Language Support'}, {key:'darkLightMode',label:'5. Dark / Light Mode'}, {key:'cosmicEffects',label:'18. Lightweight Cosmic Background Effects'}
+            ]},
+            { groupName:'Astrology Content', items:[
+                {key:'about',label:'6. About AstroCosmos'}, {key:'services',label:'7. 8 Vedic Astrology Services'}, {key:'rashi',label:'8. 12 Rashi Daily / Monthly / Yearly'},
+                {key:'kundali',label:'10. Free Horoscope & Kundali Generator'}, {key:'zodiac',label:'11. Interactive 12-sign Zodiac Wheel'}, {key:'moonPhase',label:'12. Live Moon Phase'}, {key:'shubhaMuhurtham',label:"13. Today's Shubha Muhurtham"}, {key:'vedicCalendar',label:'14. Inline Vedic Calendar'}
+            ]},
+            { groupName:'Customer Actions & Visuals', items:[
+                {key:'gallery',label:'15. Gallery / Services & Clients Panel'}, {key:'contact',label:'16. WhatsApp / Call / Google Maps Contact'}, {key:'quickGuide',label:'17. Floating Quick Astro Guide'}, {key:'scrollReveal',label:'19. Scroll Reveal Animations'}
+            ]},
+            { groupName:'Platform & Readiness', items:[
+                {key:'responsive',label:'20. Mobile-first Responsive Design'}, {key:'pwa',label:'21. PWA / Add to Home Screen'}, {key:'rashiAdmin',label:'9. Rashi Admin Management Structure'}
+            ]}
+        ];
+
+        function templateIsAstrology(){ return appState?.templateType === 'astrology'; }
+        function freshStateForTemplate(templateName){ return templateName === 'AstroCosmos 3D' ? JSON.parse(JSON.stringify(defaultAstrologyState)) : JSON.parse(JSON.stringify(defaultRestaurantState)); }
 
         // Working state object
         let appState = JSON.parse(JSON.stringify(defaultRestaurantState));
@@ -3149,7 +3530,10 @@
                 const raw = safeSessionGet('restaurant-builder-state-v1');
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    if (parsed && typeof parsed === 'object') appState = parsed;
+                    if (parsed && typeof parsed === 'object') {
+                        appState = parsed;
+                        if (!appState.templateType) appState.templateType = 'restaurant';
+                    }
                 }
             } catch (e) {}
         }
@@ -3178,7 +3562,7 @@
 
             const route = STEP_ROUTES[stepNumber];
             const stepTitles = {1:'Choose Template',2:'Choose Features',3:'Enter Details',4:'Live Preview',5:'Payment',6:'Setup & Download'};
-            document.title = `${stepTitles[stepNumber]} — Restaurant Builder Studio`;
+            document.title = `${stepTitles[stepNumber]} — Website Builder Studio`;
             if (options.replace) history.replaceState({ step: stepNumber }, '', `#${route}`);
             else if (location.hash !== `#${route}`) history.pushState({ step: stepNumber }, '', `#${route}`);
 
@@ -3206,6 +3590,30 @@
 
         function syncBuilderInputsFromState() {
             const setVal = (id, value) => { const el = document.getElementById(id); if (el && value != null) el.value = value; };
+            const astroFields = document.getElementById('astrology-builder-fields');
+            const restaurantGrid = document.querySelector('#step-details-input .builder-grid');
+            const astro = templateIsAstrology();
+            if (astroFields) astroFields.style.display = astro ? 'block' : 'none';
+            if (restaurantGrid) restaurantGrid.style.display = astro ? 'none' : 'grid';
+            const detailsTitle = document.getElementById('details-step-title');
+            const detailsDesc = document.getElementById('details-step-description');
+            if (detailsTitle) detailsTitle.textContent = astro ? 'Configure Your Astrology Website Details' : 'Configure Your Website Details';
+            if (detailsDesc) detailsDesc.textContent = astro ? 'Customize branding, contact details and public-facing content for AstroCosmos 3D.' : 'Customize the details used by your selected website template.';
+            if (astro) {
+                setVal('astro-input-name', appState.name);
+                setVal('astro-input-badge', appState.heroBadge);
+                setVal('astro-input-tagline', appState.tagline);
+                setVal('astro-input-phone', appState.phone);
+                setVal('astro-input-whatsapp', appState.whatsapp);
+                setVal('astro-input-email', appState.email);
+                setVal('astro-input-address', appState.address);
+                setVal('astro-input-maps', appState.mapsUrl);
+                setVal('astro-input-about', appState.aboutText);
+                setVal('astro-input-admin-email', appState.adminEmail);
+                setVal('astro-input-theme', appState.theme || 'dark');
+                renderFeatureToggles();
+                return;
+            }
             setVal('input-name', appState.name);
             setVal('input-tagline', appState.tagline);
             setVal('input-address', appState.businessAddress);
@@ -3243,11 +3651,16 @@
         }
 
         function selectTemplateAndProceed(templateName) {
-            appState = JSON.parse(JSON.stringify(defaultRestaurantState));
+            revokeAllObjectUrls();
+            appState = freshStateForTemplate(templateName);
             appState.templateName = templateName;
             appState.name = templateName;
             safeSessionRemove('restaurant-builder-payment-v1');
+            safeSessionRemove('restaurant-builder-setup-v1');
+            previewCart = [];
             syncBuilderInputsFromState();
+            renderFeatureToggles();
+            renderLivePreview();
             saveBuilderSession();
             goToStep(2);
         }
@@ -3544,6 +3957,10 @@
         // Download ONLY the final restaurant website — never the builder UI.
         // Download ONLY the final restaurant website — never the builder UI.
         async function downloadWebsitePackage() {
+            if (templateIsAstrology()) {
+                await downloadAstrologyWebsitePackage();
+                return;
+            }
             if (safeSessionGet('restaurant-builder-payment-v1') !== 'paid') {
                 alert('Please complete payment before downloading your website.');
                 goToStep(5);
@@ -3892,76 +4309,21 @@ document.addEventListener('DOMContentLoaded',()=>{
         function renderFeatureToggles() {
             const container = document.getElementById("workflow-feature-groups-container");
             if (!container) return;
-
-            const featureGroups = [
-                {
-                    groupName: "Core Sections & Navigation",
-                    items: [
-                        { key: "hero", label: "1. Hero Section" },
-                        { key: "sixTabNavigation", label: "28. Simple 6-tab Navigation" },
-                        { key: "responsiveDesign", label: "26. Mobile-first Responsive Design" },
-                        { key: "fastLoadImages", label: "27. Fast Load / Optimized Images" },
-                        { key: "footerQuickLinks", label: "22. Footer Quick Links" }
-                    ]
-                },
-                {
-                    groupName: "Menu & Food Showcase",
-                    items: [
-                        { key: "categoryTabs", label: "6. Category Tabs" },
-                        { key: "foodCards", label: "7. Food Item Cards" },
-                        { key: "foodFilters", label: "8. Food Filters" },
-                        { key: "featuredDishes", label: "2. Featured Dishes" },
-                        { key: "offers", label: "3. Today's Specials / Offers Banner" }
-                    ]
-                },
-                {
-                    groupName: "Gallery & Story",
-                    items: [
-                        { key: "galleryLayout", label: "9. Gallery Layout (Grid / Masonry)" },
-                        { key: "galleryFilters", label: "10. Gallery Filter Tags" },
-                        { key: "storyTimeline", label: "11. Our Story Timeline" },
-                        { key: "meetChef", label: "12. Meet the Chef" },
-                        { key: "aboutIntro", label: "4. About / Chef's Note Intro" },
-                        { key: "coreValues", label: "13. Core Values" },
-                        { key: "testimonials", label: "5. Testimonials / Reviews Slider" }
-                    ]
-                },
-                {
-                    groupName: "Table Reservations",
-                    items: [
-                        { key: "datePicker", label: "14. Date & Time Picker" },
-                        { key: "guests", label: "15. Number of Guests" },
-                        { key: "seatingPreference", label: "16. Seating Preference" },
-                        { key: "contactDetails", label: "17. Contact Details" }
-                    ]
-                },
-                {
-                    groupName: "Ordering & Contact Actions",
-                    items: [
-                        { key: "orderingCTA", label: "18. Direct Online Ordering CTA" },
-                        { key: "phoneCallNow", label: "25. Actionable Phone Number / Call Now" },
-                        { key: "whatsappCallNow", label: "19. WhatsApp / Call Now" },
-                        { key: "locationTiming", label: "23. Location & Timing" },
-                        { key: "googleMapsEmbed", label: "24. Google Maps Embed" }
-                    ]
-                },
-                {
-                    groupName: "Promotions & Social Proof",
-                    items: [
-                        { key: "googleReviewsEmbed", label: "20. Google Reviews Embed" },
-                        { key: "loyaltyBanner", label: "21. Loyalty / Rewards Banner" }
-                    ]
-                }
-            ];
-
+            const astrology = templateIsAstrology();
+            const featureGroups = astrology ? ASTROLOGY_FEATURE_GROUPS : RESTAURANT_FEATURE_GROUPS;
+            const count = featureGroups.reduce((n,g)=>n+g.items.length,0);
+            const title = document.getElementById('feature-selection-title');
+            const desc = document.getElementById('feature-selection-description');
+            if (title) title.textContent = astrology ? `Choose Astrology Website Features (${count})` : 'Choose Website Features (28 Core Restaurant Features)';
+            if (desc) desc.textContent = astrology ? 'Customize AstroCosmos 3D using the astrology-specific features from this template.' : 'Customize your selected restaurant template using its 28 core features.';
             container.innerHTML = featureGroups.map(group => `
                 <div class="feature-group-card">
-                    <h4>${group.groupName}</h4>
+                    <h4>${escapeHTML(group.groupName)}</h4>
                     <div class="feature-items-grid">
                         ${group.items.map(feat => `
                             <label class="feature-toggle-item">
-                                <input type="checkbox" data-feature-key="${feat.key}" ${appState.features[feat.key] !== false ? "checked" : ""} onchange="toggleFeatureState('${feat.key}', this.checked)">
-                                ${feat.label}
+                                <input type="checkbox" data-feature-key="${feat.key}" ${appState.features?.[feat.key] !== false ? 'checked' : ''} onchange="toggleFeatureState('${feat.key}', this.checked)">
+                                ${escapeHTML(feat.label)}
                             </label>
                         `).join('')}
                     </div>
@@ -3975,7 +4337,198 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
 
         // Main Render Engine connecting form inputs and state to live preview DOM
+
+        // =========================================================
+        // ASTROCOSMOS 3D — LOCAL TEMPLATE RENDERER
+        // =========================================================
+        let astroRashiPeriod = 'daily';
+        let astroActiveRashi = 0;
+        let astroCalendarCursor = new Date();
+        let astro3D = { container:null, renderer:null, scene:null, camera:null, planets:new Map(), frame:0, running:false, initialized:false, observer:null, yaw:0.15, pitch:0.08, distance:8.6, pointer:null };
+        let astroGuideMessages = [];
+        let astroZodiacIndex = 0;
+
+        const ASTRO_TRANSLATIONS = {
+            en: {
+                navHome:'Home',navServices:'Services',navRashi:'Rashi Phalalu',navKundali:'Free Kundali',navGallery:'Gallery',navLocation:'Location',
+                whatsapp:'WhatsApp',callNow:'Call Now',explore:'Explore ↓',aboutTitle:'About AstroCosmos',aboutVedic:'Vedic Astrology',aboutVedicDesc:'Traditional Jyotisha concepts presented through a clean modern interface.',aboutHeritage:'Indian Astronomical Heritage',aboutHeritageDesc:"A visual experience inspired by India's long astronomical and calendrical traditions.",about3d:'3D Visualisation',about3dDesc:'A single hero-only WebGL Solar System keeps the experience immersive without duplicating heavy scenes.',aboutConsult:'Astrology Consultation',aboutConsultDesc:"A polished front end ready to connect later to the customer's consultation and content systems.",
+                servicesTitle:'Vedic Astrology Services',servicesSub:'Guidance for every important phase of life — consultations available in Telugu, Hindi, Kannada and English, open every day.',
+                rashiTitle:'Rashi Phalalu',rashiSub:'Daily, monthly and yearly horoscope content for all 12 Rashis.',daily:'Daily',monthly:'Monthly',yearly:'Yearly',published:'Published',
+                muhurthamTitle:"Today's Shubha Muhurtham",muhurthamSub:'An indicative local score with a simple traditional-style summary.',contactForFull:'Contact Us for a detailed consultation',muhurthamDisclaimer:'Indicative only. Major events should be confirmed with a qualified astrologer.',
+                kundaliTitle:'Free Horoscope & Kundali Generator',kundaliSub:'Enter birth details to create a local template demonstration chart.',labelName:'Name',labelEmail:'Email',labelDob:'Date of Birth',labelTime:'Time of Birth',labelPlace:'Place of Birth',labelDobOptional:'DOB / Time (optional)',labelMessage:'Message',generateKundali:'Generate Kundali',kundaliNote:'Template demo calculation for frontend testing. Production astronomical calculations can be connected later.',lagna:'Lagna',moonRashi:'Moon Rashi',nakshatra:'Nakshatra',sunRashi:'Sun Rashi',chartNote:'Basic planet information and 12-house representation for template testing.',
+                zodiacTitle:'Interactive Zodiac Wheel',zodiacSub:'Click a sign to highlight it and view a short description.',moonTitle:'Live Moon Phase',moonSub:'A local browser-side phase estimate.',calendarTitle:'Vedic Calendar',calendarSub:'Monthly grid with indicative Tithi, Nakshatra and festival markers.',prevMonth:'Previous',nextMonth:'Next',today:'Today',calendarDisclaimer:'Regional festival dates may vary. Confirm locally before making important plans.',
+                galleryTitle:'Gallery',gallerySub:"A flexible visual panel for the customer's astrology content.",servicesClients:'Our Services & Clients',servicesClientsNote:'Customer-managed gallery/content panel. Add your own visuals later.',contactTitle:'Contact & Location',contactSub:'Send your enquiry directly to WhatsApp or use the contact actions below.',sendWhatsApp:'Send via WhatsApp',location:'Location',footerText:'Premium Vedic Astrology Website Template',guideTitle:'Quick Astro Guide',send:'Send',
+            },
+            te: {
+                navHome:'హోమ్',navServices:'సేవలు',navRashi:'రాశి ఫలాలు',navKundali:'ఉచిత కుండలి',navGallery:'గ్యాలరీ',navLocation:'లొకేషన్',
+                whatsapp:'వాట్సాప్',callNow:'కాల్ చేయండి',explore:'చూడండి ↓',aboutTitle:'ఆస్ట్రోకాస్మోస్ గురించి',aboutVedic:'వేద జ్యోతిష్యం',aboutVedicDesc:'సాంప్రదాయ జ్యోతిష్య భావనలను ఆధునిక, సులభమైన ఇంటర్‌ఫేస్‌లో అందిస్తున్నాం.',aboutHeritage:'భారత ఖగోళ వారసత్వం',aboutHeritageDesc:'భారతదేశంలోని ఖగోళ మరియు పంచాంగ సంప్రదాయాల స్ఫూర్తితో రూపొందించిన అనుభవం.',about3d:'3D విజువలైజేషన్',about3dDesc:'హీరోలో మాత్రమే ఉండే ఒకే WebGL సోలార్ సిస్టమ్ ద్వారా ఇమర్సివ్ అనుభవం.',aboutConsult:'జ్యోతిష్య సంప్రదింపు',aboutConsultDesc:'తరువాత కస్టమర్ కన్సల్టేషన్ మరియు కంటెంట్ సిస్టమ్‌లకు కనెక్ట్ చేయగల ప్రీమియం ఫ్రంట్ ఎండ్.',
+                servicesTitle:'వేద జ్యోతిష్య సేవలు',servicesSub:'జీవితంలోని ముఖ్యమైన దశలకు మార్గదర్శనం — తెలుగు, హిందీ, కన్నడ, ఇంగ్లీష్‌లో సంప్రదింపులు.',
+                rashiTitle:'రాశి ఫలాలు',rashiSub:'12 రాశులకు రోజువారీ, నెలవారీ మరియు వార్షిక రాశి ఫలాలు.',daily:'రోజువారీ',monthly:'నెలవారీ',yearly:'వార్షిక',published:'ప్రచురించబడింది',
+                muhurthamTitle:'నేటి శుభ ముహూర్తం',muhurthamSub:'సరళమైన సంప్రదాయ శైలిలో సూచికాత్మక స్థానిక స్కోర్.',contactForFull:'పూర్తి వ్యక్తిగత ముహూర్తం కోసం సంప్రదించండి',muhurthamDisclaimer:'ఇది సూచికాత్మక సమాచారం మాత్రమే. ముఖ్యమైన కార్యక్రమాలకు అర్హత కలిగిన జ్యోతిష్యుడిని సంప్రదించండి.',
+                kundaliTitle:'ఉచిత జాతకం & కుండలి జనరేటర్',kundaliSub:'జన్మ వివరాలు నమోదు చేసి డెమో కుండలి తయారు చేయండి.',labelName:'పేరు',labelEmail:'ఈమెయిల్',labelDob:'పుట్టిన తేదీ',labelTime:'పుట్టిన సమయం',labelPlace:'పుట్టిన ప్రదేశం',labelDobOptional:'జన్మ తేదీ / సమయం (ఐచ్చికం)',labelMessage:'సందేశం',generateKundali:'కుండలి తయారు చేయండి',kundaliNote:'ఫ్రంట్ ఎండ్ టెస్టింగ్ కోసం డెమో లెక్కింపు. ప్రొడక్షన్ ఆస్ట్రానమికల్ లెక్కింపులను తరువాత కనెక్ట్ చేయవచ్చు.',lagna:'లగ్నం',moonRashi:'చంద్ర రాశి',nakshatra:'నక్షత్రం',sunRashi:'సూర్య రాశి',chartNote:'టెంప్లేట్ టెస్టింగ్ కోసం ప్రాథమిక గ్రహ సమాచారం మరియు 12 గృహాల రూపకల్పన.',
+                zodiacTitle:'ఇంటరాక్టివ్ జోడియాక్ వీల్',zodiacSub:'రాశిని క్లిక్ చేసి హైలైట్ చేయండి మరియు చిన్న వివరణ చూడండి.',moonTitle:'లైవ్ చంద్ర దశ',moonSub:'బ్రౌజర్‌లోనే పనిచేసే సూచికాత్మక లెక్కింపు.',calendarTitle:'వేద క్యాలెండర్',calendarSub:'తిథి, నక్షత్రం మరియు పండుగ గుర్తులతో నెలవారీ క్యాలెండర్.',prevMonth:'మునుపటి',nextMonth:'తదుపరి',today:'ఈ రోజు',calendarDisclaimer:'ప్రాంతానుసారంగా పండుగ తేదీలు మారవచ్చు. ముఖ్యమైన కార్యక్రమాలకు స్థానికంగా నిర్ధారించండి.',
+                galleryTitle:'గ్యాలరీ',gallerySub:'కస్టమర్ ఆస్ట్రాలజీ కంటెంట్ కోసం ఫ్లెక్సిబుల్ విజువల్ ప్యానెల్.',servicesClients:'మా సేవలు & క్లయింట్లు',servicesClientsNote:'కస్టమర్ నిర్వహించే గ్యాలరీ / కంటెంట్ ప్యానెల్. మీ స్వంత విజువల్స్‌ను తరువాత జోడించండి.',contactTitle:'సంప్రదింపు & లొకేషన్',contactSub:'మీ సందేశాన్ని నేరుగా వాట్సాప్‌కు పంపండి లేదా క్రింది కాంటాక్ట్ ఆప్షన్లు వాడండి.',sendWhatsApp:'వాట్సాప్ ద్వారా పంపండి',location:'లొకేషన్',footerText:'ప్రీమియం వేద జ్యోతిష్య వెబ్‌సైట్ టెంప్లేట్',guideTitle:'త్వరిత జ్యోతిష్య సహాయకుడు',send:'పంపండి'
+            }
+        };
+
+        function astroT(key){ const lang=appState?.language==='te'?'te':'en'; return ASTRO_TRANSLATIONS[lang][key] || ASTRO_TRANSLATIONS.en[key] || key; }
+        function astroName(r){ return appState.language==='te' ? r.te : `${r.vedic} / ${r.en}`; }
+        function astroAttr(root, key, value){ root?.querySelectorAll(`[data-astro-i18n="${key}"]`).forEach(el=>el.textContent=value); }
+
+        function applyAstroTranslations(){
+            const root=document.getElementById('astrology-preview-root'); if(!root) return;
+            root.querySelectorAll('[data-astro-i18n]').forEach(el=>{ el.textContent=astroT(el.getAttribute('data-astro-i18n')); });
+            const input=document.getElementById('astro-guide-input'); if(input) input.placeholder=appState.language==='te'?input.dataset.placeholderTe:input.dataset.placeholderEn;
+        }
+
+        function applyAstroVisibility(){
+            const f=appState.features||{}; const root=document.getElementById('astrology-preview-root'); if(!root)return;
+            const show=(id,on)=>{const el=document.getElementById(id);if(el)el.style.display=on?'':'none';};
+            show('astro-hero',f.hero3d!==false); show('astro-about',f.about!==false); show('astro-services',f.services!==false); show('astro-rashi',f.rashi!==false);
+            show('astro-muhurtham',f.shubhaMuhurtham!==false); show('astro-kundali',f.kundali!==false); show('astro-zodiac',f.zodiac!==false); show('astro-moon',f.moonPhase!==false); show('astro-calendar',f.vedicCalendar!==false); show('astro-gallery',f.gallery!==false); show('astro-contact',f.contact!==false);
+            show('astro-hero-whatsapp',f.contact!==false); show('astro-hero-call',f.contact!==false); show('astro-planet-pills',f.hero3d!==false);
+            const nav=document.querySelector('#astrology-preview-root .astro-top-nav');if(nav)nav.style.display=f.navigation!==false?'':'none';
+            const live=document.getElementById('astrology-preview-root')?.querySelector('.astro-live-bar');if(live)live.style.display=f.liveInfoBar!==false?'':'none';
+            const themeTools=document.getElementById('astro-theme-toggle');if(themeTools)themeTools.style.display=f.darkLightMode!==false?'':'none';
+            const langTools=document.getElementById('astro-lang-toggle');if(langTools)langTools.style.display=f.bilingual!==false?'':'none';
+            const cosmic=document.getElementById('astrology-preview-root'); if(cosmic)cosmic.classList.toggle('astro-no-cosmic',f.cosmicEffects===false);
+            root.querySelectorAll('.astro-reveal').forEach(el=>{el.style.animationPlayState=f.scrollReveal===false?'paused':'';if(f.scrollReveal===false)el.classList.add('visible');});
+        }
+
+        function initAstroLiveInfo(){
+            if(window.__astroClockTimer) clearInterval(window.__astroClockTimer);
+            const update=()=>{
+                const now=new Date();
+                const india=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(now);
+                const utc=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
+                const date=new Intl.DateTimeFormat(appState.language==='te'?'te-IN':'en-IN',{dateStyle:'full',timeZone:'Asia/Kolkata'}).format(now);
+                const a=document.getElementById('astro-india-time'),b=document.getElementById('astro-utc-time'),c=document.getElementById('astro-current-date');
+                if(a)a.textContent=(appState.language==='te'?'భారత సమయం: ':'India: ')+india;if(b)b.textContent='UTC: '+utc;if(c)c.textContent=(appState.language==='te'?'తేదీ: ':'Date: ')+date;
+            };update();window.__astroClockTimer=setInterval(update,1000);
+        }
+
+        function initAstroSolarSystem(){
+            const container=document.getElementById('astro-solar-system-canvas');
+            if(!container || appState.features?.hero3d===false) return;
+            if(astro3D.initialized && astro3D.container===container){ astroAstro3DResume(); return; }
+            astro3D={...astro3D,container,planets:new Map(),running:false,initialized:true,yaw:.15,pitch:.08,distance:8.6,pointer:null};
+            if(typeof THREE==='undefined'){
+                container.innerHTML='<div class="astro-solar-fallback"><div><div style="font-size:3rem">☼ ✦</div><strong>3D Solar System</strong><p style="margin:.5rem 0 0;color:inherit">Three.js could not be loaded. The rest of the website continues normally.</p></div></div>';return;
+            }
+            const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,1.2,8.6);
+            const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.setClearColor(0x000000,0);container.innerHTML='';container.appendChild(renderer.domElement);
+            scene.add(new THREE.AmbientLight(0xffffff,.7));const sunLight=new THREE.PointLight(0xffd98b,3.2,18);scene.add(sunLight);const fill=new THREE.DirectionalLight(0xffffff,1.1);fill.position.set(4,5,4);scene.add(fill);
+            const system=new THREE.Group();scene.add(system);
+            const starGeo=new THREE.BufferGeometry();const starCount=750;const pos=new Float32Array(starCount*3);for(let i=0;i<starCount;i++){const r=15*Math.random()+3;const a=Math.random()*Math.PI*2;const b=(Math.random()-.5)*Math.PI;pos[i*3]=Math.cos(a)*Math.cos(b)*r;pos[i*3+1]=Math.sin(b)*r;pos[i*3+2]=Math.sin(a)*Math.cos(b)*r;}starGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));const starMat=new THREE.PointsMaterial({color:0xffffff,size:.035,transparent:true,opacity:.72});scene.add(new THREE.Points(starGeo,starMat));
+            const sun=new THREE.Mesh(new THREE.SphereGeometry(.72,32,24),new THREE.MeshBasicMaterial({color:0xf2c65d}));system.add(sun);astro3D.planets.set('sun',{mesh:sun,pivot:system,orbit:0,radius:.72,focus:4.1});
+            const planetData=[['mercury',.12,1.45,.8,0xafa78f],['venus',.18,1.95,1.0,0xd7b16a],['earth',.2,2.5,1.2,0x5e8ccf],['mars',.16,3.1,1.4,0xb85f48],['jupiter',.38,4.05,1.7,0xc78c5b],['saturn',.34,5.05,1.9,0xd0bd8d]];
+            planetData.forEach((d,i)=>{const orbit=new THREE.Mesh(new THREE.RingGeometry(d[1]+.98,d[1]+1.005,96),new THREE.MeshBasicMaterial({color:0xd7b45a,transparent:true,opacity:.12,side:THREE.DoubleSide}));orbit.rotation.x=Math.PI/2;system.add(orbit);const pivot=new THREE.Group();system.add(pivot);const mesh=new THREE.Mesh(new THREE.SphereGeometry(d[1],24,18),new THREE.MeshStandardMaterial({color:d[4],roughness:.8,metalness:.05}));mesh.position.x=d[2];pivot.add(mesh);if(d[0]==='saturn'){const ring=new THREE.Mesh(new THREE.RingGeometry(.48,.73,64),new THREE.MeshBasicMaterial({color:0xd7c79f,transparent:true,opacity:.65,side:THREE.DoubleSide}));ring.rotation.x=Math.PI/2.15;mesh.add(ring);}astro3D.planets.set(d[0],{mesh,pivot,orbit:d[2],speed:d[3],radius:d[1],focus:4.4+i*.25});});
+            function resize(){const w=Math.max(240,container.clientWidth||500),h=Math.max(280,container.clientHeight||410);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}resize();window.addEventListener('resize',resize,{passive:true});
+            const setCamera=()=>{camera.position.set(Math.sin(astro3D.yaw)*Math.cos(astro3D.pitch)*astro3D.distance,Math.sin(astro3D.pitch)*astro3D.distance,Math.cos(astro3D.yaw)*Math.cos(astro3D.pitch)*astro3D.distance);camera.lookAt(0,0,0);};setCamera();
+            renderer.domElement.addEventListener('pointerdown',e=>{astro3D.pointer={x:e.clientX,y:e.clientY};renderer.domElement.setPointerCapture?.(e.pointerId);});renderer.domElement.addEventListener('pointermove',e=>{if(!astro3D.pointer)return;const dx=e.clientX-astro3D.pointer.x,dy=e.clientY-astro3D.pointer.y;astro3D.pointer={x:e.clientX,y:e.clientY};astro3D.yaw-=dx*.008;astro3D.pitch=Math.max(-1.0,Math.min(1.0,astro3D.pitch+dy*.006));setCamera();});['pointerup','pointercancel','pointerleave'].forEach(ev=>renderer.domElement.addEventListener(ev,()=>astro3D.pointer=null));renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();astro3D.distance=Math.max(5.1,Math.min(12,astro3D.distance+e.deltaY*.004));setCamera();},{passive:false});
+            astro3D.scene=scene;astro3D.camera=camera;astro3D.renderer=renderer;
+            astro3D.observer=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting?astroAstro3DResume():astroAstro3DPause()),{threshold:.12});astro3D.observer.observe(document.getElementById('astro-hero'));
+            astroAstro3DResume();
+        }
+        function astroAstro3DPause(){astro3D.running=false;if(astro3D.frame)cancelAnimationFrame(astro3D.frame);astro3D.frame=0;}
+        function astroAstro3DResume(){if(!astro3D.renderer||astro3D.running)return;astro3D.running=true;const tick=()=>{if(!astro3D.running)return;const t=performance.now()/1000;astro3D.planets.forEach((o,k)=>{if(k==='sun')return;o.pivot.rotation.y=t*0.00055*o.speed*100;});astro3D.scene.rotation.y=Math.sin(t*.08)*.08;astro3D.renderer.render(astro3D.scene,astro3D.camera);astro3D.frame=requestAnimationFrame(tick);};tick();}
+        function focusAstroPlanet(key){const p=astro3D.planets.get(key);if(!p)return;const name=(key==='sun'?'Sun':key[0].toUpperCase()+key.slice(1));const s=document.getElementById('astro-focus-status');if(s)s.textContent=`3D Solar System • Focus: ${name}`;document.querySelectorAll('#astro-planet-pills button').forEach(b=>b.classList.toggle('active',b.dataset.planetKey===key));}
+        function renderAstroPlanetButtons(){const el=document.getElementById('astro-planet-pills');if(!el)return;const names=[['sun','Sun'],['mercury','Mercury'],['venus','Venus'],['earth','Earth'],['mars','Mars'],['jupiter','Jupiter'],['saturn','Saturn']];el.innerHTML=names.map(([k,n],i)=>`<button type="button" data-planet-key="${k}" class="${i===0?'active':''}">${n}</button>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>focusAstroPlanet(b.dataset.planetKey));}
+
+        function renderAstroServices(){const el=document.getElementById('astro-services-grid');if(!el)return;el.innerHTML=appState.services.map(x=>`<article class="astro-glass-card astro-reveal"><div class="astro-icon">${x.icon}</div><h3>${escapeHTML(appState.language==='te'?x.titleTe:x.titleEn)}</h3><p>${escapeHTML(appState.language==='te'?x.descTe:x.descEn)}</p></article>`).join('');}
+
+        function renderAstroRashi(){
+            const periods=document.getElementById('astro-rashi-periods'),grid=document.getElementById('astro-rashi-grid'),detail=document.getElementById('astro-rashi-detail');if(!periods||!grid||!detail)return;
+            const periodsData=[['daily',astroT('daily')],['monthly',astroT('monthly')],['yearly',astroT('yearly')]];
+            periods.innerHTML=periodsData.map(([k,v])=>`<button type="button" class="${astroRashiPeriod===k?'active':''}" data-period="${k}">${v}</button>`).join('');periods.querySelectorAll('button').forEach(b=>b.onclick=()=>{astroRashiPeriod=b.dataset.period;renderAstroRashi();});
+            grid.innerHTML=appState.rashis.map((r,i)=>`<button type="button" class="astro-rashi-card ${i===astroActiveRashi?'active':''}" data-rashi-index="${i}"><div class="astro-rashi-symbol">${r.symbol}</div><div class="astro-rashi-name">${escapeHTML(astroName(r))}</div><div class="astro-rashi-status">${r.status||astroT('published')}</div></button>`).join('');grid.querySelectorAll('button').forEach(b=>b.onclick=()=>{astroActiveRashi=+b.dataset.rashiIndex;renderAstroRashi();});
+            const r=appState.rashis[astroActiveRashi], pred=r.predictions[astroRashiPeriod];detail.innerHTML=`<div class="symbol">${r.symbol}</div><div><h3>${escapeHTML(astroName(r))}</h3><p>${escapeHTML(appState.language==='te'?pred.te:pred.en)}</p><div style="margin-top:.5rem;font-size:.75rem;color:#bfae99">${escapeHTML(r.publishDate)} • ${escapeHTML(astroT('published'))}</div></div>`;
+        }
+
+        function moonAge(date){const synodic=29.530588853;const known=new Date('2000-01-06T18:14:00Z');let days=(date-known)/86400000;days=((days%synodic)+synodic)%synodic;return days;}
+        function moonPhaseName(age){const names=[['New Moon',0],['Waxing Crescent',2],['First Quarter',7.38],['Waxing Gibbous',10],['Full Moon',14.77],['Waning Gibbous',18],['Last Quarter',22.15],['Waning Crescent',25]];let best=names[0];for(const n of names){if(Math.abs(age-n[1])<Math.abs(age-best[1]))best=n;}return best[0];}
+        function renderAstroMoon(){const age=moonAge(new Date()),phase=moonPhaseName(age),disc=document.getElementById('astro-moon-disc'),p=document.getElementById('astro-moon-phase'),a=document.getElementById('astro-moon-age');if(p)p.textContent=appState.language==='te'?({"New Moon":"అమావాస్య","Waxing Crescent":"వృద్ధి చెందుతున్న చంద్రకళ","First Quarter":"శుక్ల అష్టమి దశ","Waxing Gibbous":"పెరుగుతున్న పౌర్ణమి దశ","Full Moon":"పౌర్ణమి","Waning Gibbous":"తగ్గుతున్న చంద్ర దశ","Last Quarter":"కృష్ణ అష్టమి దశ","Waning Crescent":"తగ్గుతున్న చంద్రకళ"}[phase]||phase):phase;if(a)a.textContent=(appState.language==='te'?`చంద్ర వయస్సు: ${age.toFixed(1)} రోజులు`:`Moon age: ${age.toFixed(1)} days`);if(disc){const illum=(1-Math.cos((age/29.530588853)*2*Math.PI))/2;disc.style.background=`radial-gradient(circle at ${25+illum*35}% 35%,#fffef0 0 9%,#efedce 34%,#aaa793 62%,#5f5c55 100%)`;}}
+
+        function tithiFromAge(age){return Math.min(30,Math.floor(age/29.530588853*30)+1)}
+        function renderAstroMuhurtham(){const now=new Date(),age=moonAge(now),tithi=tithiFromAge(age),weekday=new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(now),score=Math.max(52,Math.min(94,72+((13-(tithi%13))*2)-([0,1,2,3,4,5,6].indexOf(now.getDay())===5?5:0)));const sc=document.getElementById('astro-muhurtham-score'),v=document.getElementById('astro-muhurtham-verdict'),d=document.getElementById('astro-muhurtham-detail');if(sc)sc.textContent=score+'%';if(v)v.textContent=(score>=80?(appState.language==='te'?'సాధారణంగా అనుకూలమైన రోజు':'Generally favourable day'):(appState.language==='te'?'సూచనాత్మకంగా సమతుల్య రోజు':'Indicatively balanced day'));if(d)d.textContent=(appState.language==='te'?`తిథి: ${tithi}/30 • వారం: ${weekday}`:`Tithi: ${tithi}/30 • Vara: ${weekday}`);}
+
+        function demoZodiacForDate(date){const m=date.getUTCMonth()+1,d=date.getUTCDate();const starts=[[1,20],[2,19],[3,21],[4,20],[5,21],[6,21],[7,23],[8,23],[9,23],[10,23],[11,22],[12,22]];let idx=11;for(let i=0;i<starts.length;i++){const [sm,sd]=starts[i];if((m>sm)||(m===sm&&d>=sd))idx=i;}return idx;}
+        function demoNakshatra(date){const idx=Math.floor((date.getTime()/86400000)%27);return `Nakshatra ${idx+1}`;}
+        function renderAstroKundaliResult(name,dob,time,place){const dt=new Date(`${dob}T${time||'00:00'}`);const sunIndex=demoZodiacForDate(dt),moonIndex=Math.floor((moonAge(dt)/29.530588853)*12)%12,lagnaIndex=(sunIndex+Math.floor((Number((time||'00:00').split(':')[0])||0)/2)+2)%12;const n=demoNakshatra(dt);const rSun=appState.rashis[sunIndex],rMoon=appState.rashis[moonIndex],rLagna=appState.rashis[lagnaIndex];document.getElementById('astro-k-sun').textContent=astroName(rSun);document.getElementById('astro-k-moon').textContent=astroName(rMoon);document.getElementById('astro-k-lagna').textContent=astroName(rLagna);document.getElementById('astro-k-nakshatra').textContent=n;const chart=document.getElementById('astro-k-chart');if(chart)chart.innerHTML=Array.from({length:12},(_,i)=>`<div class="astro-house"><strong>${appState.language==='te'?'గృహం':'House'} ${i+1}</strong><br>${escapeHTML(i===0?astroName(rLagna):i===1?'Sun':i===2?'Moon':i===3?'Mars':i===4?'Mercury':i===5?'Jupiter':i===6?'Venus':i===7?'Saturn':i===8?'Rahu':i===9?'Ketu':'—')}</div>`).join('');const result=document.getElementById('astro-kundali-result');if(result)result.style.display='block';}
+
+        function initAstroKundali(){const form=document.getElementById('astro-kundali-form');if(!form||form.dataset.bound)return;form.dataset.bound='1';form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('astro-k-name').value.trim(),dob=document.getElementById('astro-k-dob').value,time=document.getElementById('astro-k-time').value,place=document.getElementById('astro-k-place').value.trim();if(!name||!dob||!time||!place){alert(appState.language==='te'?'అన్ని వివరాలు నమోదు చేయండి.':'Please enter all birth details.');return;}renderAstroKundaliResult(name,dob,time,place);});}
+
+        function renderAstroZodiac(){const wheel=document.getElementById('astro-zodiac-wheel'),selected=document.getElementById('astro-zodiac-selected'),desc=document.getElementById('astro-zodiac-desc');if(!wheel||!selected||!desc)return;wheel.querySelectorAll('.astro-zodiac-item').forEach(x=>x.remove());const descEn=['Fire sign • initiative • leadership','Earth sign • patience • stability','Air sign • communication • curiosity','Water sign • care • intuition','Fire sign • confidence • creativity','Earth sign • detail • service','Air sign • balance • partnership','Water sign • depth • resilience','Fire sign • exploration • optimism','Earth sign • discipline • ambition','Air sign • ideas • independence','Water sign • empathy • imagination'];const descTe=['అగ్ని రాశి • ప్రారంభ శక్తి • నాయకత్వం','భూమి రాశి • సహనం • స్థిరత్వం','వాయు రాశి • సంభాషణ • ఆసక్తి','జల రాశి • శ్రద్ధ • అంతర్దృష్టి','అగ్ని రాశి • ఆత్మవిశ్వాసం • సృజనాత్మకత','భూమి రాశి • వివరాలు • సేవ','వాయు రాశి • సమతుల్యత • భాగస్వామ్యం','జల రాశి • లోతు • పట్టుదల','అగ్ని రాశి • అన్వేషణ • ఆశావాదం','భూమి రాశి • క్రమశిక్షణ • లక్ష్యం','వాయు రాశి • ఆలోచనలు • స్వతంత్రత','జల రాశి • అనుభూతి • ఊహాశక్తి'];appState.rashis.forEach((r,i)=>{const b=document.createElement('button');b.className='astro-zodiac-item'+(i===astroZodiacIndex?' active':'');b.style.setProperty('--angle',`${i*30}deg`);b.type='button';b.textContent=r.symbol;b.title=astroName(r);b.onclick=()=>{astroZodiacIndex=i;renderAstroZodiac();};wheel.appendChild(b);});const r=appState.rashis[astroZodiacIndex];selected.textContent=astroName(r);desc.textContent=appState.language==='te'?descTe[astroZodiacIndex]:descEn[astroZodiacIndex];const core=document.getElementById('astro-wheel-core');if(core)core.textContent=astroName(r);}
+
+        function festivalForDate(y,m,d){const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const map={'2026-01-26':'Republic Day','2026-02-01':'Vasant Panchami','2026-03-03':'Holi','2026-03-19':'Ugadi / Gudi Padwa','2026-03-27':'Ram Navami','2026-04-03':'Good Friday','2026-08-15':'Independence Day','2026-08-28':'Janmashtami','2026-09-14':'Ganesh Visarjan','2026-10-20':'Dussehra','2026-11-08':'Diwali','2026-11-09':'Bhai Dooj','2026-11-24':'Guru Nanak Jayanti','2026-12-25':'Christmas'};if(map[key])return map[key];const dt=new Date(y,m,d),age=moonAge(dt),t=tithiFromAge(age);if(t===15)return 'Purnima';if(t===30)return 'Amavasya';if(t===11||t===23)return 'Ekadashi';return '';}
+        function renderAstroCalendar(){const grid=document.getElementById('astro-calendar-grid'),title=document.getElementById('astro-calendar-title'),detail=document.getElementById('astro-calendar-detail');if(!grid||!title||!detail)return;const y=astroCalendarCursor.getFullYear(),m=astroCalendarCursor.getMonth();title.textContent=new Intl.DateTimeFormat(appState.language==='te'?'te-IN':'en-US',{month:'long',year:'numeric'}).format(astroCalendarCursor);const names=appState.language==='te'?['ఆది','సోమ','మంగళ','బుధ','గురు','శుక్ర','శని']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];grid.innerHTML=names.map(x=>`<div class="astro-day-name">${x}</div>`).join('');const first=new Date(y,m,1),days=new Date(y,m+1,0).getDate();for(let i=0;i<first.getDay();i++)grid.insertAdjacentHTML('beforeend','<div></div>');for(let d=1;d<=days;d++){const dt=new Date(y,m,d),fest=festivalForDate(y,m,d),t=tithiFromAge(moonAge(dt)),n=demoNakshatra(dt);const cell=document.createElement('button');cell.type='button';cell.className='astro-date-cell';cell.innerHTML=`<div class="num">${d}</div>${fest?`<span class="tag">${escapeHTML(fest)}</span>`:''}`;cell.onclick=()=>{detail.innerHTML=`<strong>${dt.toLocaleDateString()}</strong><br>${appState.language==='te'?'తిథి':'Tithi'}: ${t}/30<br>${appState.language==='te'?'నక్షత్రం':'Nakshatra'}: ${n}${fest?`<br>${appState.language==='te'?'ప్రత్యేక రోజు':'Special day'}: ${escapeHTML(fest)}`:''}`;grid.querySelectorAll('.astro-date-cell').forEach(x=>x.classList.remove('active'));cell.classList.add('active');};grid.appendChild(cell);}}
+        function initAstroCalendar(){document.getElementById('astro-cal-prev')?.addEventListener('click',()=>{astroCalendarCursor.setMonth(astroCalendarCursor.getMonth()-1);renderAstroCalendar();});document.getElementById('astro-cal-next')?.addEventListener('click',()=>{astroCalendarCursor.setMonth(astroCalendarCursor.getMonth()+1);renderAstroCalendar();});document.getElementById('astro-cal-today')?.addEventListener('click',()=>{astroCalendarCursor=new Date();renderAstroCalendar();});}
+
+        function renderAstroGallery(){const el=document.getElementById('astro-gallery-grid');if(!el)return;el.innerHTML=appState.galleryItems.map(x=>`<div class="astro-gallery-card"><img src="${escapeHTML(x.image)}" alt="${escapeHTML(appState.language==='te'?x.titleTe:x.titleEn)}" loading="lazy"><span>${escapeHTML(appState.language==='te'?x.titleTe:x.titleEn)}</span></div>`).join('');}
+        function renderAstroContact(){const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('astro-contact-name',appState.name);set('astro-contact-address',appState.address);set('astro-contact-email',appState.email);set('astro-footer-name',appState.name);const phone=normalizePhoneNumber(appState.phone);const wa=normalizeWhatsAppNumber(appState.whatsapp);const setHref=(id,href)=>{const e=document.getElementById(id);if(e)e.href=href||'#';};setHref('astro-hero-whatsapp',wa?`https://wa.me/${wa}`:'#');setHref('astro-contact-wa',wa?`https://wa.me/${wa}`:'#');setHref('astro-hero-call',phone?`tel:${phone}`:'#');setHref('astro-contact-call',phone?`tel:${phone}`:'#');setHref('astro-contact-map',appState.mapsUrl||'#');const form=document.getElementById('astro-contact-form');if(form&&!form.dataset.bound){form.dataset.bound='1';form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('astro-c-name').value.trim(),email=document.getElementById('astro-c-email').value.trim(),dob=document.getElementById('astro-c-dob').value.trim(),msg=document.getElementById('astro-c-message').value.trim();if(!name||!msg){alert(appState.language==='te'?'పేరు మరియు సందేశం నమోదు చేయండి.':'Please enter your name and message.');return;}const text=(appState.language==='te'?`పేరు: ${name}\nఈమెయిల్: ${email}\nDOB/Time: ${dob}\nసందేశం: ${msg}`:`Name: ${name}\nEmail: ${email}\nDOB/Time: ${dob}\nMessage: ${msg}`);if(wa)window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`,'_blank');else alert(text);});}}
+
+        function renderAstroGuide(){const el=document.getElementById('astro-guide-messages');if(!el)return;const msgs=astroGuideMessages.length?astroGuideMessages:[{role:'bot',text:appState.language==='te'?'నమస్తే! రాశి, కుండలి లేదా ముహూర్తం గురించి అడగండి.':'Namaste! Ask about Rashi, Kundali or Muhurtham.'}];el.innerHTML=msgs.map(m=>`<div class="astro-guide-msg"><strong>${m.role==='user'?'You':'Guide'}:</strong> ${escapeHTML(m.text)}</div>`).join('');}
+        function initAstroGuide(){const fab=document.getElementById('astro-guide-fab'),panel=document.getElementById('astro-guide-panel'),close=document.getElementById('astro-guide-close'),send=document.getElementById('astro-guide-send'),input=document.getElementById('astro-guide-input');if(!fab||!panel||fab.dataset.bound)return;fab.dataset.bound='1';fab.onclick=()=>{panel.classList.toggle('open');renderAstroGuide();};close&&(close.onclick=()=>panel.classList.remove('open'));const reply=v=>{const q=v.toLowerCase();let r=appState.language==='te'?'సాధారణంగా రాశి ఫలాలు, కుండలి, చంద్ర దశ లేదా ముహూర్తం విభాగాలను చూడండి.':'Try the Rashi, Kundali, Moon Phase or Muhurtham sections for more information.';if(q.includes('rashi')||q.includes('రాశి'))r=appState.language==='te'?'రాశి ఫలాలు విభాగంలో 12 రాశులకు రోజువారీ, నెలవారీ మరియు వార్షిక కంటెంట్ ఉంది.':'The Rashi section provides daily, monthly and yearly content for all 12 Rashis.';if(q.includes('kundali')||q.includes('కుండలి'))r=appState.language==='te'?'కుండలి విభాగంలో పేరు, పుట్టిన తేదీ, సమయం, ప్రదేశం నమోదు చేసి డెమో చార్ట్ తయారు చేయవచ్చు.':'Use the Free Kundali section to enter birth details and create a local demo chart.';if(q.includes('muhur')||q.includes('ముహూర్త'))r=appState.language==='te'?'శుభ ముహూర్తం విభాగంలోని స్కోర్ సూచికాత్మక సమాచారం మాత్రమే.':'The Shubha Muhurtham score is indicative only.';return r;};const doSend=()=>{const v=input?.value.trim();if(!v)return;astroGuideMessages.push({role:'user',text:v},{role:'bot',text:reply(v)});if(astroGuideMessages.length>12)astroGuideMessages=astroGuideMessages.slice(-12);if(input)input.value='';renderAstroGuide();};send&&(send.onclick=doSend);input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doSend();}});renderAstroGuide();}
+
+        function initAstroThemeAndLanguage(){const root=document.getElementById('astrology-preview-root');if(!root)return;const savedLang=(()=>{try{return localStorage.getItem('astrocosmos-lang')}catch(e){return null}})();if(savedLang==='te'||savedLang==='en')appState.language=savedLang;const savedTheme=(()=>{try{return localStorage.getItem('astrocosmos-theme')}catch(e){return null}})();if(savedTheme==='dark'||savedTheme==='light')appState.theme=savedTheme;root.classList.toggle('light-mode',appState.theme==='light');const langBtn=document.getElementById('astro-lang-toggle');const themeBtn=document.getElementById('astro-theme-toggle');if(langBtn&&!langBtn.dataset.bound){langBtn.dataset.bound='1';langBtn.onclick=()=>{appState.language=appState.language==='te'?'en':'te';try{localStorage.setItem('astrocosmos-lang',appState.language)}catch(e){}renderAstrologyPreview();};}if(themeBtn&&!themeBtn.dataset.bound){themeBtn.dataset.bound='1';themeBtn.onclick=()=>{appState.theme=appState.theme==='light'?'dark':'light';root.classList.toggle('light-mode',appState.theme==='light');try{localStorage.setItem('astrocosmos-theme',appState.theme)}catch(e){}};}}
+        function initAstroReveal(){const root=document.getElementById('astrology-preview-root');if(!root)return;const els=root.querySelectorAll('.astro-reveal');if(appState.features?.scrollReveal===false){els.forEach(x=>x.classList.add('visible'));return;}const obs=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('visible')),{threshold:.12});els.forEach(x=>obs.observe(x));}
+
+        function renderAstroAdminList(){const list=document.getElementById('astro-admin-list');if(!list)return;list.innerHTML=appState.rashis.map((r,i)=>`<div class="admin-item-row"><div class="admin-item-info"><strong>${escapeHTML(astroName(r))}</strong><span>${escapeHTML(r.status||'Published')} • ${escapeHTML(r.publishDate||'')}</span></div><div class="admin-item-actions"><button type="button" class="btn btn-secondary btn-sm" onclick="astroAdminEdit(${i})">Edit</button></div></div>`).join('');}
+        function openAstroAdmin(){const modal=document.getElementById('astro-admin-modal');if(modal)modal.classList.add('open');}
+        function closeAstroAdmin(){const modal=document.getElementById('astro-admin-modal');if(modal)modal.classList.remove('open');}
+        function astroAdminEdit(i){const r=appState.rashis[i];if(!r)return;document.getElementById('astro-admin-index').value=i;document.getElementById('astro-admin-rashi').value=r.key;document.getElementById('astro-admin-period').value=astroRashiPeriod;document.getElementById('astro-admin-en').value=r.predictions[astroRashiPeriod].en;document.getElementById('astro-admin-te').value=r.predictions[astroRashiPeriod].te;document.getElementById('astro-admin-publish').value=r.publishDate||'';document.getElementById('astro-admin-available').value=r.availableDate||'';document.getElementById('astro-admin-start').value=r.startTime||'00:00';document.getElementById('astro-admin-end').value=r.endTime||'23:59';}
+        function astroAdminSave(){const i=+document.getElementById('astro-admin-index').value;if(i<0||!appState.rashis[i])return;const period=document.getElementById('astro-admin-period').value;appState.rashis[i].predictions[period].en=document.getElementById('astro-admin-en').value.trim();appState.rashis[i].predictions[period].te=document.getElementById('astro-admin-te').value.trim();appState.rashis[i].publishDate=document.getElementById('astro-admin-publish').value;appState.rashis[i].availableDate=document.getElementById('astro-admin-available').value;appState.rashis[i].startTime=document.getElementById('astro-admin-start').value;appState.rashis[i].endTime=document.getElementById('astro-admin-end').value;const file=document.getElementById('astro-admin-image').files[0];if(file){const rd=new FileReader();rd.onload=()=>{appState.rashis[i].image=rd.result;saveBuilderSession();renderAstroRashi();renderAstroAdminList();};rd.readAsDataURL(file);}else{saveBuilderSession();renderAstroRashi();renderAstroAdminList();}alert('Rashi content saved locally for testing.');}
+        function initAstroAdmin(){const open=document.getElementById('astro-admin-open'),modal=document.getElementById('astro-admin-modal'),unlock=document.getElementById('astro-admin-unlock');const sel=document.getElementById('astro-admin-rashi');if(sel&&!sel.dataset.bound){sel.dataset.bound='1';sel.innerHTML=appState.rashis.map(r=>`<option value="${r.key}">${escapeHTML(r.vedic)} / ${escapeHTML(r.en)}</option>`).join('');}if(!modal||modal.dataset.bound)return;modal.dataset.bound='1';open?.addEventListener('click',()=>{document.getElementById('astro-admin-lock').style.display='block';document.getElementById('astro-admin-card').style.display='none';modal.classList.add('open');});unlock?.addEventListener('click',()=>{if(document.getElementById('astro-admin-pin').value==='2468'){document.getElementById('astro-admin-lock').style.display='none';document.getElementById('astro-admin-card').style.display='block';renderAstroAdminList();}else alert('Incorrect test admin PIN.');});document.getElementById('astro-admin-close')?.addEventListener('click',closeAstroAdmin);document.getElementById('astro-admin-save')?.addEventListener('click',astroAdminSave);document.getElementById('astro-admin-new')?.addEventListener('click',()=>astroAdminEdit(0));}
+
+        function renderAstrologyPreview(){
+            const root=document.getElementById('astrology-preview-root');if(!root)return;
+            const navName=document.getElementById('astro-brand-name');if(navName)navName.textContent=appState.name;
+            const heroTitle=document.getElementById('astro-hero-title');if(heroTitle)heroTitle.textContent=appState.name;
+            const badge=document.getElementById('astro-hero-badge');if(badge)badge.textContent=appState.heroBadge;
+            const tag=document.getElementById('astro-hero-tagline');if(tag)tag.textContent=appState.tagline;
+            const about=document.getElementById('astro-about-text');if(about)about.textContent=appState.aboutText;
+            root.classList.toggle('light-mode',appState.theme==='light');
+            applyAstroTranslations();applyAstroVisibility();renderAstroPlanetButtons();renderAstroServices();renderAstroRashi();renderAstroMuhurtham();renderAstroZodiac();renderAstroMoon();renderAstroGallery();renderAstroContact();renderAstroGuide();renderAstroCalendar();initAstroLiveInfo();initAstroThemeAndLanguage();initAstroKundali();initAstroCalendar();initAstroGuide();initAstroAdmin();initAstroSolarSystem();initAstroReveal();
+        }
+
+        async function downloadAstrologyWebsitePackage(){
+            if(safeSessionGet('restaurant-builder-payment-v1')!=='paid'){alert('Please complete payment before downloading your website.');goToStep(5);return;}
+            renderAstrologyPreview();const root=document.getElementById('astrology-preview-root');if(!root)return;
+            const clone=root.cloneNode(true);clone.id='astrology-site-root';clone.style.display='';clone.querySelectorAll('.astro-reveal').forEach(x=>x.classList.add('visible'));clone.querySelector('#astro-admin-modal')?.classList.remove('open');
+            const styleText=Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');
+            const state=JSON.stringify(appState).replace(/</g,'\\u003c');
+            const runtime=getStandaloneAstrologyRuntimeScript();
+            const manifest={name:appState.name,short_name:appState.name.slice(0,20),start_url:'./index.html',display:'standalone',background_color:'#0b0709',theme_color:'#d7b45a',icons:[{src:'icon-192.svg',sizes:'192x192',type:'image/svg+xml',purpose:'any maskable'},{src:'icon-512.svg',sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
+            const clean=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="${escapeHTML(appState.tagline)}"><meta name="theme-color" content="#d7b45a"><link rel="manifest" href="./manifest.json"><title>${escapeHTML(appState.name)}</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer><\\/script><style>${styleText}</style></head><body>${clone.outerHTML}<script>window.__ASTRO_SITE_STATE__=${state};${runtime}\\/script></body></html>`;
+            const icon=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#12080c"/><circle cx="256" cy="256" r="118" fill="#d7b45a"/><g fill="none" stroke="#fff2bf" stroke-width="8" opacity=".7"><circle cx="256" cy="256" r="172"/><circle cx="256" cy="256" r="224"/></g><circle cx="118" cy="168" r="8" fill="#fff"/><circle cx="382" cy="338" r="6" fill="#fff"/></svg>`;
+            const sw=`const CACHE='astrocosmos-v1';self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./index.html','./manifest.json']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{});return resp}).catch(()=>caches.match('./index.html')))));`;
+            const base=slugify(appState.name)||'astrocosmos-website';
+            if(window.JSZip){const zip=new JSZip();zip.file('index.html',clean);zip.file('manifest.json',JSON.stringify(manifest,null,2));zip.file('service-worker.js',sw);zip.file('icon-192.svg',icon);zip.file('icon-512.svg',icon);zip.file('README.txt',`Website: ${appState.name}\nTemplate: AstroCosmos 3D\nGenerated by Website Builder Studio\n\nOpen index.html. PWA files are included for testing.`);const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=`${base}-website.zip`;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(u),1500);return;}
+            const blob=new Blob([clean],{type:'text/html;charset=utf-8'});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`${base}-website.html`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
+        }
+
+        function getStandaloneAstrologyRuntimeScript(){
+            return String.raw`(()=>{
+const s=window.__ASTRO_SITE_STATE__||{};const root=document.getElementById('astrology-site-root');let lang=s.language||'en';let theme=s.theme||'dark';let period='daily';let activeR=0;let cal=new Date();let guide=[];let threeState={};
+const T=${JSON.stringify(ASTRO_TRANSLATIONS)};
+const tr=k=>(T[lang]?.[k]||T.en[k]||k);const esc=v=>String(v??'').replace(/[&<>'"]/g,t=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[t]));const phone=v=>String(v||'').replace(/[^0-9+]/g,'');const wa=v=>String(v||'').replace(/[^0-9]/g,'');
+function apply(){root.classList.toggle('light-mode',theme==='light');root.querySelectorAll('[data-astro-i18n]').forEach(e=>e.textContent=tr(e.getAttribute('data-astro-i18n')));const lb=document.getElementById('astro-lang-toggle'),tb=document.getElementById('astro-theme-toggle');if(lb)lb.textContent=lang==='te'?'EN':'తె';if(tb)tb.textContent=theme==='light'?'☾':'☼';renderRashi();renderCalendar();renderMoon();renderMuhurtham();renderGuide();const n=document.getElementById('astro-brand-name');if(n)n.textContent=s.name;const t=document.getElementById('astro-hero-title');if(t)t.textContent=s.name;const b=document.getElementById('astro-hero-badge');if(b)b.textContent=s.heroBadge;const p=document.getElementById('astro-hero-tagline');if(p)p.textContent=s.tagline;const ab=document.getElementById('astro-about-text');if(ab)ab.textContent=s.aboutText;document.getElementById('astro-contact-name').textContent=s.name;document.getElementById('astro-contact-address').textContent=s.address;document.getElementById('astro-contact-email').textContent=s.email;document.getElementById('astro-footer-name').textContent=s.name;const waN=wa(s.whatsapp),ph=phone(s.phone),href=(id,v)=>{const e=document.getElementById(id);if(e)e.href=v||'#'};href('astro-hero-whatsapp',waN?'https://wa.me/'+waN:'#');href('astro-contact-wa',waN?'https://wa.me/'+waN:'#');href('astro-hero-call',ph?'tel:'+ph:'#');href('astro-contact-call',ph?'tel:'+ph:'#');href('astro-contact-map',s.mapsUrl||'#');}
+function moonAge(d){const syn=29.530588853,k=new Date('2000-01-06T18:14:00Z');let x=(d-k)/86400000;x=((x%syn)+syn)%syn;return x}function phase(a){const p=[['New Moon',0],['Waxing Crescent',2],['First Quarter',7.38],['Waxing Gibbous',10],['Full Moon',14.77],['Waning Gibbous',18],['Last Quarter',22.15],['Waning Crescent',25]];return p.reduce((b,x)=>Math.abs(a-x[1])<Math.abs(a-b[1])?x:b,p[0])[0]}
+function renderMoon(){const a=moonAge(new Date()),ph=phase(a);const m=document.getElementById('astro-moon-phase');if(m)m.textContent=lang==='te'?({'New Moon':'అమావాస్య','Waxing Crescent':'వృద్ధి చెందుతున్న చంద్రకళ','First Quarter':'శుక్ల అష్టమి దశ','Waxing Gibbous':'పెరుగుతున్న చంద్ర దశ','Full Moon':'పౌర్ణమి','Waning Gibbous':'తగ్గుతున్న చంద్ర దశ','Last Quarter':'కృష్ణ అష్టమి దశ','Waning Crescent':'తగ్గుతున్న చంద్రకళ'}[ph]||ph):ph;const aEl=document.getElementById('astro-moon-age');if(aEl)aEl.textContent=lang==='te'?\`చంద్ర వయస్సు: \${a.toFixed(1)} రోజులు\`:\`Moon age: \${a.toFixed(1)} days\`;}
+function renderMuhurtham(){const now=new Date(),a=moonAge(now),t=Math.floor(a/29.530588853*30)+1,score=Math.max(52,Math.min(94,72+((13-(t%13))*2)));document.getElementById('astro-muhurtham-score').textContent=score+'%';document.getElementById('astro-muhurtham-verdict').textContent=score>=80?(lang==='te'?'సాధారణంగా అనుకూలమైన రోజు':'Generally favourable day'):(lang==='te'?'సూచనాత్మకంగా సమతుల్య రోజు':'Indicatively balanced day');document.getElementById('astro-muhurtham-detail').textContent=lang==='te'?\`తిథి: \${t}/30\`:\`Tithi: \${t}/30\`;}
+function renderRashi(){const p=document.getElementById('astro-rashi-periods'),g=document.getElementById('astro-rashi-grid'),d=document.getElementById('astro-rashi-detail');if(!p||!g||!d)return;p.innerHTML=[['daily',tr('daily')],['monthly',tr('monthly')],['yearly',tr('yearly')]].map(x=>\`<button type="button" class="\${x[0]===period?'active':''}" data-p="\${x[0]}">\${x[1]}</button>\`).join('');p.querySelectorAll('button').forEach(b=>b.onclick=()=>{period=b.dataset.p;renderRashi()});g.innerHTML=(s.rashis||[]).map((r,i)=>\`<button type="button" class="astro-rashi-card \${i===activeR?'active':''}" data-r="\${i}"><div class="astro-rashi-symbol">\${r.symbol}</div><div class="astro-rashi-name">\${esc(lang==='te'?r.te:r.vedic+' / '+r.en)}</div></button>\`).join('');g.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeR=+b.dataset.r;renderRashi()});const r=s.rashis?.[activeR]||{};const pred=r.predictions?.[period]||{};d.innerHTML=\`<div class="symbol">\${r.symbol||'♈'}</div><div><h3>\${esc(lang==='te'?r.te:r.vedic+' / '+r.en)}</h3><p>\${esc(lang==='te'?pred.te:pred.en)}</p><div style="margin-top:.5rem;font-size:.75rem;color:#bfae99">\${esc(r.publishDate||'')}</div></div>\`;}
+function renderCalendar(){const g=document.getElementById('astro-calendar-grid'),title=document.getElementById('astro-calendar-title');if(!g||!title)return;const y=cal.getFullYear(),m=cal.getMonth();title.textContent=new Intl.DateTimeFormat(lang==='te'?'te-IN':'en-US',{month:'long',year:'numeric'}).format(cal);g.innerHTML=(lang==='te'?['ఆది','సోమ','మంగళ','బుధ','గురు','శుక్ర','శని']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']).map(x=>\`<div class="astro-day-name">\${x}</div>\`).join('');const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();for(let i=0;i<first;i++)g.insertAdjacentHTML('beforeend','<div></div>');for(let d=1;d<=days;d++){const b=document.createElement('button');b.type='button';b.className='astro-date-cell';b.innerHTML=\`<div class="num">\${d}</div>\`;b.onclick=()=>document.getElementById('astro-calendar-detail').innerHTML=\`<strong>\${new Date(y,m,d).toLocaleDateString()}</strong><br>\${lang==='te'?'తిథి':'Tithi'}: \${Math.floor(moonAge(new Date(y,m,d))/29.530588853*30)+1}/30<br>\${lang==='te'?'నక్షత్రం':'Nakshatra'}: Template Nakshatra\`;g.appendChild(b);}}
+function renderGuide(){const el=document.getElementById('astro-guide-messages');if(!el)return;const arr=guide.length?guide:[{role:'bot',text:lang==='te'?'నమస్తే! రాశి, కుండలి లేదా ముహూర్తం గురించి అడగండి.':'Namaste! Ask about Rashi, Kundali or Muhurtham.'}];el.innerHTML=arr.map(m=>\`<div class="astro-guide-msg"><strong>\${m.role==='user'?'You':'Guide'}:</strong> \${esc(m.text)}</div>\`).join('');}
+function start3D(){const c=document.getElementById('astro-solar-system-canvas');if(!c||typeof THREE==='undefined'||threeState.ready)return;threeState.ready=true;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(35,1,.1,100),r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.setClearColor(0,0);c.innerHTML='';c.appendChild(r.domElement);scene.add(new THREE.AmbientLight(0xffffff,.8));const sunL=new THREE.PointLight(0xffd98b,3.2,18);scene.add(sunL);const g=new THREE.Group();scene.add(g);const sun=new THREE.Mesh(new THREE.SphereGeometry(.72,24,18),new THREE.MeshBasicMaterial({color:0xf2c65d}));g.add(sun);[['mercury',.12,1.45,.8,0xafa78f],['venus',.18,1.95,1,0xd7b16a],['earth',.2,2.5,1.2,0x5e8ccf],['mars',.16,3.1,1.4,0xb85f48],['jupiter',.38,4.05,1.7,0xc78c5b],['saturn',.34,5.05,1.9,0xd0bd8d]].forEach(d=>{const p=new THREE.Group();g.add(p);const m=new THREE.Mesh(new THREE.SphereGeometry(d[1],20,16),new THREE.MeshStandardMaterial({color:d[4],roughness:.8}));m.position.x=d[2];p.add(m);threeState[d[0]]=p});const resize=()=>{const w=Math.max(240,c.clientWidth||500),h=Math.max(280,c.clientHeight||410);r.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()};resize();addEventListener('resize',resize,{passive:true});camera.position.set(0,2,8.6);camera.lookAt(0,0,0);let run=true;const io=new IntersectionObserver(es=>run=es[0].isIntersecting,{threshold:.12});io.observe(document.getElementById('astro-hero'));const tick=()=>{if(run){const t=performance.now()/1000;Object.keys(threeState).forEach(k=>{if(k!=='ready'&&threeState[k]?.rotation)threeState[k].rotation.y=t*.3});r.render(scene,camera)}requestAnimationFrame(tick)};tick();}
+function bind(){document.getElementById('astro-lang-toggle')?.addEventListener('click',()=>{lang=lang==='te'?'en':'te';try{localStorage.setItem('astrocosmos-lang',lang)}catch(e){}apply()});document.getElementById('astro-theme-toggle')?.addEventListener('click',()=>{theme=theme==='light'?'dark':'light';apply()});document.getElementById('astro-cal-prev')?.addEventListener('click',()=>{cal.setMonth(cal.getMonth()-1);renderCalendar()});document.getElementById('astro-cal-next')?.addEventListener('click',()=>{cal.setMonth(cal.getMonth()+1);renderCalendar()});document.getElementById('astro-cal-today')?.addEventListener('click',()=>{cal=new Date();renderCalendar()});const fab=document.getElementById('astro-guide-fab'),panel=document.getElementById('astro-guide-panel');fab?.addEventListener('click',()=>panel.classList.toggle('open'));document.getElementById('astro-guide-close')?.addEventListener('click',()=>panel.classList.remove('open'));const inp=document.getElementById('astro-guide-input'),send=document.getElementById('astro-guide-send');const go=()=>{const v=inp.value.trim();if(!v)return;guide.push({role:'user',text:v},{role:'bot',text:lang==='te'?'రాశి, కుండలి, చంద్ర దశ లేదా ముహూర్తం విభాగాలను చూడండి.':'Try the Rashi, Kundali, Moon Phase or Muhurtham sections.'});inp.value='';renderGuide()};send?.addEventListener('click',go);inp?.addEventListener('keydown',e=>{if(e.key==='Enter')go()});const kf=document.getElementById('astro-kundali-form');kf?.addEventListener('submit',e=>{e.preventDefault();const n=document.getElementById('astro-k-name').value.trim(),d=document.getElementById('astro-k-dob').value,t=document.getElementById('astro-k-time').value;if(!n||!d||!t)return;document.getElementById('astro-k-result')?.remove();document.getElementById('astro-kundali-result').style.display='block';document.getElementById('astro-k-sun').textContent='Demo';document.getElementById('astro-k-moon').textContent=phase(moonAge(new Date(d+'T'+t)));document.getElementById('astro-k-lagna').textContent='Demo';document.getElementById('astro-k-nakshatra').textContent='Template';});apply();start3D();}
+bind();})();`;
+        }
+
         function renderLivePreview() {
+            if (templateIsAstrology()) {
+                renderAstrologyPreview();
+                return;
+            }
             // Feature Toggles (Respecting all 28 features)
             const f = appState.features;
 
@@ -5167,6 +5720,26 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
 
         function applyAndScrollToPreview() {
+            if (templateIsAstrology()) {
+                const get = id => document.getElementById(id)?.value?.trim?.() || '';
+                const nameVal = get('astro-input-name');
+                if (!nameVal) { alert('Website / Astro Center Name cannot be empty.'); document.getElementById('astro-input-name')?.focus(); return false; }
+                appState.name = nameVal;
+                appState.heroBadge = get('astro-input-badge') || 'Vedic Astrology • Cosmic Guidance';
+                appState.tagline = get('astro-input-tagline');
+                appState.phone = get('astro-input-phone');
+                appState.whatsapp = get('astro-input-whatsapp');
+                appState.email = get('astro-input-email');
+                appState.address = get('astro-input-address');
+                appState.mapsUrl = get('astro-input-maps');
+                appState.aboutText = get('astro-input-about');
+                appState.adminEmail = get('astro-input-admin-email');
+                appState.theme = get('astro-input-theme') || 'dark';
+                appState.language = appState.language || 'en';
+                saveBuilderSession();
+                renderAstrologyPreview();
+                return true;
+            }
             const nameVal = document.getElementById("input-name").value.trim();
             if (!nameVal) {
                 alert("Restaurant Name cannot be empty.");
@@ -5206,8 +5779,18 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
 
         function resetToDemoValues() {
-            if (confirm("Reset all builder modifications back to the default demo template?")) {
+            if (confirm("Reset all builder modifications back to the selected template's demo defaults?")) {
                 revokeAllObjectUrls();
+                if (templateIsAstrology()) {
+                    appState = JSON.parse(JSON.stringify(defaultAstrologyState));
+                    safeSessionRemove('restaurant-builder-payment-v1');
+                    safeSessionRemove('restaurant-builder-setup-v1');
+                    syncBuilderInputsFromState();
+                    renderFeatureToggles();
+                    renderLivePreview();
+                    saveBuilderSession();
+                    return;
+                }
                 appState = JSON.parse(JSON.stringify(defaultRestaurantState));
                 safeSessionRemove('restaurant-builder-payment-v1');
                 safeSessionRemove('restaurant-builder-setup-v1');
@@ -5325,6 +5908,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         // DOM Initialization
         document.addEventListener("DOMContentLoaded", () => {
             loadBuilderSession();
+            if (appState.templateType === 'astrology') appState = Object.assign(JSON.parse(JSON.stringify(defaultAstrologyState)), appState);
             document.getElementById("input-address").value = appState.businessAddress;
             document.getElementById("input-hours").value = appState.businessHours;
             document.getElementById("input-order-url").value = appState.onlineOrderingUrl;
