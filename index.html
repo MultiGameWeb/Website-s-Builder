@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No-Code Restaurant Website Builder & Template</title>
+    <title>No-Code Website Builder & Templates</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2156,7 +2156,7 @@
     <!-- =========================================================
        WORKFLOW STEP 1: CHOOSE TEMPLATE / GALLERY SELECTION
        ========================================================= -->
-    <section id="step-template-selection" class="builder-step-panel active-step" aria-label="Step 1: Choose Template">
+    <section id="step-template-selection" class="builder-step-panel active-step" aria-label="Step 1: Choose Template" data-template-system="modular">
         <div class="container">
             <div class="builder-header" style="max-width: 700px; margin: 0 auto 2rem auto;">
                 <h1>Select Website Template</h1>
@@ -3652,9 +3652,28 @@
 
         function selectTemplateAndProceed(templateName) {
             revokeAllObjectUrls();
+
             appState = freshStateForTemplate(templateName);
-            appState.templateName = templateName;
+
+            const templateId =
+                templateName === "AstroCosmos 3D"
+                    ? "astrology"
+                    : "restaurant";
+
+            const selectedTemplate =
+                window.BuilderApp?.selectTemplate(templateId);
+
+            if (!selectedTemplate) {
+                console.error("Template registry could not load:", templateId);
+                alert("Template could not be loaded. Please try again.");
+                return;
+            }
+
+            appState.selectedTemplateId = templateId;
+            appState.templateDefinition = selectedTemplate;
+            appState.templateName = selectedTemplate.name;
             appState.name = templateName;
+
             safeSessionRemove('restaurant-builder-payment-v1');
             safeSessionRemove('restaurant-builder-setup-v1');
             previewCart = [];
@@ -4003,7 +4022,6 @@ ${getStandaloneAdminMarkup()}
 window.__RESTAURANT_SITE_STATE__ = ${siteState};
 ${exportedRuntime}
 <\/script>
-<script type="module" src="./js/app.js"></script>
 </body>
 </html>`;
 
@@ -6133,5 +6151,7 @@ bind();})();`;
             }
         });
     </script>
+    <!-- Common modular builder engine -->
+    <script type="module" src="./js/app.js"></script>
 </body>
 </html>
