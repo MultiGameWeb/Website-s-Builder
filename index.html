@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" defer></script>
     
     <style>
         /* CSS Variables for Easy Customization */
@@ -1988,9 +1989,22 @@
         .owner-admin-lock button { width:100%; margin-top:.7rem; border:0; border-radius:10px; padding:.8rem; background:var(--primary-color); color:#fff; font-weight:800; cursor:pointer; }
 
         /* Preview page spacing after hiding the builder header */
-        body.preview-only-mode { padding-bottom: 0; }
+        body.preview-only-mode { padding-bottom: 80px; }
         body.preview-only-mode .preview-floating-toolbar { top: 18px; right: 18px; }
         body.preview-only-mode .mobile-sticky-cta { z-index: 1400; }
+
+        /* Feature #26: explicit desktop-only behavior when responsive mode is disabled. */
+        #live-preview-wrapper.builder-responsive-off {
+            min-width: 1080px;
+        }
+        #live-preview-wrapper.builder-responsive-off .mobile-sticky-cta {
+            display: none !important;
+        }
+        @media (max-width: 768px) {
+            #live-preview-wrapper.builder-responsive-off {
+                overflow-x: auto;
+            }
+        }
 
     </style>
 </head>
@@ -2824,7 +2838,7 @@
 
                 <div id="executive-notice-banner" class="executive-notice-box">
                     Request received. Our executive will contact you within 10 minutes to assist you with the setup. Please wait for the call.<br><br>
-                    You can complete your payment and download your website below.
+                    Your payment is complete. Your website package is ready to download below.
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
@@ -3095,73 +3109,170 @@
         }
 
         // Workflow Step Navigation Controller
-        function goToStep(stepNumber) {
+        function safeSessionGet(key) {
+            try { return sessionStorage.getItem(key); } catch (e) { return null; }
+        }
+
+        function safeSessionSet(key, value) {
+            try { sessionStorage.setItem(key, value); } catch (e) {}
+        }
+
+        function safeSessionRemove(key) {
+            try { sessionStorage.removeItem(key); } catch (e) {}
+        }
+
+        const STEP_ROUTES = {
+            1: 'template',
+            2: 'features',
+            3: 'details',
+            4: 'preview',
+            5: 'payment',
+            6: 'setup'
+        };
+
+        function getStepFromRoute() {
+            const route = String(location.hash || '').replace(/^#/, '').toLowerCase();
+            const match = Object.entries(STEP_ROUTES).find(([, name]) => name === route);
+            return match ? Number(match[0]) : null;
+        }
+
+        function saveBuilderSession() {
+            try {
+                safeSessionSet('restaurant-builder-state-v1', JSON.stringify(appState));
+            } catch (e) {
+                // Large image payloads may exceed session storage; the in-memory state still works.
+            }
+        }
+
+        function loadBuilderSession() {
+            try {
+                const raw = safeSessionGet('restaurant-builder-state-v1');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed === 'object') appState = parsed;
+                }
+            } catch (e) {}
+        }
+
+        function goToStep(stepNumber, options = {}) {
+            stepNumber = Math.max(1, Math.min(6, Number(stepNumber) || 1));
+
+            if (stepNumber === 6 && safeSessionGet('restaurant-builder-payment-v1') !== 'paid') {
+                stepNumber = 5;
+            }
+
             const panels = document.querySelectorAll('.builder-step-panel');
             panels.forEach(p => p.classList.remove('active-step'));
 
-            let targetId = '';
-            if (stepNumber === 1) targetId = 'step-template-selection';
-            else if (stepNumber === 2) targetId = 'step-feature-selection';
-            else if (stepNumber === 3) targetId = 'step-details-input';
-            else if (stepNumber === 4) targetId = 'step-live-preview';
-            else if (stepNumber === 5) targetId = 'step-payment';
-            else if (stepNumber === 6) targetId = 'step-final-setup';
+            const targetId = {
+                1: 'step-template-selection',
+                2: 'step-feature-selection',
+                3: 'step-details-input',
+                4: 'step-live-preview',
+                5: 'step-payment',
+                6: 'step-final-setup'
+            }[stepNumber];
 
             const targetPanel = document.getElementById(targetId);
             if (targetPanel) targetPanel.classList.add('active-step');
 
+            const route = STEP_ROUTES[stepNumber];
+            const stepTitles = {1:'Choose Template',2:'Choose Features',3:'Enter Details',4:'Live Preview',5:'Payment',6:'Setup & Download'};
+            document.title = `${stepTitles[stepNumber]} — Restaurant Builder Studio`;
+            if (options.replace) history.replaceState({ step: stepNumber }, '', `#${route}`);
+            else if (location.hash !== `#${route}`) history.pushState({ step: stepNumber }, '', `#${route}`);
+
             const builderNav = document.getElementById('builder-workflow-nav');
             const previewToolbar = document.querySelector('.preview-floating-toolbar');
-            if (stepNumber === 4) {
-                if (builderNav) builderNav.style.display = 'none';
-                if (previewToolbar) previewToolbar.style.display = 'flex';
-                document.body.classList.add('preview-only-mode');
-            } else {
-                if (builderNav) builderNav.style.display = 'block';
-                if (previewToolbar) previewToolbar.style.display = 'none';
-                document.body.classList.remove('preview-only-mode');
-            }
+            const isPreview = stepNumber === 4;
+            if (builderNav) builderNav.style.display = isPreview ? 'none' : 'block';
+            if (previewToolbar) previewToolbar.style.display = isPreview ? 'flex' : 'none';
+            document.body.classList.toggle('preview-only-mode', isPreview);
 
             for (let i = 1; i <= 6; i++) {
                 const pill = document.getElementById(`pill-step-${i}`);
-                if (pill) {
-                    pill.classList.remove('active', 'completed');
-                    if (i < stepNumber) pill.classList.add('completed');
-                    else if (i === stepNumber) pill.classList.add('active');
-                }
+                if (!pill) continue;
+                pill.classList.remove('active', 'completed');
+                if (i < stepNumber) pill.classList.add('completed');
+                else if (i === stepNumber) pill.classList.add('active');
             }
 
+            saveBuilderSession();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (stepNumber === 3) syncBuilderInputsFromState();
             if (stepNumber === 4) renderLivePreview();
+            if (stepNumber === 6) updateSetupSummary();
         }
 
-        function selectTemplateAndProceed(templateName) {
-            appState.name = templateName;
-            const nameInput = document.getElementById("input-name");
-            if (nameInput) nameInput.value = templateName;
+        function syncBuilderInputsFromState() {
+            const setVal = (id, value) => { const el = document.getElementById(id); if (el && value != null) el.value = value; };
+            setVal('input-name', appState.name);
+            setVal('input-tagline', appState.tagline);
+            setVal('input-address', appState.businessAddress);
+            setVal('input-hours', appState.businessHours);
+            setVal('input-order-url', appState.onlineOrderingUrl);
+            setVal('input-phone', appState.businessPhone);
+            setVal('input-whatsapp', appState.whatsappNumber);
+            setVal('input-maps-url', appState.googleMapsUrl);
+            setVal('input-maps-embed', appState.googleMapsEmbedUrl);
+            setVal('input-loyalty-title', appState.loyalty?.title || '');
+            setVal('input-loyalty-desc', appState.loyalty?.description || '');
+            setVal('input-google-reviews-url', appState.googleReviewsUrl);
+            setVal('input-google-embed-url', appState.googleReviewsEmbedUrl);
+            setVal('input-about-story', appState.aboutStory);
+            setVal('input-chef-name', appState.about?.chefName || '');
+            setVal('input-chef-title', appState.about?.chefTitle || '');
+            setVal('input-chef-note', appState.about?.chefNote || '');
             renderFeatureToggles();
-            goToStep(2);
         }
 
-        function applyChangesAndGoToPreview() {
-            applyAndScrollToPreview();
-            goToStep(4);
-        }
-
-        function processPaymentAndProceed() {
-            alert("Payment successful! Proceeding to final setup & export options.");
-            goToStep(6);
-        }
-
-        function handleSetupChoiceChange() {
-            const domainYes = document.querySelector('input[name="domainHelp"][value="yes"]').checked;
-            const paymentYes = document.querySelector('input[name="paymentHelp"][value="yes"]').checked;
+        function updateSetupSummary() {
             const banner = document.getElementById('executive-notice-banner');
+            if (!banner) return;
+            const domainYes = document.querySelector('input[name="domainHelp"][value="yes"]')?.checked;
+            const paymentYes = document.querySelector('input[name="paymentHelp"][value="yes"]')?.checked;
             if (domainYes || paymentYes) {
+                const services = [];
+                if (domainYes) services.push('custom domain setup');
+                if (paymentYes) services.push('online payment setup');
+                banner.innerHTML = `Request received. Our executive will contact you within 10 minutes regarding ${escapeHTML(services.join(' and '))}.<br><br>Your payment is complete. Your website package is ready to download below.`;
                 banner.style.display = 'block';
             } else {
                 banner.style.display = 'none';
             }
+        }
+
+        function selectTemplateAndProceed(templateName) {
+            appState = JSON.parse(JSON.stringify(defaultRestaurantState));
+            appState.templateName = templateName;
+            appState.name = templateName;
+            safeSessionRemove('restaurant-builder-payment-v1');
+            syncBuilderInputsFromState();
+            saveBuilderSession();
+            goToStep(2);
+        }
+
+        function applyChangesAndGoToPreview() {
+            if (!applyAndScrollToPreview()) return;
+            saveBuilderSession();
+            goToStep(4);
+        }
+
+        function processPaymentAndProceed() {
+            // Prototype payment gate. Replace only this function when a real payment gateway is connected.
+            safeSessionSet('restaurant-builder-payment-v1', 'paid');
+            saveBuilderSession();
+            goToStep(6);
+        }
+
+        function handleSetupChoiceChange() {
+            updateSetupSummary();
+            try {
+                safeSessionSet('restaurant-builder-setup-v1', JSON.stringify({
+                    domainHelp: document.querySelector('input[name="domainHelp"][value="yes"]')?.checked === true,
+                    paymentHelp: document.querySelector('input[name="paymentHelp"][value="yes"]')?.checked === true
+                }));
+            } catch (e) {}
         }
 
 
@@ -3431,18 +3542,22 @@
         }
 
         // Download ONLY the final restaurant website — never the builder UI.
-        function downloadWebsitePackage() {
+        // Download ONLY the final restaurant website — never the builder UI.
+        async function downloadWebsitePackage() {
+            if (safeSessionGet('restaurant-builder-payment-v1') !== 'paid') {
+                alert('Please complete payment before downloading your website.');
+                goToStep(5);
+                return;
+            }
+
             const wrapper = document.getElementById('live-preview-wrapper');
             if (!wrapper) { alert('Please open Preview first.'); return; }
 
-            // Ensure the preview is fully rendered before export.
             renderLivePreview();
 
             const clone = wrapper.cloneNode(true);
             clone.removeAttribute('id');
             clone.setAttribute('id', 'restaurant-site-root');
-
-            // Close transient UI states in the exported copy.
             clone.querySelector('#restaurant-cart-drawer')?.classList.remove('open');
             clone.querySelector('#restaurant-chat-panel')?.classList.remove('open');
             clone.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('is-visible'));
@@ -3461,7 +3576,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer><\/script>
     <style>${styleText}</style>
 </head>
 <body>
@@ -3470,15 +3585,44 @@ ${getStandaloneAdminMarkup()}
 <script id="standalone-runtime-script">
 window.__RESTAURANT_SITE_STATE__ = ${siteState};
 ${exportedRuntime}
-</script>
+<\/script>
 </body>
 </html>`;
 
+            const filenameBase = slugify(appState.name) || 'restaurant-website';
+            if (window.JSZip) {
+                const zip = new JSZip();
+                zip.file('index.html', cleanHtml);
+                zip.file('README.txt', [
+                    `Website: ${appState.name}`,
+                    `Template: ${appState.templateName || appState.name}`,
+                    'Generated by Restaurant Builder Studio',
+                    '',
+                    'Open index.html to preview the website.',
+                    'For production hosting, upload the package contents to your hosting provider.'
+                ].join('\n'));
+                try {
+                    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${filenameBase}-website.zip`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(url), 1500);
+                    return;
+                } catch (e) {
+                    console.error('ZIP generation failed:', e);
+                }
+            }
+
+            // Safe fallback if the ZIP library is blocked.
             const blob = new Blob([cleanHtml], {type:'text/html;charset=utf-8'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${slugify(appState.name)}-website.html`;
+            a.download = `${filenameBase}-website.html`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -3601,21 +3745,40 @@ function loadState(){try{const raw=localStorage.getItem(STORE_KEY);if(raw) siteS
 function mergeAndRender(){
   applyStateToSite();
   renderMenu(); renderFeatured(); renderGallery(); renderOffer(); renderReviews(); renderContact(); renderChef(); renderBranding(); renderNavigation();
+  setMinReservationDate();
   initCart(); initChat(); initReveal(); initChef();
 }
 function applyStateToSite(){
  const f=siteState.features||{};
  const show=(id,on,display='block')=>{const el=document.getElementById(id);if(el)el.style.display=on?display:'none';};
- show('hero',f.hero!==false,'flex'); show('featured-dishes',f.featuredDishes!==false); show('offers',f.offers!==false); show('about-intro-section',f.aboutIntro!==false);
- show('timeline-section',f.storyTimeline!==false); show('chef-section',f.meetChef!==false); show('core-values-section',f.coreValues!==false); show('loyalty-section',f.loyaltyBanner!==false);
- show('google-reviews-section',f.googleReviewsEmbed!==false); show('testimonials',f.testimonials!==false); show('contact-section',f.locationTiming!==false||f.googleMapsEmbed!==false||f.phoneCallNow!==false); show('site-footer',f.footerQuickLinks!==false);
+ show('hero',f.hero!==false,'flex');
+ show('featured-dishes',f.featuredDishes!==false);
+ show('offers',f.offers!==false);
+ show('about-intro-section',f.aboutIntro!==false);
+ show('timeline-section',f.storyTimeline!==false);
+ show('chef-section',f.meetChef!==false);
+ show('core-values-section',f.coreValues!==false);
+ show('loyalty-section',f.loyaltyBanner!==false);
+ show('google-reviews-section',f.googleReviewsEmbed!==false);
+ show('testimonials',f.testimonials!==false);
  show('order-section',f.orderingCTA!==false);
  show('menu-section',(f.categoryTabs!==false||f.foodCards!==false||f.foodFilters!==false));
- const cat=document.getElementById('menu-category-tabs'); if(cat)cat.style.display=f.categoryTabs!==false?'flex':'none';
- const fil=document.getElementById('menu-attribute-filters'); if(fil)fil.style.display=f.foodFilters!==false?'flex':'none';
- const gal=document.getElementById('gallery-section'); if(gal)gal.style.display=(f.galleryLayout!==false||f.galleryFilters!==false)?'block':'none';
+ show('site-footer',f.footerQuickLinks!==false);
+ const contactEnabled=(f.locationTiming!==false||f.googleMapsEmbed!==false||f.phoneCallNow!==false);
+ show('contact-section',contactEnabled);
+ const reservationEnabled=(f.datePicker!==false||f.guests!==false||f.seatingPreference!==false||f.contactDetails!==false);
+ show('reservation-section',reservationEnabled);
+ const cat=document.getElementById('menu-category-tabs');if(cat)cat.style.display=f.categoryTabs!==false?'flex':'none';
+ const fil=document.getElementById('menu-attribute-filters');if(fil)fil.style.display=f.foodFilters!==false?'flex':'none';
+ const gal=document.getElementById('gallery-section');if(gal)gal.style.display=(f.galleryLayout!==false||f.galleryFilters!==false)?'block':'none';
  const gfil=document.getElementById('gallery-filter-tabs');if(gfil)gfil.style.display=f.galleryFilters!==false?'flex':'none';
  const nav=document.querySelector('.site-nav');if(nav)nav.style.display=f.sixTabNavigation!==false?'block':'none';
+ const root=document.getElementById('restaurant-site-root');if(root){root.classList.toggle('builder-responsive-off',f.responsiveDesign===false);root.querySelectorAll('img').forEach(img=>{if(f.fastLoadImages===false){img.removeAttribute('loading');img.removeAttribute('decoding');}else{img.setAttribute('loading','lazy');img.setAttribute('decoding','async');}});}
+ const rf=(id,on)=>{const input=document.getElementById(id);if(!input)return;const group=input.closest('.form-group');if(group)group.style.display=on?'':'';input.required=on;};
+ rf('res-date',f.datePicker!==false);rf('res-time',f.datePicker!==false);rf('res-guests',f.guests!==false);rf('res-seating',f.seatingPreference!==false);rf('res-name',f.contactDetails!==false);rf('res-email',f.contactDetails!==false);rf('res-phone',f.contactDetails!==false);
+ const addr=document.getElementById('contact-address-text')?.closest('.contact-info-group');if(addr)addr.style.display=f.locationTiming!==false?'':'none';
+ const hours=document.getElementById('contact-hours-text')?.closest('.contact-info-group');if(hours)hours.style.display=f.locationTiming!==false?'':'none';
+ const map=document.getElementById('map-container-wrap');if(map)map.style.display=f.googleMapsEmbed!==false?'flex':'none';
 }
 function renderBranding(){
  const logo=document.getElementById('nav-logo-area'); if(logo)logo.innerHTML=siteState.logo?'<img src="'+esc(siteState.logo)+'" alt="Logo" class="nav-logo-img" width="40" height="40"> <span>'+esc(siteState.name)+'</span>':'<span>'+esc(siteState.name)+'</span>';
@@ -3629,7 +3792,14 @@ function renderBranding(){
  const phone=document.getElementById('footer-phone-display');if(phone)phone.textContent=siteState.businessPhone?'Phone: '+siteState.businessPhone:'Phone: Not configured';
 }
 function renderNavigation(){
- const f=siteState.features||{}; const tabs=[['Home','#hero'],['Menu','#menu-section'],['Order','#order-section'],['Reservations','#reservation-section'],['About','#chef-section'],['Contact','#contact-section']];
+ const f=siteState.features||{};
+ const tabs=[];
+ if(f.hero!==false) tabs.push(['Home','#hero']);
+ if(f.categoryTabs!==false||f.foodCards!==false||f.foodFilters!==false) tabs.push(['Menu','#menu-section']);
+ if(f.orderingCTA!==false) tabs.push(['Order','#order-section']);
+ if(f.datePicker!==false||f.guests!==false||f.seatingPreference!==false||f.contactDetails!==false) tabs.push(['Reservations','#reservation-section']);
+ if(f.meetChef!==false||f.aboutIntro!==false||f.coreValues!==false||f.storyTimeline!==false) tabs.push(['About',f.meetChef!==false?'#chef-section':(f.aboutIntro!==false?'#about-intro-section':'#core-values-section')]);
+ if(f.locationTiming!==false||f.googleMapsEmbed!==false||f.phoneCallNow!==false) tabs.push(['Contact','#contact-section']);
  const html=tabs.map(t=>'<li><a href="'+t[1]+'">'+t[0]+'</a></li>').join('');
  const n=document.getElementById('nav-links-container');if(n)n.innerHTML=html;
  const fl=document.getElementById('footer-quick-links');if(fl)fl.innerHTML=html;
@@ -3642,6 +3812,9 @@ function renderGallery(){const el=document.getElementById('gallery-grid-containe
 function renderChef(){const a=siteState.about||{};const img=document.getElementById('meet-chef-img');if(img)img.src=a.chefPhoto||'';const story=document.getElementById('meet-chef-story');if(story)story.textContent=siteState.aboutStory||'';const note=document.getElementById('meet-chef-note');if(note)note.textContent='"'+(a.chefNote||'')+'"';const name=document.getElementById('meet-chef-name');if(name)name.textContent='Chef '+(a.chefName||'');const title=document.getElementById('meet-chef-title');if(title)title.textContent=a.chefTitle||'';const intro=document.getElementById('about-intro-note-text');if(intro)intro.textContent='"'+(a.chefNote||'')+'" — Chef '+(a.chefName||'');}
 function renderReviews(){const track=document.getElementById('reviews-track');if(!track)return;track.innerHTML=(siteState.reviews||[]).map(r=>'<div class="review-card"><img src="'+esc(r.photo||'')+'" class="review-avatar" alt="'+esc(r.name)+'" loading="lazy"><div class="review-stars">'+('★'.repeat(Math.max(0,Math.min(5,Number(r.rating)||0))))+'</div><p class="review-quote">"'+esc(r.quote)+'"</p><h4 class="review-author">— '+esc(r.name)+'</h4></div>').join('');setTimeout(bindSlider,0);}
 function renderContact(){const a=siteState.about||{};const el=id=>document.getElementById(id);if(el('contact-restaurant-name'))el('contact-restaurant-name').textContent=siteState.name||'';if(el('contact-address-text'))el('contact-address-text').textContent=siteState.businessAddress||'Address not provided';if(el('contact-hours-text'))el('contact-hours-text').textContent=siteState.businessHours||'Hours not provided';if(el('contact-phone-text'))el('contact-phone-text').textContent=siteState.businessPhone||'';const map=el('map-container-wrap');if(map){if(siteState.googleMapsEmbedUrl)map.innerHTML='<iframe src="'+esc(siteState.googleMapsEmbedUrl)+'" loading="lazy" title="Restaurant Location Map"></iframe>';else if(siteState.googleMapsUrl)map.innerHTML='<div class="map-placeholder"><h4>Find Us on the Map</h4><p>'+esc(siteState.businessAddress||siteState.name)+'</p><a href="'+esc(siteState.googleMapsUrl)+'" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Open in Google Maps</a></div>';else map.innerHTML='<div class="map-placeholder">Map location not configured.</div>';}}
+function setMinReservationDate(){const d=document.getElementById('res-date');if(!d)return;const n=new Date();d.min=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+function handleReservationSubmit(e){e.preventDefault();const f=siteState.features||{};const en={contact:f.contactDetails!==false,dateTime:f.datePicker!==false,guests:f.guests!==false,seating:f.seatingPreference!==false};const v=id=>{const x=document.getElementById(id);return x?String(x.value||'').trim():''};const name=en.contact?v('res-name'):'';const email=en.contact?v('res-email'):'';const phone=en.contact?v('res-phone'):'';const date=en.dateTime?v('res-date'):'';const time=en.dateTime?v('res-time'):'';const guests=en.guests?v('res-guests'):'2';const seating=en.seating?v('res-seating'):'Standard';if(en.contact&&(!name||!email||!phone)){alert('Please fill in your name, email, and phone number.');return;}if(en.dateTime&&(!date||!time)){alert('Please select a reservation date and time.');return;}if(en.seating&&!seating){alert('Please select a seating preference.');return;}if(en.dateTime){const chosen=new Date(date+'T00:00:00');const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());if(chosen<today){alert('Reservation date cannot be in the past.');return;}}const box=document.getElementById('reservation-success-box'),out=document.getElementById('reservation-success-text');if(!box||!out)return;const prefix=en.contact&&name?'Thank you, <strong>'+esc(name)+'</strong>! ':'Thank you! ';const bits=[];if(en.guests)bits.push('<strong>'+esc(guests)+' guest(s)</strong>');if(en.seating)bits.push('<strong>'+esc(seating)+' Seating</strong>');const when=en.dateTime?' for <strong>'+esc(date)+' at '+esc(time)+'</strong>':'';out.innerHTML=prefix+(bits.length?'Your table for '+bits.join(' with '):'Your reservation')+' has been successfully reserved'+when+'.';box.style.display='block';document.getElementById('reservation-form')?.reset();setMinReservationDate();}
+
 function initCart(){const fab=document.getElementById('restaurant-cart-fab'),drawer=document.getElementById('restaurant-cart-drawer');if(!fab||!drawer)return;if(!fab.dataset.bound){fab.dataset.bound=1;fab.onclick=()=>drawer.classList.add('open');document.getElementById('restaurant-cart-close').onclick=()=>drawer.classList.remove('open');document.getElementById('cart-clear-btn').onclick=()=>{cart=[];renderCart();};document.getElementById('cart-checkout-btn').onclick=checkout;document.getElementById('restaurant-site-root').addEventListener('click',e=>{const a=e.target.closest('[data-cart-index]');if(a){const i=+a.dataset.cartIndex;const row=cart.find(r=>r.i===i);if(row)row.q++;else cart.push({i,q:1});renderCart();drawer.classList.add('open');}const q=e.target.closest('[data-caction]');if(q){const i=+q.dataset.i,row=cart.find(r=>r.i===i);if(!row)return;if(q.dataset.caction==='plus')row.q++;if(q.dataset.caction==='minus')row.q--;if(q.dataset.caction==='remove'||row.q<=0)cart=cart.filter(r=>r.i!==i);renderCart();}});}renderCart();}
 function renderCart(){const items=document.getElementById('cart-items-container'),count=document.getElementById('restaurant-cart-count'),total=document.getElementById('cart-total');if(!items)return;let c=0,t=0;if(!cart.length)items.innerHTML='<div class="cart-empty">Your cart is empty.<br>Choose something delicious from the menu.</div>';else items.innerHTML=cart.map(r=>{const x=siteState.menuItems[r.i];if(!x)return '';const line=money(x.price)*r.q;c+=r.q;t+=line;return '<div class="cart-item-row"><div><strong>'+esc(x.name)+'</strong><div class="cart-item-meta">'+esc(x.price)+' × '+r.q+'</div><div class="cart-item-actions"><button class="cart-qty-btn" data-caction="minus" data-i="'+r.i+'">−</button><span>'+r.q+'</span><button class="cart-qty-btn" data-caction="plus" data-i="'+r.i+'">+</button><button class="cart-remove-btn" data-caction="remove" data-i="'+r.i+'">Remove</button></div></div><strong>'+t.toFixed(2)+'</strong></div>';}).join('');count.textContent=String(c);const sym=(siteState.menuItems?.[0]?.price||'').trim().match(/^[^0-9\s]+/)?.[0]||'$';total.textContent=sym+t.toFixed(2);}
 function checkout(){if(!cart.length){alert('Your cart is empty.');return;}const lines=cart.map(r=>siteState.menuItems[r.i]?siteState.menuItems[r.i].name+' × '+r.q:'').filter(Boolean);const total=cart.reduce((s,r)=>s+money(siteState.menuItems[r.i]?.price)*r.q,0);const msg='Hello '+siteState.name+', I would like to order:\n'+lines.join('\n')+'\nTotal: '+total.toFixed(2);const wa=normWa(siteState.whatsappNumber);if(wa){open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');return;}if(siteState.onlineOrderingUrl)open(siteState.onlineOrderingUrl,'_blank');else alert(msg);}
@@ -3679,7 +3852,7 @@ function buildStandaloneHtmlFromSite(){
  admin.classList.remove('open');admin.setAttribute('aria-hidden','true');
  const lock=admin.querySelector('#owner-admin-lock');if(lock)lock.style.display='block';
  const card=admin.querySelector('#owner-admin-card');if(card)card.style.display='none';
- return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>'+esc(siteState.name)+' - Restaurant & Dining</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script><style>'+styleText+'</style></head><body>'+root.outerHTML+admin.outerHTML+'<script id="standalone-runtime-script">window.__RESTAURANT_SITE_STATE__='+safe+';\n'+runtime+'<\/script></body></html>';
+ return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>'+esc(siteState.name)+' - Restaurant & Dining</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer><\/script><style>'+styleText+'</style></head><body>'+root.outerHTML+admin.outerHTML+'<script id="standalone-runtime-script">window.__RESTAURANT_SITE_STATE__='+safe+';\n'+runtime+'<\/script></body></html>';
 }
 function downloadUpdated(){const html=buildStandaloneHtmlFromSite();const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=slugify(siteState.name)+'-website-updated.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),800);}
 function bindAdmin(){
@@ -3844,7 +4017,25 @@ document.addEventListener('DOMContentLoaded',()=>{
             if (coreValuesEl) coreValuesEl.style.display = (f.coreValues !== false) ? "block" : "none";
 
             const reservationEl = document.getElementById("reservation-section");
-            if (reservationEl) reservationEl.style.display = (f.datePicker !== false && f.guests !== false && f.seatingPreference !== false && f.contactDetails !== false) ? "block" : "none";
+            const reservationEnabled = f.datePicker !== false || f.guests !== false || f.seatingPreference !== false || f.contactDetails !== false;
+            if (reservationEl) reservationEl.style.display = reservationEnabled ? "block" : "none";
+            const resField = (inputId, enabled) => {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+                const group = input.closest('.form-group');
+                if (group) group.style.display = enabled ? '' : 'none';
+                input.required = enabled;
+            };
+            resField('res-date', f.datePicker !== false);
+            resField('res-time', f.datePicker !== false);
+            resField('res-guests', f.guests !== false);
+            resField('res-seating', f.seatingPreference !== false);
+            resField('res-name', f.contactDetails !== false);
+            resField('res-email', f.contactDetails !== false);
+            resField('res-phone', f.contactDetails !== false);
+
+            const resSubmit = document.querySelector('#reservation-form button[type="submit"]');
+            if (resSubmit) resSubmit.style.display = reservationEnabled ? 'inline-flex' : 'none';
 
             const loyaltyEl = document.getElementById("loyalty-section");
             if (loyaltyEl) loyaltyEl.style.display = (f.loyaltyBanner !== false) ? "block" : "none";
@@ -3892,7 +4083,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             if (heroBtnsContainer) {
                 let heroBtnsHTML = '';
                 
-                if (f.menu !== false && f.foodCards !== false) {
+                if ((f.categoryTabs !== false || f.foodCards !== false || f.foodFilters !== false) && f.foodCards !== false) {
                     heroBtnsHTML += `<a href="#menu-section" class="btn btn-primary" id="cta-order">Explore Menu</a>`;
                 }
 
@@ -3933,7 +4124,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             const mobileStickyCta = document.getElementById("mobile-sticky-cta");
             if (mobileStickyCta) {
                 let mobileCtaHTML = '';
-                if (f.menu !== false && f.foodCards !== false) {
+                if ((f.categoryTabs !== false || f.foodCards !== false || f.foodFilters !== false) && f.foodCards !== false) {
                     mobileCtaHTML += `<button class="btn btn-order" onclick="window.location.href='#menu-section'">Menu</button>`;
                 }
                 if (f.orderingCTA !== false) {
@@ -4065,7 +4256,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
             // 6. Gallery Grid & Real Masonry / Grid Mode Layout
             const galleryGridContainer = document.getElementById("gallery-grid-container");
-            if (galleryGridContainer && f.galleryLayout !== false) {
+            if (galleryGridContainer && (f.galleryLayout !== false || f.galleryFilters !== false)) {
                 galleryGridContainer.className = `gallery-grid ${appState.galleryLayout === 'masonry' ? 'masonry-mode' : 'grid-mode'}`;
                 const layoutSelect = document.getElementById("gallery-layout-select");
                 if (layoutSelect) layoutSelect.value = appState.galleryLayout;
@@ -4209,6 +4400,10 @@ document.addEventListener('DOMContentLoaded',()=>{
             document.getElementById("contact-restaurant-name").innerText = appState.name;
             document.getElementById("contact-address-text").innerText = appState.businessAddress || "Address not provided";
             document.getElementById("contact-hours-text").innerText = appState.businessHours || "Hours not provided";
+            const addressGroup = document.getElementById('contact-address-text')?.closest('.contact-info-group');
+            const hoursGroup = document.getElementById('contact-hours-text')?.closest('.contact-info-group');
+            if (addressGroup) addressGroup.style.display = f.locationTiming !== false ? '' : 'none';
+            if (hoursGroup) hoursGroup.style.display = f.locationTiming !== false ? '' : 'none';
             
             const contactPhoneText = document.getElementById("contact-phone-text");
             const contactPhoneGroup = document.getElementById("contact-phone-group");
@@ -4226,6 +4421,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             }
 
             const mapContainerWrap = document.getElementById("map-container-wrap");
+            if (mapContainerWrap) mapContainerWrap.style.display = f.googleMapsEmbed !== false ? 'flex' : 'none';
             if (mapContainerWrap && f.googleMapsEmbed !== false) {
                 const safeMapsEmbed = sanitizeMapsEmbedUrl(appState.googleMapsEmbedUrl);
                 const safeMapsUrl = sanitizeUrl(appState.googleMapsUrl);
@@ -4261,14 +4457,29 @@ document.addEventListener('DOMContentLoaded',()=>{
 
             let sixTabsArr = [];
             if (f.hero !== false) sixTabsArr.push({ label: "Home", href: "#hero" });
-            if (f.menu !== false) sixTabsArr.push({ label: "Menu", href: "#menu-section" });
+            if (f.categoryTabs !== false || f.foodCards !== false || f.foodFilters !== false) sixTabsArr.push({ label: "Menu", href: "#menu-section" });
             if (f.orderingCTA !== false) sixTabsArr.push({ label: "Order", href: "#order-section" });
-            if (f.reservation !== false) sixTabsArr.push({ label: "Reservations", href: "#reservation-section" });
-            if (f.meetChef !== false) sixTabsArr.push({ label: "About", href: "#chef-section" });
-            if (f.locationTiming !== false) sixTabsArr.push({ label: "Contact", href: "#contact-section" });
+            if (f.datePicker !== false || f.guests !== false || f.seatingPreference !== false || f.contactDetails !== false) sixTabsArr.push({ label: "Reservations", href: "#reservation-section" });
+            if (f.meetChef !== false || f.aboutIntro !== false || f.coreValues !== false || f.storyTimeline !== false) sixTabsArr.push({ label: "About", href: f.meetChef !== false ? "#chef-section" : (f.aboutIntro !== false ? "#about-intro-section" : "#core-values-section") });
+            if (f.locationTiming !== false || f.googleMapsEmbed !== false || f.phoneCallNow !== false) sixTabsArr.push({ label: "Contact", href: "#contact-section" });
 
             if (navLinksContainer && f.sixTabNavigation !== false) navLinksContainer.innerHTML = sixTabsArr.map(tab => `<li><a href="${tab.href}">${tab.label}</a></li>`).join('');
             if (footerQuickLinks && f.footerQuickLinks !== false) footerQuickLinks.innerHTML = sixTabsArr.map(tab => `<li><a href="${tab.href}">${tab.label}</a></li>`).join('');
+
+            const previewRoot = document.getElementById('live-preview-wrapper');
+            if (previewRoot) {
+                previewRoot.classList.toggle('builder-responsive-off', f.responsiveDesign === false);
+                const images = previewRoot.querySelectorAll('img');
+                images.forEach(img => {
+                    if (f.fastLoadImages === false) {
+                        img.removeAttribute('loading');
+                        img.removeAttribute('decoding');
+                    } else {
+                        img.setAttribute('loading', 'lazy');
+                        img.setAttribute('decoding', 'async');
+                    }
+                });
+            }
 
             renderAdminTimelineList();
             renderAdminValuesList();
@@ -4872,34 +5083,61 @@ document.addEventListener('DOMContentLoaded',()=>{
         // Table Reservation Submit Handler
         function handleReservationSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById("res-name").value.trim();
-            const email = document.getElementById("res-email").value.trim();
-            const phone = document.getElementById("res-phone").value.trim();
-            const dateStr = document.getElementById("res-date").value;
-            const timeStr = document.getElementById("res-time").value;
-            const guests = document.getElementById("res-guests").value;
-            const seating = document.getElementById("res-seating").value;
+            const f = appState.features || {};
+            const enabled = {
+                contact: f.contactDetails !== false,
+                dateTime: f.datePicker !== false,
+                guests: f.guests !== false,
+                seating: f.seatingPreference !== false
+            };
 
-            if (!name || !email || !phone || !dateStr || !timeStr || !seating) {
-                alert("Please fill in all required reservation fields.");
+            const value = id => document.getElementById(id)?.value?.trim?.() || document.getElementById(id)?.value || '';
+            const name = enabled.contact ? value('res-name') : '';
+            const email = enabled.contact ? value('res-email') : '';
+            const phone = enabled.contact ? value('res-phone') : '';
+            const dateStr = enabled.dateTime ? value('res-date') : '';
+            const timeStr = enabled.dateTime ? value('res-time') : '';
+            const guests = enabled.guests ? value('res-guests') : '2';
+            const seating = enabled.seating ? value('res-seating') : 'Standard';
+
+            if (enabled.contact && (!name || !email || !phone)) {
+                alert('Please fill in your name, email, and phone number.');
+                return;
+            }
+            if (enabled.dateTime && (!dateStr || !timeStr)) {
+                alert('Please select a reservation date and time.');
+                return;
+            }
+            if (enabled.seating && !seating) {
+                alert('Please select a seating preference.');
                 return;
             }
 
-            const selectedDate = new Date(dateStr + 'T00:00:00');
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-            if (selectedDate < today) {
-                alert("Reservation date cannot be in the past.");
-                document.getElementById("res-date").focus();
-                return;
+            if (enabled.dateTime) {
+                const selectedDate = new Date(dateStr + 'T00:00:00');
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                if (selectedDate < today) {
+                    alert('Reservation date cannot be in the past.');
+                    document.getElementById('res-date')?.focus();
+                    return;
+                }
             }
 
-            const successBox = document.getElementById("reservation-success-box");
-            const successText = document.getElementById("reservation-success-text");
-            successText.innerHTML = `Thank you, <strong>${escapeHTML(name)}</strong>! Your table for <strong>${guests} guest(s)</strong> with <strong>${escapeHTML(seating)} Seating</strong> has been successfully reserved for <strong>${dateStr} at ${timeStr}</strong>.`;
-            successBox.style.display = "block";
-            document.getElementById("reservation-form").reset();
+            const successBox = document.getElementById('reservation-success-box');
+            const successText = document.getElementById('reservation-success-text');
+            if (!successBox || !successText) return;
+
+            const contactPhrase = enabled.contact && name ? `Thank you, <strong>${escapeHTML(name)}</strong>! ` : 'Thank you! ';
+            const details = [];
+            if (enabled.guests) details.push(`<strong>${escapeHTML(String(guests))} guest(s)</strong>`);
+            if (enabled.seating) details.push(`<strong>${escapeHTML(String(seating))} Seating</strong>`);
+            const timePhrase = enabled.dateTime ? ` for <strong>${escapeHTML(dateStr)} at ${escapeHTML(timeStr)}</strong>` : '';
+            successText.innerHTML = `${contactPhrase}${details.length ? 'Your table for ' + details.join(' with ') : 'Your reservation'} has been successfully reserved${timePhrase}.`;
+            successBox.style.display = 'block';
+
+            const form = document.getElementById('reservation-form');
+            if (form) form.reset();
             setMinReservationDate();
         }
 
@@ -4933,7 +5171,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             if (!nameVal) {
                 alert("Restaurant Name cannot be empty.");
                 document.getElementById("input-name").focus();
-                return;
+                return false;
             }
 
             appState.businessAddress = document.getElementById("input-address").value.trim();
@@ -4963,12 +5201,16 @@ document.addEventListener('DOMContentLoaded',()=>{
                 toast.style.display = "block";
                 setTimeout(() => { toast.style.display = "none"; }, 4000);
             }
+            saveBuilderSession();
+            return true;
         }
 
         function resetToDemoValues() {
             if (confirm("Reset all builder modifications back to the default demo template?")) {
                 revokeAllObjectUrls();
                 appState = JSON.parse(JSON.stringify(defaultRestaurantState));
+                safeSessionRemove('restaurant-builder-payment-v1');
+                safeSessionRemove('restaurant-builder-setup-v1');
                 activeMenuCategory = "all";
                 activeMenuAttributeFilter = "all";
                 activeGalleryCategory = "all";
@@ -5082,6 +5324,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         // DOM Initialization
         document.addEventListener("DOMContentLoaded", () => {
+            loadBuilderSession();
             document.getElementById("input-address").value = appState.businessAddress;
             document.getElementById("input-hours").value = appState.businessHours;
             document.getElementById("input-order-url").value = appState.onlineOrderingUrl;
@@ -5115,6 +5358,9 @@ document.addEventListener('DOMContentLoaded',()=>{
             if (cancelValBtn) cancelValBtn.setAttribute("onclick", "resetValueForm()");
             const cancelRevBtn = document.getElementById("cancel-review-edit-btn");
             if (cancelRevBtn) cancelRevBtn.setAttribute("onclick", "cancelEditReview()");
+
+            const builderForm = document.getElementById('restaurant-builder-form');
+            if (builderForm) builderForm.addEventListener('input', () => setTimeout(saveBuilderSession, 0), {passive:true});
 
             document.getElementById("input-name").addEventListener("input", (e) => { appState.name = e.target.value; });
             document.getElementById("input-tagline").addEventListener("input", (e) => { appState.tagline = e.target.value; });
@@ -5247,9 +5493,31 @@ document.addEventListener('DOMContentLoaded',()=>{
                 });
             });
 
+            // Restore setup choices for this builder session.
+            try {
+                const setup = JSON.parse(safeSessionGet('restaurant-builder-setup-v1') || 'null');
+                if (setup) {
+                    const dy = document.querySelector('input[name="domainHelp"][value="yes"]');
+                    const dn = document.querySelector('input[name="domainHelp"][value="no"]');
+                    const py = document.querySelector('input[name="paymentHelp"][value="yes"]');
+                    const pn = document.querySelector('input[name="paymentHelp"][value="no"]');
+                    if (dy) dy.checked = !!setup.domainHelp;
+                    if (dn) dn.checked = !setup.domainHelp;
+                    if (py) py.checked = !!setup.paymentHelp;
+                    if (pn) pn.checked = !setup.paymentHelp;
+                }
+            } catch (e) {}
+
             setMinReservationDate();
             renderLivePreview();
             rebuildSliderDots();
+
+            // Make each step behave like a separate page/route while staying in one deployable builder file.
+            window.addEventListener('hashchange', () => { const step = getStepFromRoute(); if (step) goToStep(step, { replace: true }); });
+            window.addEventListener('popstate', () => { const step = getStepFromRoute(); if (step) goToStep(step, { replace: true }); });
+            loadBuilderSession();
+            syncBuilderInputsFromState();
+            goToStep(getStepFromRoute() || 1, { replace: true });
 
             const nextRevBtn = document.getElementById("next-review");
             if (nextRevBtn) nextRevBtn.addEventListener("click", () => { nextSlide(); startAutoplay(); });
