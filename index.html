@@ -2042,6 +2042,13 @@
         .astro-form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
         .astro-form-wide { grid-column:1/-1; }
         .astro-form-help { color:#D2C2B9; font-size:.86rem; margin-top:.35rem; }
+        .bookstore-details-fields { display:none; }
+        .bookstore-form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+        .bookstore-form-wide { grid-column:1/-1; }
+        .bookstore-form-help { color:#D2C2B9; font-size:.86rem; margin-top:.35rem; }
+        .bookstore-preview-shell { background:#f7f3ec; padding:18px; min-height:100vh; }
+        .bookstore-preview-frame { display:block; width:100%; min-height:1100px; border:0; border-radius:16px; background:#fff; box-shadow:0 14px 40px rgba(20,20,20,.12); }
+        @media (max-width:768px) { .bookstore-preview-shell { padding:8px; } .bookstore-preview-frame { min-height:1000px; border-radius:10px; } }
 
         .astrology-preview {
             --astro-gold:#d7b45a; --astro-gold-soft:#f1d68d; --astro-maroon:#4a1522;
@@ -2203,6 +2210,16 @@
                         <div>
                             <h3 class="template-card-title" style="color:#D7B45A;">AstroCosmos 3D</h3>
                             <p class="template-card-desc">Premium Vedic astrology template with a hero-only 3D Solar System, bilingual UI, Rashi, Kundali, calendar, Zodiac Wheel and cosmic tools.</p>
+                        </div>
+                        <button type="button" class="btn btn-primary" style="width:100%;">Select This Template</button>
+                    </div>
+                </div>
+                <div class="template-card bookstore-template-card" onclick="selectTemplateAndProceed('Bookstore')">
+                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7b?auto=format&fit=crop&w=900&q=80" alt="Printed Bookstore template preview" loading="lazy">
+                    <div class="template-card-body">
+                        <div>
+                            <h3 class="template-card-title" style="color:#D7B45A;">Printed Bookstore</h3>
+                            <p class="template-card-desc">Reusable printed-book ecommerce template with catalog search, filters, cart, checkout, offers, delivery rules, enquiries, gallery and admin-ready store data.</p>
                         </div>
                         <button type="button" class="btn btn-primary" style="width:100%;">Select This Template</button>
                     </div>
@@ -2547,6 +2564,40 @@
                             </div>
                         </div>
                     </div>
+                    <div id="bookstore-builder-fields" class="bookstore-details-fields">
+                        <div class="builder-grid">
+                            <div class="builder-card">
+                                <h3>Printed Bookstore — Website Details</h3>
+                                <div class="bookstore-form-grid">
+                                    <div class="form-group"><label for="bookstore-input-brand">Brand / Store Name <span style="color:var(--accent-color)">*</span></label><input id="bookstore-input-brand" class="form-control" value="Golden Leaf Books"></div>
+                                    <div class="form-group"><label for="bookstore-input-tagline">Tagline</label><input id="bookstore-input-tagline" class="form-control" value="Stories worth holding."></div>
+                                    <div class="form-group bookstore-form-wide"><label for="bookstore-input-hero-heading">Hero Heading</label><input id="bookstore-input-hero-heading" class="form-control" value="Discover your next favourite book"></div>
+                                    <div class="form-group bookstore-form-wide"><label for="bookstore-input-hero-text">Hero Text</label><textarea id="bookstore-input-hero-text" class="form-control">A premium reusable bookstore storefront for printed books, thoughtful gifts and timeless stories.</textarea></div>
+                                    <div class="form-group"><label for="bookstore-input-support">Support Text</label><input id="bookstore-input-support" class="form-control" value="Support: Mon-Sat, 9:00 AM - 6:00 PM"></div>
+                                    <div class="form-group"><label for="bookstore-input-phone">Phone</label><input id="bookstore-input-phone" class="form-control" value="+91 99999 99999"></div>
+                                    <div class="form-group"><label for="bookstore-input-whatsapp">WhatsApp</label><input id="bookstore-input-whatsapp" class="form-control" value="919999999999"></div>
+                                    <div class="form-group"><label for="bookstore-input-address">Address</label><input id="bookstore-input-address" class="form-control" value="Hyderabad, Telangana, India"></div>
+                                    <div class="form-group"><label for="bookstore-input-location">Location Label</label><input id="bookstore-input-location" class="form-control" value="Visit our bookstore"></div>
+                                    <div class="form-group bookstore-form-wide"><label for="bookstore-input-maps">Google Maps URL</label><input id="bookstore-input-maps" class="form-control" value="https://maps.google.com/?q=Hyderabad,Telangana"></div>
+                                </div>
+                            </div>
+                            <div class="builder-card">
+                                <h3>Delivery, Payment & Offers</h3>
+                                <div class="bookstore-form-grid">
+                                    <div class="form-group"><label for="bookstore-input-per-km">Delivery Fee / KM</label><input id="bookstore-input-per-km" class="form-control" type="number" min="0" step="0.01" value="12"></div>
+                                    <div class="form-group"><label for="bookstore-input-min-delivery">Minimum Delivery Fee</label><input id="bookstore-input-min-delivery" class="form-control" type="number" min="0" step="0.01" value="40"></div>
+                                    <div class="form-group"><label for="bookstore-input-free-threshold">Free Delivery Threshold</label><input id="bookstore-input-free-threshold" class="form-control" type="number" min="0" step="0.01" value="999"></div>
+                                    <div class="form-group"><label><input id="bookstore-input-delivery-enabled" type="checkbox" checked> Delivery Enabled</label></div>
+                                    <div class="form-group"><label><input id="bookstore-input-cod" type="checkbox" checked> COD Enabled</label></div>
+                                    <div class="form-group"><label><input id="bookstore-input-offer-enabled" type="checkbox" checked> Offer Banner Enabled</label></div>
+                                    <div class="form-group"><label for="bookstore-input-offer-type">Offer Type</label><select id="bookstore-input-offer-type" class="form-control"><option value="percent">10% Off</option><option value="b1g1">Buy 1 Get 1</option><option value="b2g1">Buy Any 2 Get 1 Free</option></select></div>
+                                    <div class="form-group"><label for="bookstore-input-offer-min">Minimum Purchase</label><input id="bookstore-input-offer-min" class="form-control" type="number" min="0" step="0.01" value="500"></div>
+                                    <div class="form-group"><label for="bookstore-input-free-cap">Free Item Price Cap</label><input id="bookstore-input-free-cap" class="form-control" type="number" min="0" step="0.01" value="500"></div>
+                                </div>
+                                <p class="bookstore-form-help">The Bookstore template files remain modular under <code>templates/bookstore/</code>. These builder settings update the store-level demo configuration; real payment gateways and server-side order tracking remain a later backend phase.</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="builder-actions" style="display: flex; justify-content: space-between;">
                         <button type="button" class="btn btn-reset" onclick="goToStep(2)">Back to Features</button>
                         <div style="display: flex; gap: 1rem;">
@@ -2572,6 +2623,9 @@
 
 
         <div id="live-preview-wrapper">
+            <div id="bookstore-preview-root" class="bookstore-preview-shell" style="display:none;" data-template-root="bookstore">
+                <iframe id="bookstore-preview-frame" class="bookstore-preview-frame" title="Printed Bookstore Live Preview" loading="eager"></iframe>
+            </div>
             <div id="astrology-preview-root" class="astrology-preview" style="display:none;" data-template-root="astrology">
                 <div class="astro-live-bar">
                     <div class="astro-shell astro-live-inner">
@@ -3298,6 +3352,45 @@
             ]
         };
 
+
+        // =========================================================
+        // TEMPLATE #3 — REUSABLE PRINTED BOOKSTORE
+        // =========================================================
+        const defaultBookstoreState = {
+            templateType: 'bookstore',
+            templateName: 'Bookstore',
+            name: 'Golden Leaf Books',
+            tagline: 'Stories worth holding.',
+            heroHeading: 'Discover your next favourite book',
+            heroText: 'A premium reusable bookstore storefront for printed books, thoughtful gifts and timeless stories.',
+            supportText: 'Support: Mon-Sat, 9:00 AM - 6:00 PM',
+            phone: '+91 99999 99999',
+            whatsapp: '919999999999',
+            address: 'Hyderabad, Telangana, India',
+            locationLabel: 'Visit our bookstore',
+            mapsUrl: 'https://maps.google.com/?q=Hyderabad,Telangana',
+            deliveryEnabled: true,
+            deliveryPerKm: 12,
+            minimumDeliveryFee: 40,
+            freeDeliveryThreshold: 999,
+            codEnabled: true,
+            offer: {
+                enabled: true,
+                type: 'percent',
+                value: 10,
+                minimumPurchase: 500,
+                freeItemPriceCap: 500
+            },
+            features: {
+                hero: true, trustBadges: true, offers: true, catalogSearch: true, categoryFilter: true, priceFilter: true, sorting: true,
+                bookDetails: true, amazonLinks: true, cart: true, checkout: true, deliveryDistancePricing: true, multiplePaymentMethods: true,
+                codToggle: true, orderSuccess: true, orderTrackingHook: true, gallery: true, enquiry: true, whatsapp: true, phone: true, maps: true,
+                mobileBottomNav: true, adminDashboard: true, adminAnalytics: true, adminHomeEditor: true, adminBooksCrud: true, adminOrders: true,
+                adminDeliverySettings: true, adminOffers: true, adminGalleryManager: true, adminEnquiries: true, seoSettings: true, securitySettings: true,
+                resetDemoStore: true, cinematicHeroSlot: true
+            }
+        };
+
         const RESTAURANT_FEATURE_GROUPS = [
             { groupName: "Core Sections & Navigation", items: [
                 { key: "hero", label: "1. Hero Section" }, { key: "sixTabNavigation", label: "28. Simple 6-tab Navigation" },
@@ -3341,8 +3434,39 @@
             ]}
         ];
 
+        const BOOKSTORE_FEATURE_GROUPS = [
+            { groupName:'Home & Trust', items:[
+                {key:'hero',label:'1. Editable Hero / CTA'}, {key:'trustBadges',label:'2. Delivery / Quality / Secure / Enquiry Trust Strip'},
+                {key:'offers',label:'3. Admin-Controlled Offer Banner'}, {key:'cinematicHeroSlot',label:'4. Optional Cinematic Hero Visual Slot'}
+            ]},
+            { groupName:'Catalog & Book Details', items:[
+                {key:'catalogSearch',label:'5. Catalog Search'}, {key:'categoryFilter',label:'6. Category Filter'}, {key:'priceFilter',label:'7. Price Range Filter'},
+                {key:'sorting',label:'8. Catalog Sorting'}, {key:'bookDetails',label:'9. Shareable Book Detail Page Structure'}, {key:'amazonLinks',label:'10. Amazon External Links'}
+            ]},
+            { groupName:'Cart & Checkout', items:[
+                {key:'cart',label:'11. Cart Quantity / Remove Controls'}, {key:'checkout',label:'12. Shipping + Checkout'}, {key:'deliveryDistancePricing',label:'13. Distance-Based Delivery Pricing'},
+                {key:'multiplePaymentMethods',label:'14. UPI / Card / Net Banking / Wallet'}, {key:'codToggle',label:'15. Admin COD Toggle'}
+            ]},
+            { groupName:'Orders & Customer Actions', items:[
+                {key:'orderSuccess',label:'16. Order Success Screen'}, {key:'orderTrackingHook',label:'17. Backend-Ready Order Tracking Hook'}, {key:'gallery',label:'18. Gallery'},
+                {key:'enquiry',label:'19. Enquiry Form'}, {key:'whatsapp',label:'20. WhatsApp'}, {key:'phone',label:'21. Phone / Call'},
+                {key:'maps',label:'22. Google Maps / Location'}, {key:'mobileBottomNav',label:'23. Mobile Bottom Navigation'}
+            ]},
+            { groupName:'Admin Console', items:[
+                {key:'adminDashboard',label:'24. Admin Dashboard'}, {key:'adminAnalytics',label:'25. Analytics'}, {key:'adminHomeEditor',label:'26. Home Content Editor'},
+                {key:'adminBooksCrud',label:'27. Books CRUD'}, {key:'adminOrders',label:'28. Orders Management'}, {key:'adminDeliverySettings',label:'29. Delivery Settings'},
+                {key:'adminOffers',label:'30. Offers Management'}, {key:'adminGalleryManager',label:'31. Gallery Manager'}, {key:'adminEnquiries',label:'32. Enquiries Inbox'},
+                {key:'seoSettings',label:'33. SEO Settings'}, {key:'securitySettings',label:'34. Security / COD Controls'}, {key:'resetDemoStore',label:'35. Reset Demo Store'}
+            ]}
+        ];
+
         function templateIsAstrology(){ return appState?.templateType === 'astrology'; }
-        function freshStateForTemplate(templateName){ return templateName === 'AstroCosmos 3D' ? JSON.parse(JSON.stringify(defaultAstrologyState)) : JSON.parse(JSON.stringify(defaultRestaurantState)); }
+        function templateIsBookstore(){ return appState?.templateType === 'bookstore'; }
+        function freshStateForTemplate(templateName){
+            if (templateName === 'AstroCosmos 3D') return JSON.parse(JSON.stringify(defaultAstrologyState));
+            if (templateName === 'Bookstore') return JSON.parse(JSON.stringify(defaultBookstoreState));
+            return JSON.parse(JSON.stringify(defaultRestaurantState));
+        }
 
         // Working state object
         let appState = JSON.parse(JSON.stringify(defaultRestaurantState));
@@ -3590,15 +3714,26 @@
 
         function syncBuilderInputsFromState() {
             const setVal = (id, value) => { const el = document.getElementById(id); if (el && value != null) el.value = value; };
+            const setChecked = (id, value) => { const el = document.getElementById(id); if (el) el.checked = !!value; };
             const astroFields = document.getElementById('astrology-builder-fields');
+            const bookstoreFields = document.getElementById('bookstore-builder-fields');
             const restaurantGrid = document.querySelector('#step-details-input .builder-grid');
             const astro = templateIsAstrology();
+            const bookstore = templateIsBookstore();
+
             if (astroFields) astroFields.style.display = astro ? 'block' : 'none';
-            if (restaurantGrid) restaurantGrid.style.display = astro ? 'none' : 'grid';
+            if (bookstoreFields) bookstoreFields.style.display = bookstore ? 'block' : 'none';
+            if (restaurantGrid) restaurantGrid.style.display = (astro || bookstore) ? 'none' : 'grid';
+
             const detailsTitle = document.getElementById('details-step-title');
             const detailsDesc = document.getElementById('details-step-description');
-            if (detailsTitle) detailsTitle.textContent = astro ? 'Configure Your Astrology Website Details' : 'Configure Your Website Details';
-            if (detailsDesc) detailsDesc.textContent = astro ? 'Customize branding, contact details and public-facing content for AstroCosmos 3D.' : 'Customize the details used by your selected website template.';
+            if (detailsTitle) detailsTitle.textContent = astro ? 'Configure Your Astrology Website Details' : bookstore ? 'Configure Your Printed Bookstore Details' : 'Configure Your Website Details';
+            if (detailsDesc) detailsDesc.textContent = astro
+                ? 'Customize branding, contact details and public-facing content for AstroCosmos 3D.'
+                : bookstore
+                    ? 'Customize store branding, contact details, delivery rules and offers for the Bookstore template.'
+                    : 'Customize the details used by your selected website template.';
+
             if (astro) {
                 setVal('astro-input-name', appState.name);
                 setVal('astro-input-badge', appState.heroBadge);
@@ -3614,6 +3749,31 @@
                 renderFeatureToggles();
                 return;
             }
+
+            if (bookstore) {
+                setVal('bookstore-input-brand', appState.name);
+                setVal('bookstore-input-tagline', appState.tagline);
+                setVal('bookstore-input-hero-heading', appState.heroHeading);
+                setVal('bookstore-input-hero-text', appState.heroText);
+                setVal('bookstore-input-support', appState.supportText);
+                setVal('bookstore-input-phone', appState.phone);
+                setVal('bookstore-input-whatsapp', appState.whatsapp);
+                setVal('bookstore-input-address', appState.address);
+                setVal('bookstore-input-location', appState.locationLabel);
+                setVal('bookstore-input-maps', appState.mapsUrl);
+                setVal('bookstore-input-per-km', appState.deliveryPerKm);
+                setVal('bookstore-input-min-delivery', appState.minimumDeliveryFee);
+                setVal('bookstore-input-free-threshold', appState.freeDeliveryThreshold);
+                setChecked('bookstore-input-delivery-enabled', appState.deliveryEnabled);
+                setChecked('bookstore-input-cod', appState.codEnabled);
+                setChecked('bookstore-input-offer-enabled', appState.offer?.enabled);
+                setVal('bookstore-input-offer-type', appState.offer?.type || 'percent');
+                setVal('bookstore-input-offer-min', appState.offer?.minimumPurchase ?? 500);
+                setVal('bookstore-input-free-cap', appState.offer?.freeItemPriceCap ?? 500);
+                renderFeatureToggles();
+                return;
+            }
+
             setVal('input-name', appState.name);
             setVal('input-tagline', appState.tagline);
             setVal('input-address', appState.businessAddress);
@@ -3653,26 +3813,28 @@
         function selectTemplateAndProceed(templateName) {
             revokeAllObjectUrls();
 
-            appState = freshStateForTemplate(templateName);
-
             const templateId =
                 templateName === "AstroCosmos 3D"
                     ? "astrology"
-                    : "restaurant";
+                    : templateName === "Bookstore"
+                        ? "bookstore"
+                        : "restaurant";
 
-            const selectedTemplate =
-                window.BuilderApp?.selectTemplate(templateId);
-
+            const selectedTemplate = window.BuilderApp?.selectTemplate(templateId);
             if (!selectedTemplate) {
                 console.error("Template registry could not load:", templateId);
                 alert("Template could not be loaded. Please try again.");
                 return;
             }
 
+            appState = freshStateForTemplate(templateName);
             appState.selectedTemplateId = templateId;
             appState.templateDefinition = selectedTemplate;
             appState.templateName = selectedTemplate.name;
-            appState.name = templateName;
+
+            if (templateId === "restaurant") appState.name = templateName;
+            if (templateId === "astrology") appState.name = defaultAstrologyState.name;
+            if (templateId === "bookstore") appState.name = defaultBookstoreState.name;
 
             safeSessionRemove('restaurant-builder-payment-v1');
             safeSessionRemove('restaurant-builder-setup-v1');
@@ -3975,7 +4137,58 @@
 
         // Download ONLY the final restaurant website — never the builder UI.
         // Download ONLY the final restaurant website — never the builder UI.
+        async function downloadBookstoreWebsitePackage() {
+            if (safeSessionGet('restaurant-builder-payment-v1') !== 'paid') {
+                alert('Please complete payment before downloading your website.');
+                goToStep(5);
+                return;
+            }
+
+            const files = ['index.html','cart.html','checkout.html','enquiry.html','gallery.html','success.html','admin.html','app.js','admin.js','data.js','styles.css','template.js'];
+
+            if (!window.JSZip) {
+                alert('ZIP export library is not available. Please retry after the page finishes loading.');
+                return;
+            }
+
+            try {
+                const zip = new JSZip();
+
+                for (const file of files) {
+                    const response = await fetch(`templates/bookstore/${file}`, { cache: 'no-store' });
+                    if (!response.ok) throw new Error(`Unable to fetch ${file} (${response.status})`);
+                    zip.file(file, await response.text());
+                }
+
+                zip.file('README.txt', [
+                    `Website: ${appState.name}`,
+                    'Template: Printed Bookstore',
+                    'Generated by Website Builder Studio',
+                    '',
+                    'Open index.html to preview the storefront.',
+                    'Real payment gateways and server-side order tracking are backend-phase integrations.'
+                ].join('\n'));
+
+                const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${slugify(appState.name) || 'bookstore'}-website.zip`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1500);
+            } catch (error) {
+                console.error('Bookstore ZIP export failed:', error);
+                alert('Bookstore package export needs the hosted builder deployment. Please open the builder through GitHub Pages and try again.');
+            }
+        }
+
         async function downloadWebsitePackage() {
+            if (templateIsBookstore()) {
+                await downloadBookstoreWebsitePackage();
+                return;
+            }
             if (templateIsAstrology()) {
                 await downloadAstrologyWebsitePackage();
                 return;
@@ -4032,7 +4245,7 @@ ${exportedRuntime}
                 zip.file('README.txt', [
                     `Website: ${appState.name}`,
                     `Template: ${appState.templateName || appState.name}`,
-                    'Generated by Restaurant Builder Studio',
+                    'Generated by Website Builder Studio',
                     '',
                     'Open index.html to preview the website.',
                     'For production hosting, upload the package contents to your hosting provider.'
@@ -4328,13 +4541,32 @@ document.addEventListener('DOMContentLoaded',()=>{
         function renderFeatureToggles() {
             const container = document.getElementById("workflow-feature-groups-container");
             if (!container) return;
-            const astrology = templateIsAstrology();
-            const featureGroups = astrology ? ASTROLOGY_FEATURE_GROUPS : RESTAURANT_FEATURE_GROUPS;
+
+            const featureGroups = templateIsAstrology()
+                ? ASTROLOGY_FEATURE_GROUPS
+                : templateIsBookstore()
+                    ? BOOKSTORE_FEATURE_GROUPS
+                    : RESTAURANT_FEATURE_GROUPS;
+
             const count = featureGroups.reduce((n,g)=>n+g.items.length,0);
             const title = document.getElementById('feature-selection-title');
             const desc = document.getElementById('feature-selection-description');
-            if (title) title.textContent = astrology ? `Choose Astrology Website Features (${count})` : 'Choose Website Features (28 Core Restaurant Features)';
-            if (desc) desc.textContent = astrology ? 'Customize AstroCosmos 3D using the astrology-specific features from this template.' : 'Customize your selected restaurant template using its 28 core features.';
+
+            if (title) {
+                title.textContent = templateIsAstrology()
+                    ? `Choose Astrology Website Features (${count})`
+                    : templateIsBookstore()
+                        ? `Choose Bookstore Website Features (${count})`
+                        : 'Choose Website Features (28 Core Restaurant Features)';
+            }
+            if (desc) {
+                desc.textContent = templateIsAstrology()
+                    ? 'Customize AstroCosmos 3D using the astrology-specific features from this template.'
+                    : templateIsBookstore()
+                        ? 'Customize the reusable printed-book ecommerce template using its available features.'
+                        : 'Customize your selected restaurant template using its 28 core features.';
+            }
+
             container.innerHTML = featureGroups.map(group => `
                 <div class="feature-group-card">
                     <h4>${escapeHTML(group.groupName)}</h4>
@@ -4543,11 +4775,148 @@ function bind(){document.getElementById('astro-lang-toggle')?.addEventListener('
 bind();})();`;
         }
 
+        function getBookstorePreviewOverrides() {
+            const offerType = document.getElementById('bookstore-input-offer-type')?.value || appState.offer?.type || 'percent';
+            const offerEnabled = document.getElementById('bookstore-input-offer-enabled')?.checked ?? appState.offer?.enabled;
+            const offerMin = Number(document.getElementById('bookstore-input-offer-min')?.value || appState.offer?.minimumPurchase || 500);
+            const freeCap = Number(document.getElementById('bookstore-input-free-cap')?.value || appState.offer?.freeItemPriceCap || 500);
+            return {
+                settings: {
+                    brand: appState.name,
+                    tagline: appState.tagline,
+                    heroHeading: appState.heroHeading,
+                    heroText: appState.heroText,
+                    supportText: appState.supportText,
+                    phone: appState.phone,
+                    whatsapp: appState.whatsapp,
+                    address: appState.address,
+                    locationLabel: appState.locationLabel,
+                    mapsUrl: appState.mapsUrl,
+                    deliveryEnabled: !!appState.deliveryEnabled,
+                    deliveryPerKm: Number(appState.deliveryPerKm || 0),
+                    minimumDeliveryFee: Number(appState.minimumDeliveryFee || 0),
+                    freeDeliveryThreshold: Number(appState.freeDeliveryThreshold || 0),
+                    codEnabled: !!appState.codEnabled
+                },
+                offer: {
+                    enabled: !!offerEnabled,
+                    type: offerType,
+                    value: offerType === 'percent' ? 10 : 0,
+                    minimumPurchase: offerMin,
+                    freeItemPriceCap: freeCap,
+                    text: offerType === 'percent'
+                        ? `10% off on orders above ₹${offerMin.toLocaleString('en-IN')}`
+                        : offerType === 'b1g1'
+                            ? `Buy 1 Get 1 on orders above ₹${offerMin.toLocaleString('en-IN')}`
+                            : `Buy Any 2 Get 1 Free on orders above ₹${offerMin.toLocaleString('en-IN')}`
+                }
+            };
+        }
+
+        function renderBookstorePreview() {
+            const root = document.getElementById('bookstore-preview-root');
+            const frame = document.getElementById('bookstore-preview-frame');
+            const astroRoot = document.getElementById('astrology-preview-root');
+            const restaurantRoot = document.getElementById('restaurant-preview-root');
+            if (!root || !frame) return;
+
+            if (astroRoot) astroRoot.style.display = 'none';
+            if (restaurantRoot) restaurantRoot.style.display = 'none';
+            root.style.display = 'block';
+
+            const desired = getBookstorePreviewOverrides();
+            const signature = JSON.stringify(desired);
+
+            const seedIframe = () => {
+                try {
+                    const w = frame.contentWindow;
+                    const api = w?.BookstoreData;
+                    const base = api?.get ? api.get() : api?.defaults;
+                    if (!base) return;
+
+                    const merged = JSON.parse(JSON.stringify(base));
+                    merged.settings = { ...(merged.settings || {}), ...desired.settings };
+                    merged.offer = { ...(merged.offer || {}), ...desired.offer };
+
+                    if (api?.save) api.save(merged);
+                    else w.localStorage.setItem('bookstore_demo_data', JSON.stringify(merged));
+
+                    const f = appState.features || {};
+                    const styleId = 'builder-bookstore-feature-visibility';
+                    w.document.getElementById(styleId)?.remove();
+                    const style = w.document.createElement('style');
+                    style.id = styleId;
+                    const hidden = [];
+                    const hide = selector => hidden.push(selector + '{display:none !important;}');
+
+                    if (f.hero === false) hide('.hero');
+                    if (f.trustBadges === false) {
+                        hide('.hero-badges');
+                        hide('.trust-strip');
+                    }
+                    if (f.offers === false) {
+                        hide('#offer-bar');
+                        hide('.feature-banner');
+                    }
+                    if (f.catalogSearch === false) hide('#search-books');
+                    if (f.categoryFilter === false) hide('#category-filter');
+                    if (f.priceFilter === false) hide('#price-filter');
+                    if (f.sorting === false) hide('#sort-books');
+                    if (f.amazonLinks === false) hide('.btn-light[href*="amazon"]');
+                    if (f.mobileBottomNav === false) hide('.mobile-bottom-nav');
+                    if (f.whatsapp === false) hide('[data-whatsapp]');
+                    if (f.phone === false) hide('[data-phone]');
+                    if (f.maps === false) hide('[data-location]');
+
+                    style.textContent = hidden.join('\n');
+                    w.document.head.appendChild(style);
+
+                    if (frame.dataset.seedSignature !== signature) {
+                        frame.dataset.seedSignature = signature;
+                        w.location.reload();
+                    }
+                } catch (error) {
+                    console.warn('Bookstore preview could not sync builder settings yet.', error);
+                }
+            };
+
+            if (!frame.dataset.bound) {
+                frame.dataset.bound = '1';
+                frame.addEventListener('load', seedIframe);
+            }
+
+            if (!frame.src || !frame.src.includes('templates/bookstore/index.html')) {
+                frame.src = 'templates/bookstore/index.html';
+                return;
+            }
+
+            if (frame.contentDocument?.readyState === 'complete') seedIframe();
+        }
+
         function renderLivePreview() {
+            const restaurantRoot = document.getElementById('restaurant-preview-root');
+            const astrologyRoot = document.getElementById('astrology-preview-root');
+            const bookstoreRoot = document.getElementById('bookstore-preview-root');
+
+            if (templateIsBookstore()) {
+                if (restaurantRoot) restaurantRoot.style.display = 'none';
+                if (astrologyRoot) astrologyRoot.style.display = 'none';
+                if (bookstoreRoot) bookstoreRoot.style.display = 'block';
+                renderBookstorePreview();
+                return;
+            }
+
             if (templateIsAstrology()) {
+                if (restaurantRoot) restaurantRoot.style.display = 'none';
+                if (astrologyRoot) astrologyRoot.style.display = 'block';
+                if (bookstoreRoot) bookstoreRoot.style.display = 'none';
                 renderAstrologyPreview();
                 return;
             }
+
+            if (restaurantRoot) restaurantRoot.style.display = 'block';
+            if (astrologyRoot) astrologyRoot.style.display = 'none';
+            if (bookstoreRoot) bookstoreRoot.style.display = 'none';
             // Feature Toggles (Respecting all 28 features)
             const f = appState.features;
 
@@ -5739,6 +6108,53 @@ bind();})();`;
         }
 
         function applyAndScrollToPreview() {
+            if (templateIsBookstore()) {
+                const get = id => document.getElementById(id)?.value?.trim?.() || '';
+                const brand = get('bookstore-input-brand');
+                if (!brand) {
+                    alert('Store Name cannot be empty.');
+                    document.getElementById('bookstore-input-brand')?.focus();
+                    return false;
+                }
+
+                const num = id => {
+                    const value = Number(document.getElementById(id)?.value || 0);
+                    return Number.isFinite(value) && value >= 0 ? value : 0;
+                };
+
+                appState.name = brand;
+                appState.tagline = get('bookstore-input-tagline');
+                appState.heroHeading = get('bookstore-input-hero-heading');
+                appState.heroText = get('bookstore-input-hero-text');
+                appState.supportText = get('bookstore-input-support');
+                appState.phone = get('bookstore-input-phone');
+                appState.whatsapp = get('bookstore-input-whatsapp');
+                appState.address = get('bookstore-input-address');
+                appState.locationLabel = get('bookstore-input-location');
+                appState.mapsUrl = get('bookstore-input-maps');
+                appState.deliveryPerKm = num('bookstore-input-per-km');
+                appState.minimumDeliveryFee = num('bookstore-input-min-delivery');
+                appState.freeDeliveryThreshold = num('bookstore-input-free-threshold');
+                appState.deliveryEnabled = !!document.getElementById('bookstore-input-delivery-enabled')?.checked;
+                appState.codEnabled = !!document.getElementById('bookstore-input-cod')?.checked;
+                appState.offer = {
+                    enabled: !!document.getElementById('bookstore-input-offer-enabled')?.checked,
+                    type: get('bookstore-input-offer-type') || 'percent',
+                    value: 10,
+                    minimumPurchase: num('bookstore-input-offer-min'),
+                    freeItemPriceCap: num('bookstore-input-free-cap')
+                };
+
+                renderBookstorePreview();
+                const toast = document.getElementById("toast-message");
+                if (toast) {
+                    toast.style.display = "block";
+                    setTimeout(() => { toast.style.display = "none"; }, 4000);
+                }
+                saveBuilderSession();
+                return true;
+            }
+
             if (templateIsAstrology()) {
                 const get = id => document.getElementById(id)?.value?.trim?.() || '';
                 const nameVal = get('astro-input-name');
@@ -5800,6 +6216,20 @@ bind();})();`;
         function resetToDemoValues() {
             if (confirm("Reset all builder modifications back to the selected template's demo defaults?")) {
                 revokeAllObjectUrls();
+
+                if (templateIsBookstore()) {
+                    appState = JSON.parse(JSON.stringify(defaultBookstoreState));
+                    safeSessionRemove('restaurant-builder-payment-v1');
+                    safeSessionRemove('restaurant-builder-setup-v1');
+                    const frame = document.getElementById('bookstore-preview-frame');
+                    if (frame) delete frame.dataset.seedSignature;
+                    syncBuilderInputsFromState();
+                    renderFeatureToggles();
+                    renderLivePreview();
+                    saveBuilderSession();
+                    return;
+                }
+
                 if (templateIsAstrology()) {
                     appState = JSON.parse(JSON.stringify(defaultAstrologyState));
                     safeSessionRemove('restaurant-builder-payment-v1');
