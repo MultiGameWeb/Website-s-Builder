@@ -1,9 +1,11 @@
 import restaurantTemplate from "../templates/restaurant/template.js";
 import astrologyTemplate from "../templates/astrology/template.js";
+import bookstoreTemplate from "../templates/bookstore/template.js";
 
 const templateRegistry = {
   restaurant: restaurantTemplate,
-  astrology: astrologyTemplate
+  astrology: astrologyTemplate,
+  bookstore: bookstoreTemplate
 };
 
 export function getTemplate(templateId) {
