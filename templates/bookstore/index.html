@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Golden Leaf Books | Printed Books Online</title>
+<meta name="description" content="Shop printed books from Golden Leaf Books.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="offer-bar" class="offer"><div class="container offer-inner">✨ <span id="offer-text">10% off on orders above ₹500</span></div></div>
+<header class="site-header"><div class="container header-inner">
+  <a href="index.html" class="brand"><span class="brand-mark">GL</span><span class="brand-copy"><strong data-brand>Golden Leaf Books</strong><span data-tagline>Stories worth holding.</span></span></a>
+  <nav id="site-nav" class="nav"><a href="index.html">Home</a><a href="#books">Books</a><a href="gallery.html">Gallery</a><a href="enquiry.html">Enquiry</a><a href="#contact">Contact</a></nav>
+  <div class="header-actions"><a class="icon-btn" href="cart.html" aria-label="Cart">🛒<span class="cart-count" data-cart-count>0</span></a><button id="menu-toggle" class="menu-toggle">☰</button></div>
+</div></header>
+<main>
+<section class="hero"><div class="container hero-inner"><div>
+  <div class="hero-badges"><span class="pill">📦 Delivery</span><span class="pill">✓ Quality</span><span class="pill">🔒 Secure</span><span class="pill">💬 Enquiries</span></div>
+  <h1 data-hero-heading>Discover your next favourite book</h1><p data-hero-text>A premium reusable bookstore storefront for printed books, thoughtful gifts and timeless stories.</p>
+  <div class="hero-actions"><a class="btn btn-primary" href="#books" data-track="hero_shop">Shop Books</a><a class="btn btn-light" href="enquiry.html" data-track="hero_enquiry">Ask an Enquiry</a></div>
+</div><div class="hero-slot" aria-label="Optional cinematic hero visual slot"><div class="book-glow"></div></div></div></section>
+<section class="section" style="padding-top:28px"><div class="container"><div class="trust-strip"><div class="trust-card"><strong>Fast Delivery</strong><span class="muted">Local &amp; nationwide options</span></div><div class="trust-card"><strong>Quality Books</strong><span class="muted">Curated printed editions</span></div><div class="trust-card"><strong>Secure Checkout</strong><span class="muted">Multiple payment methods</span></div><div class="trust-card"><strong>Easy Enquiries</strong><span class="muted">WhatsApp, call or form</span></div></div></div></section>
+<section id="books" class="section"><div class="container"><div class="section-head"><div><h2>Book Catalog</h2><p>Search by title or author, filter by category and price, then sort the collection your way.</p></div><a class="btn btn-light" href="cart.html">View Cart</a></div>
+<div class="filters"><input id="search-books" class="control" placeholder="Search books, author or category"><select id="category-filter" class="control"></select><div><input id="price-filter" type="range" min="100" max="1000" value="1000" step="25" style="width:100%"><div class="muted" style="font-size:.8rem">Up to <span id="price-label">₹1,000</span></div></div><select id="sort-books" class="control"><option value="featured">Featured</option><option value="rating">Top Rated</option><option value="low">Price Low-High</option><option value="high">Price High-Low</option></select></div>
+<div id="book-grid" class="grid book-grid"></div></div></section>
+<section class="section" style="padding-top:0"><div class="container"><div class="feature-banner"><div><span class="chip">Store Note</span><h2>Printed books, simple buying.</h2><p class="muted">This reusable storefront is designed so branding, catalog, offers, delivery rules, links and content can later be powered by a backend without rebuilding the customer-facing pages.</p></div><div><a class="btn btn-dark btn-block" href="enquiry.html">Ask about a book</a><a class="btn btn-light btn-block" href="gallery.html" style="margin-top:9px">See Gallery</a></div></div></div></section>
+<section id="book-detail-section" class="section hidden"><div class="container"><div id="book-detail"></div></div></section>
+</main>
+<footer id="contact" class="footer"><div class="container footer-grid"><div><h3 data-brand>Golden Leaf Books</h3><p data-tagline>Stories worth holding.</p><p data-address>Hyderabad, Telangana, India</p></div><div><h4>Contact</h4><p><a data-phone href="tel:+919999999999">+91 99999 99999</a><br><a data-whatsapp href="https://wa.me/919999999999">WhatsApp</a><br><a data-location href="https://maps.google.com" target="_blank" rel="noopener">Visit our bookstore</a></p></div><div><h4>Support</h4><p data-support>Support: Mon-Sat, 9:00 AM - 6:00 PM</p><small>Static demo now. Backend-ready data model later.</small></div></div></footer>
+<nav class="mobile-bottom-nav"><a href="index.html"><strong>⌂</strong><span>Home</span></a><a href="#books"><strong>📚</strong><span>Books</span></a><a href="cart.html"><strong>🛒</strong><span>Cart</span></a><a href="enquiry.html"><strong>💬</strong><span>Enquiry</span></a><a href="#contact"><strong>☎</strong><span>Contact</span></a></nav>
+<script type="module" src="data.js"></script><script src="app.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>{const hasBook=new URLSearchParams(location.search).has('book'); if(hasBook){document.querySelector('#book-detail-section')?.classList.remove('hidden'); document.querySelector('#books')?.classList.add('hidden'); document.querySelector('#offer-bar')?.classList.add('hidden');}});</script>
+</body></html>
